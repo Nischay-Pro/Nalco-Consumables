@@ -7,32 +7,71 @@ using System.Net.Http;
 using System.Web.Http;
 using Newtonsoft.Json;
 using System.Xml.Serialization;
+using System.Data.SqlClient;
 
 namespace Nalco_Consumables.Controllers
 {
     public class MaterialsController : ApiController
     {
+
         Materials[] materials = new Materials[]
         {
             new Materials { id = 1, materialcode="ABC",materialdescription="sdjfds",printerdescription="sdf",printercount=0,centralstorage=true,criticalflag=false,quantity=100,reorderleve=5}
         };
+        public IEnumerable<Dictionary<string, object>> Serialize(SqlDataReader reader)
+        {
+            var results = new List<Dictionary<string, object>>();
+            var cols = new List<string>();
+            for (var i = 0; i < reader.FieldCount; i++)
+                cols.Add(reader.GetName(i));
 
+            while (reader.Read())
+                results.Add(SerializeRow(cols, reader));
+
+            return results;
+        }
+        private Dictionary<string, object> SerializeRow(IEnumerable<string> cols,
+                                                        SqlDataReader reader)
+        {
+            var result = new Dictionary<string, object>();
+            foreach (var col in cols)
+                result.Add(col, reader[col]);
+            return result;
+        }
         // GET api/<controller>
         public string Get()
         {
-            return JsonConvert.SerializeObject(materials);
+            using (SqlConnection conn = new SqlConnection())
+            {
+    
+                conn.ConnectionString = "Data Source=DESKTOP-97AH258\\SQLEXPRESS;Initial Catalog=nalco_materials;Integrated Security=True";
+                conn.Open();
+                SqlCommand command = new SqlCommand("SELECT * FROM dbo.np_materials", conn);
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    var r = Serialize(reader);
+                    string json = JsonConvert.SerializeObject(r, Formatting.Indented);
+                    return json;
+                }
+            }
         }
 
 
         // GET api/<controller>/5
         public string Get(int id)
         {
-            var material = materials.FirstOrDefault((p) => p.id == id);
-            if (material == null)
+            using (SqlConnection conn = new SqlConnection())
             {
-                return JsonConvert.SerializeObject("type:error");
+                conn.ConnectionString = "Data Source=DESKTOP-97AH258\\SQLEXPRESS;Initial Catalog=nalco_materials;Integrated Security=True";
+                conn.Open();
+                SqlCommand command = new SqlCommand("SELECT * FROM dbo.np_materials WHERE material_code=" + id, conn);
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    var r = Serialize(reader);
+                    string json = JsonConvert.SerializeObject(r, Formatting.Indented);
+                    return json;
+                }
             }
-            return JsonConvert.SerializeObject(material);
         }
 
         // POST api/<controller>
