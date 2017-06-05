@@ -30,3 +30,30 @@ function SuperHide(antihide) {
     var obj = document.getElementById(antihide);
     obj.style.display = "block";;
 };
+
+function loadMain() {
+    document.getElementById("appbar").display = "block";
+    document.getElementById("sidebar").display = "block";
+    document.getElementById("login").display = "none";
+};
+
+//Startup
+    var xmlhttp = new XMLHttpRequest();
+
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == XMLHttpRequest.done) {
+            if (xmlhttp.status == 200) {
+                alert(xmlhttp.responseText);
+
+            }
+            else if (xmlhttp.status == 400) {
+                alert('There was an error 400');
+            }
+            else {
+                alert('something else other than 200 was returned');
+            }
+        }
+    };
+
+    xmlhttp.open("GET", "/api/Materials", true);
+    xmlhttp.send();

@@ -18,6 +18,7 @@ namespace Nalco_Consumables.Controllers
         {
             new Materials { id = 1, materialcode="ABC",materialdescription="sdjfds",printerdescription="sdf",printercount=0,centralstorage=true,criticalflag=false,quantity=100,reorderleve=5}
         };
+        [NonAction]
         public IEnumerable<Dictionary<string, object>> Serialize(SqlDataReader reader)
         {
             var results = new List<Dictionary<string, object>>();
@@ -30,6 +31,7 @@ namespace Nalco_Consumables.Controllers
 
             return results;
         }
+        [NonAction]
         private Dictionary<string, object> SerializeRow(IEnumerable<string> cols,
                                                         SqlDataReader reader)
         {
@@ -75,10 +77,10 @@ namespace Nalco_Consumables.Controllers
         }
 
         // POST api/<controller>
-        public void Post([FromBody]string value)
+        public string Post([FromBody]string value)
         {
+            return  value;
         }
-
         // PUT api/<controller>/5
         public void Put(int id, [FromBody]string value)
         {

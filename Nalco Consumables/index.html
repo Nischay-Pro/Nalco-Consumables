@@ -73,7 +73,7 @@
     </script>
 </head>
 <body class="bg-steel">
-    <div class="app-bar darcula fixed-top " data-role="appbar">
+    <div id="appbar" class="app-bar darcula fixed-top " style="display: none;" data-role="appbar">
         <a class="app-bar-element branding">Nalco Damanjodi</a>
         <span class="app-bar-divider"></span>
         <ul class="app-bar-menu">
@@ -86,7 +86,7 @@
             </li>
         </ul>
     </div>
-    <div class="page-content">
+    <div id="sidebar" class="page-content" style="display: none;" >
         <div class="flex-grid no-responsive-future" style="height: 100%;">
             <div class="row" style="height: 100%">
                 <div class="cell size-x200" id="cell-sidebar" style="background-color: #71b1d1; height: 100%">
@@ -121,7 +121,7 @@
                         </li>
                     </ul>
                 </div>
-                <section id="materials-main" class="cell auto-size padding20 bg-white active" style="display: block; overflow: auto; ">
+                <section id="materials-main" class="cell auto-size padding20 bg-white active" style="display: none; overflow: auto; ">
                     <div class="cell auto-size padding20 bg-white active" id="cell-content">
                         <h1 class="text-light">Materials <span class="mif-truck place-right"></span></h1>
                         <hr class="thin bg-grayLighter">
@@ -341,8 +341,44 @@
                         </ul>
                         </div>
                 </section>
+                
             </div>
         </div>
     </div>
+    <section id="login" class="active cell auto-size padding20 bg-white" style="display: block; overflow: auto;">
+        <div class="login-form padding20 block-shadow">
+            <form>
+                <h1 class="text-light">Login to service</h1>
+                <hr class="thin" />
+                <br />
+                <div class="input-control text full-size" data-role="input">
+                    <label for="user_login">User email:</label>
+                    <input type="text" name="user_login" id="user_login">
+                    <button class="button helper-button clear"><span class="mif-cross"></span></button>
+                </div>
+                <br />
+                <br />
+                <div class="input-control password full-size" data-role="input">
+                    <label for="user_password">User password:</label>
+                    <input type="password" name="user_password" id="user_password">
+                    <button class="button helper-button reveal"><span class="mif-looks"></span></button>
+                </div>
+                <br />
+                <br />
+                <div class="form-actions">
+                    <button type="button" onclick="loadMain();" class="button primary">Login to...</button>
+                    <button type="button" class="button link">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </section>
+    <script>
+        function loadMain() {
+            document.getElementById("appbar").display = "block";
+            document.getElementById("sidebar").display = "block";
+            document.get
+            document.getElementById("login").display = "none";
+        };
+    </script>
 </body>
 </html>
