@@ -31,13 +31,13 @@
                         <div class="form-group">
                             <label for="inputEmail" class="col-lg-2 control-label">Email</label>
                             <div class="col-lg-10">
-                                <input type="text" class="form-control" id="inputEmail" placeholder="Email">
+                                <input type="text" class="form-control" id="username" placeholder="Username">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="inputPassword" class="col-lg-2 control-label">Password</label>
                             <div class="col-lg-10">
-                                <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+                                <input type="password" class="form-control" id="password" placeholder="Password">
                             </div>
                         </div>
                         <div class="form-group">
@@ -72,22 +72,23 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">Nalco Consumables</a>
+                    <a class="navbar-brand" href="index.html">Nalco Consumables</a>
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#">Dashboard</a></li>
+                        <li><a href="index.html">Dashboard</a></li>
                         <li><a href="#">Settings</a></li>
-                        <li><a href="#">Profile</a></li>
-                        <li><a href="#">Help</a></li>
+                        <li><a id="username_holder" href="#">Username</a></li>
+                        <li><a href="#">Log Out</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
         <div id="dashboard-nav" class="container-fluid" style="padding-top:100px">
             <div class="row">
-                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                <div class="col-sm-8 col-sm-offset-20 col-md-30 col-md-offset-1 main">
                     <h1 class="page-header">Dashboard</h1>
+                    <p>Available services and reports.</p>
                     <div class="panel panel-default">
                         <div class="panel-body">
                             <a href="#" onclick="ShowMaterialsMain();" class="btn btn-default">Materials</a>
