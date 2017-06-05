@@ -1,23 +1,18 @@
-﻿using System;
-using Nalco_Consumables.Models;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
+﻿using Nalco_Consumables.Models;
 using Newtonsoft.Json;
-using System.Xml.Serialization;
+using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Web.Http;
 
 namespace Nalco_Consumables.Controllers
 {
     public class MaterialsController : ApiController
     {
-
-        Materials[] materials = new Materials[]
+        private Materials[] materials = new Materials[]
         {
             new Materials { id = 1, materialcode="ABC",materialdescription="sdjfds",printerdescription="sdf",printercount=0,centralstorage=true,criticalflag=false,quantity=100,reorderleve=5}
         };
+
         [NonAction]
         public IEnumerable<Dictionary<string, object>> Serialize(SqlDataReader reader)
         {
@@ -31,6 +26,7 @@ namespace Nalco_Consumables.Controllers
 
             return results;
         }
+
         [NonAction]
         private Dictionary<string, object> SerializeRow(IEnumerable<string> cols,
                                                         SqlDataReader reader)
@@ -40,12 +36,12 @@ namespace Nalco_Consumables.Controllers
                 result.Add(col, reader[col]);
             return result;
         }
+
         // GET api/<controller>
         public string Get()
         {
             using (SqlConnection conn = new SqlConnection())
             {
-    
                 conn.ConnectionString = "Data Source=DESKTOP-97AH258\\SQLEXPRESS;Initial Catalog=nalco_materials;Integrated Security=True";
                 conn.Open();
                 SqlCommand command = new SqlCommand("SELECT * FROM dbo.np_materials", conn);
@@ -57,7 +53,6 @@ namespace Nalco_Consumables.Controllers
                 }
             }
         }
-
 
         // GET api/<controller>/5
         public string Get(int id)
@@ -79,8 +74,9 @@ namespace Nalco_Consumables.Controllers
         // POST api/<controller>
         public string Post([FromBody]string value)
         {
-            return  value;
+            return value;
         }
+
         // PUT api/<controller>/5
         public void Put(int id, [FromBody]string value)
         {

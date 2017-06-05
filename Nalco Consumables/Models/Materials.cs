@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace Nalco_Consumables.Models
+﻿namespace Nalco_Consumables.Models
 {
     public class Materials
     {

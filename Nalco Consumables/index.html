@@ -14,16 +14,13 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="js/html5shiv.min.js"></script>
       <script src="js/respond.min.js"></script>
     <![endif]-->
 </head>
-
 <body>
-
     <div class="container">
         <section id="login" style="padding-top:100px">
             <h2>Nalco Consumables</h2>
@@ -46,81 +43,77 @@
                         <div class="form-group">
                             <div class="col-lg-10 col-lg-offset-2">
                                 <button type="reset" class="btn btn-default">Cancel</button>
-                                <button type="button" onclick="ShowMain();"  class="btn btn-primary">Login</button>
+                                <button type="button" onclick="ShowMain();" class="btn btn-primary">Login</button>
                             </div>
                         </div>
                     </fieldset>
                 </form>
-                </div>
-        </section>
-        <section id="footer" style="display:none">
-            <footer>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <p>Made by <a href="http://github.com/Nischay-Pro" rel="nofollow">Thomas Park</a>. Contact him at <a href="mailto:NischayPro@gmail.com">NischayPro@gmail.com</a>.</p>
-                        <p>Based on <a href="http://getbootstrap.com" rel="nofollow">Bootstrap</a>. Icons from <a href="http://fortawesome.github.io/Font-Awesome/" rel="nofollow">Font Awesome</a>. Web fonts from <a href="http://www.google.com/webfonts" rel="nofollow">Google</a>.</p>
-                        <p>Site best viewed on Internet Explorer 11 / Edge and any HTML5 Compliant Browser.</p>
-                    </div>
-                </div>
-            </footer>
-        </section>
-        <div id="materials-dashboard" style="display:none">
-                <nav class="navbar navbar-inverse navbar-fixed-top">
-                    <div class="container-fluid">
-                        <div class="navbar-header">
-                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                                <span class="sr-only">Toggle navigation</span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
-                            <a class="navbar-brand" href="#">Nalco Consumables</a>
-                        </div>
-                        <div id="navbar" class="navbar-collapse collapse">
-                            <ul class="nav navbar-nav navbar-right">
-                                <li><a href="#">Dashboard</a></li>
-                                <li><a href="#">Settings</a></li>
-                                <li><a href="#">Profile</a></li>
-                                <li><a href="#">Help</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-                <div class="container-fluid" style="padding-top:100px">
-                    <div class="row">
-                        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                            <h1 class="page-header">Dashboard</h1>
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <a href="#" class="btn btn-default">Materials</a>
-                                    <a href="#" class="btn btn-primary">Issues</a>
-                                    <a href="#" class="btn btn-success">PO Receipt</a>
-                                    <a href="#" class="btn btn-info">Reports</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-        </div>
-        <script>
-            function ShowMain() {
-                document.getElementById("materials-dashboard").style.display = "block";
-                document.getElementById("login").style.display = "none";
-            };
-        </script>
-        <section id="footer" style="display:none">
-            <footer>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <p>Made by <a href="http://github.com/Nischay-Pro" rel="nofollow">Thomas Park</a>. Contact him at <a href="mailto:NischayPro@gmail.com">NischayPro@gmail.com</a>.</p>
-                        <p>Based on <a href="http://getbootstrap.com" rel="nofollow">Bootstrap</a>. Icons from <a href="http://fortawesome.github.io/Font-Awesome/" rel="nofollow">Font Awesome</a>. Web fonts from <a href="http://www.google.com/webfonts" rel="nofollow">Google</a>.</p>
-                        <p>Site best viewed on Internet Explorer 11 / Edge and any HTML5 Compliant Browser.</p>
-                    </div>
-                </div>
-            </footer>
+            </div>
         </section>
     </div>
+    <section id="footer" style="display:none">
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>Made by <a href="http://github.com/Nischay-Pro" rel="nofollow">Thomas Park</a>. Contact him at <a href="mailto:NischayPro@gmail.com">NischayPro@gmail.com</a>.</p>
+                    <p>Based on <a href="http://getbootstrap.com" rel="nofollow">Bootstrap</a>. Icons from <a href="http://fortawesome.github.io/Font-Awesome/" rel="nofollow">Font Awesome</a>. Web fonts from <a href="http://www.google.com/webfonts" rel="nofollow">Google</a>.</p>
+                    <p>Site best viewed on Internet Explorer 11 / Edge and any HTML5 Compliant Browser.</p>
+                </div>
+            </div>
+        </footer>
+    </section>
+    <div id="dashboard" style="display:none">
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">Nalco Consumables</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#">Dashboard</a></li>
+                        <li><a href="#">Settings</a></li>
+                        <li><a href="#">Profile</a></li>
+                        <li><a href="#">Help</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div id="dashboard-nav" class="container-fluid" style="padding-top:100px">
+            <div class="row">
+                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                    <h1 class="page-header">Dashboard</h1>
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <a href="#" onclick="ShowMaterialsMain();" class="btn btn-default">Materials</a>
+                            <a href="#" class="btn btn-primary">Issues</a>
+                            <a href="#" class="btn btn-success">PO Receipt</a>
+                            <a href="#" class="btn btn-info">Reports</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="materials-main" style="display:none;">
+        </div>
+    </div>
+    <section id="footer" style="display:none">
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>Made by <a href="http://github.com/Nischay-Pro" rel="nofollow">Thomas Park</a>. Contact him at <a href="mailto:NischayPro@gmail.com">NischayPro@gmail.com</a>.</p>
+                    <p>Based on <a href="http://getbootstrap.com" rel="nofollow">Bootstrap</a>. Icons from <a href="http://fortawesome.github.io/Font-Awesome/" rel="nofollow">Font Awesome</a>. Web fonts from <a href="http://www.google.com/webfonts" rel="nofollow">Google</a>.</p>
+                    <p>Site best viewed on Internet Explorer 11 / Edge and any HTML5 Compliant Browser.</p>
+                </div>
+            </div>
+        </footer>
+    </section>
+    <script src="js/functions.js"></script>
     <script src="js/jquery.min.js"></script>
 </body>
-
 </html>
