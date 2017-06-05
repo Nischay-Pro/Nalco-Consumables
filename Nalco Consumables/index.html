@@ -73,7 +73,7 @@
     </script>
 </head>
 <body class="bg-steel">
-    <div id="appbar" class="app-bar darcula fixed-top " style="display: none;" data-role="appbar">
+    <div id="appbar" name="appbar" class="app-bar darcula fixed-top " style="display: block;" data-role="appbar">
         <a class="app-bar-element branding">Nalco Damanjodi</a>
         <span class="app-bar-divider"></span>
         <ul class="app-bar-menu">
@@ -86,7 +86,7 @@
             </li>
         </ul>
     </div>
-    <div id="sidebar" class="page-content" style="display: none;" >
+    <div id="sidebar" name="sidebar" class="page-content" style="display: block;" >
         <div class="flex-grid no-responsive-future" style="height: 100%;">
             <div class="row" style="height: 100%">
                 <div class="cell size-x200" id="cell-sidebar" style="background-color: #71b1d1; height: 100%">
@@ -121,7 +121,7 @@
                         </li>
                     </ul>
                 </div>
-                <section id="materials-main" class="cell auto-size padding20 bg-white active" style="display: none; overflow: auto; ">
+                <section id="materials-main" class="cell auto-size padding20 bg-white active" style="display: block; overflow: auto; ">
                     <div class="cell auto-size padding20 bg-white active" id="cell-content">
                         <h1 class="text-light">Materials <span class="mif-truck place-right"></span></h1>
                         <hr class="thin bg-grayLighter">
@@ -345,7 +345,7 @@
             </div>
         </div>
     </div>
-    <section id="login" class="active cell auto-size padding20 bg-white" style="display: block; overflow: auto;">
+    <section id="login" class="active cell auto-size padding20 bg-white" style="display: none; overflow: auto;">
         <div class="login-form padding20 block-shadow">
             <form>
                 <h1 class="text-light">Login to service</h1>
@@ -374,9 +374,10 @@
     </section>
     <script>
         function loadMain() {
+            console.log("Something");
             document.getElementById("appbar").display = "block";
             document.getElementById("sidebar").display = "block";
-            document.get
+            document.getElementById("materials-main").display = "block";
             document.getElementById("login").display = "none";
         };
     </script>

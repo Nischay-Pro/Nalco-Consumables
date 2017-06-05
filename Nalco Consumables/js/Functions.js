@@ -31,20 +31,16 @@ function SuperHide(antihide) {
     obj.style.display = "block";;
 };
 
-function loadMain() {
-    document.getElementById("appbar").display = "block";
-    document.getElementById("sidebar").display = "block";
-    document.getElementById("login").display = "none";
-};
+
 
 //Startup
+function startup() {
     var xmlhttp = new XMLHttpRequest();
 
     xmlhttp.onreadystatechange = function () {
-        if (xmlhttp.readyState == XMLHttpRequest.done) {
+        if (xmlhttp.readyState == XMLHttpRequest.DONE) {
             if (xmlhttp.status == 200) {
-                alert(xmlhttp.responseText);
-
+                console.log(xmlhttp.responseText);
             }
             else if (xmlhttp.status == 400) {
                 alert('There was an error 400');
@@ -57,3 +53,4 @@ function loadMain() {
 
     xmlhttp.open("GET", "/api/Materials", true);
     xmlhttp.send();
+};
