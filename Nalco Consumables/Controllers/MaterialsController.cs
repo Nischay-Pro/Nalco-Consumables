@@ -3,16 +3,13 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Web.Http;
+using System.Web.Helpers;
 
 namespace Nalco_Consumables.Controllers
 {
+    [Authorize]
     public class MaterialsController : ApiController
     {
-        private Materials[] materials = new Materials[]
-        {
-            new Materials { id = 1, materialcode="ABC",materialdescription="sdjfds",printerdescription="sdf",printercount=0,centralstorage=true,criticalflag=false,quantity=100,reorderleve=5}
-        };
-
         [NonAction]
         public IEnumerable<Dictionary<string, object>> Serialize(SqlDataReader reader)
         {
