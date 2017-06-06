@@ -1,9 +1,7 @@
-﻿using Nalco_Consumables.Models;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Web.Http;
-using System.Web.Helpers;
 
 namespace Nalco_Consumables.Controllers
 {

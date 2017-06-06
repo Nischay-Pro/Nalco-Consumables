@@ -1,14 +1,14 @@
-﻿using System;
+﻿using Nalco_Consumables.Security;
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
-using System.Web;
-using Nalco_Consumables.Security;
 using System.Threading.Tasks;
-using System.Data.SqlClient;
-using System.Collections.Generic;
+using System.Web;
 
 public class AuthHandler : DelegatingHandler
 {

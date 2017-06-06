@@ -1,17 +1,8 @@
 ﻿var username, password;
-function ShowMain(obj) {
-    document.getElementById("dashboard").style.display = "block";
-    document.getElementById("login").style.display = "none";
-    setCookie("username", document.getElementById("username").value, 1);
-    document.getElementById("username_holder").innerText = getCookie("username");
+function ShowMain() {
     username = document.getElementById("username").value;
     password = document.getElementById("password").value;
-}
-function ShowMain(obj) {
-    document.getElementById("dashboard").style.display = "block";
-    document.getElementById("login").style.display = "none";
-    setCookie("username", document.getElementById("username").value, 1);
-    document.getElementById("username_holder").innerText = getCookie("username");
+    CheckUser();
 }
 function ShowMaterialsMain() {
     document.getElementById("dashboard-nav").style.display = "none";
@@ -41,4 +32,28 @@ function getCookie(cname) {
         }
     }
     return "";
+}
+function CheckUser() {
+    var authorizationBasic = window.btoa(username + ':' + password);
+    var request = new XMLHttpRequest();
+    request.open('POST', 'api/Users', true);
+    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+    request.setRequestHeader('Authorization', 'Basic ' + authorizationBasic);
+    request.setRequestHeader('Accept', 'application/json');
+    request.send();
+    request.onreadystatechange = function () {
+        if (request.readyState === 4) {
+            if (request.responseText === "\"Authentication Success\"") {
+                document.getElementById("dashboard").style.display = "block";
+                document.getElementById("login").style.display = "none";
+                setCookie("username", document.getElementById("username").value, 1);
+                setCookie("password", document.getElementById("password").value, 1);
+                document.getElementById("username_holder").innerText = getCookie("username");
+            }
+            else {
+                alert("Invalid Credentials");
+            }
+        }
+
+    };
 }
