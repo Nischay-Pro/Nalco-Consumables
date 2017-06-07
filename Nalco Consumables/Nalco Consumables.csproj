@@ -183,6 +183,7 @@
     <Compile Include="Security\AuthHandler.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="css\bootstrap-table.min.css" />
     <Content Include="css\bootstrap-theme.css" />
     <Content Include="css\bootstrap-theme.min.css" />
     <Content Include="css\bootstrap.css" />
@@ -191,6 +192,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="index.html" />
+    <Content Include="js\base64.min.js" />
+    <Content Include="js\bootstrap-table.min.js" />
     <Content Include="js\bootstrap.js" />
     <Content Include="js\bootstrap.min.js" />
     <Content Include="js\functions.js" />
