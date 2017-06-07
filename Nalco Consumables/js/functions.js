@@ -121,20 +121,6 @@ function MaterialsList() {
                 }],
                 data: data
             });
-            //var test, i;
-            //i = 0;
-            //do {
-            //   if (data[i] === undefined) {
-            //      break;
-            // }
-            //var x = document.getElementById('materialslist').insertRow(-1);
-            //var c1 = x.insertCell(0);
-            //var c2 = x.insertCell(1);
-            //c1.innerHTML = data[i].material_code;
-            //c2.innerHTML = data[i].material_description;
-            //i++;
-            //}
-            //while (data[i] !== undefined && data[i] !== null);
         }
     }
 }
