@@ -4,16 +4,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="Nalco Consumables Web App">
+    <meta name="author" content="Nischay Ram Mamidi, Sandeep Adabala, Indraneel Nallam">
 
     <title>Nalco Consumables</title>
-
-    <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="js/html5shiv.min.js"></script>
@@ -48,6 +43,10 @@
                         </div>
                     </fieldset>
                 </form>
+                <div class="alert alert-dismissible alert-danger" id="invalidcreds" style="display:none">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong>Oh snap!</strong> Your Email or Password is incorrect.
+                </div>
             </div>
         </section>
     </div>
@@ -97,7 +96,7 @@
                 </div>
             </div>
         </div>
-        </div>
+    </div>
     <section id="logout" style="display:none">
         <div id="dashboard-nav" class="container-fluid" style="padding-top:100px">
             <div class="row">
@@ -105,8 +104,8 @@
                     <p class="text-success">You have successfully logged out.</p>
                 </div>
             </div>
-       </div>
-</section>
+        </div>
+    </section>
     <section id="footer" style="display:none">
         <footer>
             <div class="row">

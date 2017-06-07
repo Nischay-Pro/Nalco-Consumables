@@ -49,10 +49,11 @@ function CheckUser() {
                 setCookie("username", document.getElementById("username").value, 1);
                 setCookie("password", document.getElementById("password").value, 1);
                 document.getElementById("username_holder").innerText = getCookie("username");
+                document.getElementById("invalidcreds").style.display = "none";
             }
             else {
-                alert("Invalid Credentials");
-            }
+                document.getElementById("invalidcreds").style.display = "block";
+                 }
         }
 
     };
