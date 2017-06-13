@@ -3,7 +3,6 @@ using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Web.Http;
-using Nalco_Consumables.Models;
 
 namespace Nalco_Consumables.Controllers
 {
