@@ -109,15 +109,21 @@ namespace Nalco_Consumables.Controllers
                 }
                 else
                 {
-                    return null;
-                    // INSERT STATEMENT
                     //SqlCommand insCommand = new SqlCommand("INSERT into Shipment (TrackingNumber, OrderId, ShippedDateUtc, CreatedOnUtc, TotalWeight) VALUES (@tracking, @order, @date, @date, @weight)", conn);
-                    //insCommand.Parameters.AddWithValue("@order", _orderID);
-                    //insCommand.Parameters.AddWithValue("@tracking", _trackingID);
-                    //insCommand.Parameters.AddWithValue("@date", _date);
-                    //insCommand.Parameters.AddWithValue("@weight", _weightID);
-                    //int rowsUpdated = insCommand.ExecuteNonQuery();
-                    //return "{status:inserted}";
+                    SqlCommand updCommand = new SqlCommand("INSERT INTO[dbo].[np_materials]([material_code], [material_description], [material_printer], [material_printer_description], [material_printer_count], [material_quantity], [material_critical_flag], [material_reorder_level], [material_storage]) VALUES(@materialcode, @materialdescription, @materialprinter, @materialprinterdescription, @materialprintercount, @materialquantity, @materialcriticalflag, @materialreorderlevel, @materialstorage)", conn);
+                    updCommand.Parameters.AddWithValue("@materialcode", materialcode);
+                    updCommand.Parameters.AddWithValue("@materialdescription", materialdescription);
+                    updCommand.Parameters.AddWithValue("@materialprinter", materialprinter);
+                    updCommand.Parameters.AddWithValue("@materialprinterdescription", materialprinterdescription);
+                    updCommand.Parameters.AddWithValue("@materialprintercount", materialprintercount);
+                    updCommand.Parameters.AddWithValue("@materialquantity", materialquantity);
+                    updCommand.Parameters.AddWithValue("@materialcriticalflag", materialcriticalflag);
+                    updCommand.Parameters.AddWithValue("@materialreorderlevel", materialreorderlevel);
+                    updCommand.Parameters.AddWithValue("@materialstorage", materialstorage);
+                    int rowsUpdated = updCommand.ExecuteNonQuery();
+                    JObject output = new JObject();
+                    output["status"] = "created";
+                    return output;
                 }
             }
         }
