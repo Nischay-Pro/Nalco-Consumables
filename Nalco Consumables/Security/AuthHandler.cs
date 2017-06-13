@@ -76,7 +76,7 @@ public class AuthHandler : DelegatingHandler
         {
             conn.ConnectionString = "Data Source=DESKTOP-97AH258\\SQLEXPRESS;Initial Catalog=nalco_materials;Integrated Security=True";
             conn.Open();
-            SqlCommand command = new SqlCommand("SELECT * FROM dbo.np_users WHERE new_pno=" + username + " AND password='" + password + "'", conn);
+            SqlCommand command = new SqlCommand("SELECT * FROM dbo.np_users WHERE pers_no=" + username + " AND pers_passwd='" + password + "'", conn);
             using (SqlDataReader reader = command.ExecuteReader())
             {
                 if (reader.HasRows)
