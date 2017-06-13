@@ -69,29 +69,43 @@ namespace Nalco_Consumables.Controllers
         }
 
         // POST api/<controller>
-        public string Post([FromBody] JObject data)
+        public JObject Post([FromBody] JObject data)
         {
+            JObject dataval = data["data"].ToObject<JObject>();
+            string materialcode, materialdescription, materialprinter, materialprinterdescription, materialprintercount, materialquantity, materialcriticalflag, materialreorderlevel, materialstorage;
+            materialcode = (string)dataval["materialcode"];
+            materialdescription = (string)dataval["materialdescription"];
+            materialprinterdescription = (string)dataval["materialprinterdescription"];
+            materialprinter = (string)dataval["materialprinter"];
+            materialprintercount = (string)dataval["materialprintercount"];
+            materialquantity = (string)dataval["materialquantity"];
+            materialcriticalflag = (string)dataval["materialcriticalflag"];
+            materialreorderlevel = (string)dataval["materialreorderlevel"];
+            materialstorage = (string)dataval["materialstorage"];
             using (SqlConnection conn = new SqlConnection())
             {
                 conn.ConnectionString = "Data Source=DESKTOP-97AH258\\SQLEXPRESS;Initial Catalog=nalco_materials;Integrated Security=True";
                 conn.Open();
                 SqlCommand cmdCount = new SqlCommand("SELECT count(*) from np_materials WHERE material_code = @materialcode", conn);
-                cmdCount.Parameters.AddWithValue("@order", materialcode);
+                cmdCount.Parameters.AddWithValue("@materialcode", materialcode);
                 int count = (int)cmdCount.ExecuteScalar();
 
                 if (count > 0)
                 {
-                    SqlCommand updCommand = new SqlCommand("UPDATE np_materials SET material_description = @materialdescription, material_printer_count = @materialprintercount,material_quantity = @materialquantity, material_printer = @materialprinter, material_critical_flag = @materialcriticalflag, material_reorder_level = @materialreorderlevel, material_storage = @materialstorage, material_printer_description = @materialprinterdescription WHERE materialcode=@material_code", conn);
+                    SqlCommand updCommand = new SqlCommand("UPDATE np_materials SET material_description = @materialdescription, material_printer_count = @materialprintercount,material_quantity = @materialquantity, material_printer = @materialprinter, material_critical_flag = @materialcriticalflag, material_reorder_level = @materialreorderlevel, material_storage = @materialstorage, material_printer_description = @materialprinterdescription WHERE material_code=@materialcode", conn);
+                    updCommand.Parameters.AddWithValue("@materialcode", materialcode);
                     updCommand.Parameters.AddWithValue("@materialdescription", materialdescription);
                     updCommand.Parameters.AddWithValue("@materialprinter", materialprinter);
                     updCommand.Parameters.AddWithValue("@materialprinterdescription", materialprinterdescription);
                     updCommand.Parameters.AddWithValue("@materialprintercount", materialprintercount);
                     updCommand.Parameters.AddWithValue("@materialquantity", materialquantity);
                     updCommand.Parameters.AddWithValue("@materialcriticalflag", materialcriticalflag);
-                    updCommand.Parameters.AddWithValue("@materialreorderlevel", materialredorderlevel);
+                    updCommand.Parameters.AddWithValue("@materialreorderlevel", materialreorderlevel);
                     updCommand.Parameters.AddWithValue("@materialstorage", materialstorage);
                     int rowsUpdated = updCommand.ExecuteNonQuery();
-                    return "{status:updated}";
+                    JObject output = new JObject();
+                    output["status"] = "updated";
+                    return output;
                 }
                 else
                 {
