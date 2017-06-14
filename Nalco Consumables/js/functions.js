@@ -6,6 +6,13 @@ else {
     password = getCookie('password');
     CheckUser(false);
 }
+if (typeof Array.prototype.forEach != 'function') {
+    Array.prototype.forEach = function (callback) {
+        for (var i = 0; i < this.length; i++) {
+            callback.apply(this, [this[i], i, this]);
+        }
+    };
+}
 function ShowMain() {
     username = document.getElementById("username").value;
     password = document.getElementById("password").value;
@@ -15,6 +22,22 @@ function ShowMaterialsMain() {
     document.getElementById("dashboard-nav").style.display = "none";
     document.getElementById("materials-main").style.display = "block";
     MaterialsList();
+}
+function ShowMaterialCreate(reverse) {
+    if (reverse) {
+        document.getElementById("materials-main").style.display = "none";
+        document.getElementById("materials-create").style.display = "block";
+    }
+    else
+    {
+        document.getElementById("materials-main").style.display = "block";
+        document.getElementById("materials-create").style.display = "none";
+    }
+}
+var sectionsdata = ['logout', 'materials-main', 'materials-create'];
+function SwitchTo(a,b) {
+    document.getElementById(a).style.display = "block";
+    document.getElementById(b).style.display = "none";
 }
 function deleteAllCookies() {
     var cookies = document.cookie.split(";");

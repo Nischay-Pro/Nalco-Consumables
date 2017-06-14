@@ -108,7 +108,6 @@ namespace Nalco_Consumables.Controllers
                 }
                 else
                 {
-                    //SqlCommand insCommand = new SqlCommand("INSERT into Shipment (TrackingNumber, OrderId, ShippedDateUtc, CreatedOnUtc, TotalWeight) VALUES (@tracking, @order, @date, @date, @weight)", conn);
                     SqlCommand updCommand = new SqlCommand("INSERT INTO[dbo].[np_materials]([material_code], [material_description], [material_printer], [material_printer_description], [material_printer_count], [material_quantity], [material_critical_flag], [material_reorder_level], [material_storage]) VALUES(@materialcode, @materialdescription, @materialprinter, @materialprinterdescription, @materialprintercount, @materialquantity, @materialcriticalflag, @materialreorderlevel, @materialstorage)", conn);
                     updCommand.Parameters.AddWithValue("@materialcode", materialcode);
                     updCommand.Parameters.AddWithValue("@materialdescription", materialdescription);
