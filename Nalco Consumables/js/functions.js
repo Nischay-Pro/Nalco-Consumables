@@ -28,17 +28,29 @@ function ShowMaterialCreate(reverse) {
         document.getElementById("materials-main").style.display = "none";
         document.getElementById("materials-create").style.display = "block";
     }
-    else
-    {
+    else {
         document.getElementById("materials-main").style.display = "block";
         document.getElementById("materials-create").style.display = "none";
     }
 }
 var sectionsdata = ['logout', 'materials-main', 'materials-create'];
-function SwitchTo(a,b) {
+function SwitchTo(a, b) {
     document.getElementById(a).style.display = "block";
     document.getElementById(b).style.display = "none";
 }
+function MaterialPrinterCheck() {
+}
+function checkAddress(printer) {
+
+    //if (printer.checked === true) {
+    //    document.getElementById('printer-description').style.display = "block";
+    //}
+    //else {
+    //    document.getElementById('printer-description').style.display = "none";
+    //    document.getElementById('inputPrinterDescription').value = "";
+    //}
+}
+
 function deleteAllCookies() {
     var cookies = document.cookie.split(";");
 
@@ -73,6 +85,14 @@ function getCookie(cname) {
         }
     }
     return "";
+}
+function isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if ((charCode > 31 && charCode < 48) || charCode > 57) {
+            return false;
+        }
+        return true;
 }
 function CheckUser(first) {
     var authorizationBasic = window.btoa(username + ':' + password);
