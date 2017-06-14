@@ -101,8 +101,7 @@
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <a href="#" onclick="SwitchTo('materials-create','materials-main');" class="btn btn-default">Add New Material</a>
-                                <a href="#" onclick="" class="btn btn-primary">Issues</a>
-                                <a href="#" class="btn btn-success">PO Receipt</a>
+                                <a href="#" onclick="" class="btn btn-primary">Update / Remove Materials</a>
                                 <a href="#" class="btn btn-info">Reports</a>
                             </div>
                         </div>
@@ -112,7 +111,7 @@
                     <div id="materials-create" style="display:none;">
                         <ul class="breadcrumb">
                             <li><a href="index.html">Dashboard</a></li>
-                            <li onclick="SwitchTo('materials-main','materials-create')"><a href="#">Materials</a></li>
+                            <li onclick="RefreshMaterials();"><a href="#">Materials</a></li>
                             <li class="active">Create Materials</li>
                         </ul>
                         <form class="form-horizontal">
@@ -169,7 +168,7 @@
                                 <div class="form-group">
                                     <label for="select" class="col-lg-2 control-label">Material Storage</label>
                                     <div class="col-lg-10">
-                                        <select class="form-control" id="select">
+                                        <select class="form-control" id="selectstorage">
                                             <option>Central Storage</option>
                                             <option>Sub Storage</option>
                                         </select>
@@ -178,7 +177,7 @@
                                 <div class="form-group">
                                     <div class="col-lg-10 col-lg-offset-2">
                                         <button type="reset" class="btn btn-default">Clear</button>
-                                        <button type="submit" class="btn btn-primary" onclick="CheckFormMaterials()">Add</button>
+                                        <button type="button" class="btn btn-primary" onclick="CheckFormMaterials()">Add</button>
                                     </div>
                                 </div>
                             </fieldset>

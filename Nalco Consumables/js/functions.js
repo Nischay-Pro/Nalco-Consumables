@@ -41,7 +41,6 @@ function SwitchTo(a, b) {
 function MaterialPrinterCheck() {
 }
 function checkAddress(printer) {
-
     //if (printer.checked === true) {
     //    document.getElementById('printer-description').style.display = "block";
     //}
@@ -87,12 +86,12 @@ function getCookie(cname) {
     return "";
 }
 function isNumber(evt) {
-        evt = (evt) ? evt : window.event;
-        var charCode = (evt.which) ? evt.which : evt.keyCode;
-        if ((charCode > 31 && charCode < 48) || charCode > 57) {
-            return false;
-        }
-        return true;
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if ((charCode > 31 && charCode < 48) || charCode > 57) {
+        return false;
+    }
+    return true;
 }
 function CheckUser(first) {
     var authorizationBasic = window.btoa(username + ':' + password);
@@ -167,6 +166,35 @@ function MaterialsList() {
         }
     }
 }
+function RefreshMaterials() {
+    SwitchTo('materials-main', 'materials-create');
+    MaterialsList();
+}
 function CheckFormMaterials() {
-
+    var data1 = { data: {} };
+    data1.data['createquery'] = true;
+    data1.data['materialcode'] = document.getElementById('inputMaterialCode').value;
+    data1.data['materialdescription'] = document.getElementById('inputMaterialDescription').value;
+    data1.data['materialprinter'] = document.getElementById('printer').checked;
+    data1.data['materialprinterdescription'] = document.getElementById('inputPrinterDescription').value;
+    data1.data['materialprintercount'] = 12;
+    data1.data['materialquantity'] = document.getElementById('inputMaterialQuantity').value;
+    data1.data['materialcriticalflag'] = document.getElementById('criticalflag').checked;
+    data1.data['materialreorderlevel'] = document.getElementById('inputMaterialReorderLevel').value;
+    var e = document.getElementById('selectstorage');
+    data1.data['materialstorage'] = e.options[e.selectedIndex].text;
+    var authorizationBasic = window.btoa(username + ':' + password);
+    var request = new XMLHttpRequest();
+    request.open('POST', 'api/Materials', true);
+    request.setRequestHeader('Content-Type', 'application/json');
+    request.setRequestHeader('Authorization', 'Basic ' + authorizationBasic);
+    request.setRequestHeader('Accept', 'application/json');
+    var datatobesent = JSON.stringify(data1);
+    console.log(datatobesent);
+    request.send(datatobesent);
+    request.onreadystatechange = function () {
+        if (request.readyState === 4) {
+            alert('success');
+        }
+    };
 }

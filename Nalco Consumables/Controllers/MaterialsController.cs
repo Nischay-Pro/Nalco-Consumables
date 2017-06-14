@@ -24,8 +24,7 @@ namespace Nalco_Consumables.Controllers
         }
 
         [NonAction]
-        private Dictionary<string, object> SerializeRow(IEnumerable<string> cols,
-                                                        SqlDataReader reader)
+        private Dictionary<string, object> SerializeRow(IEnumerable<string> cols, SqlDataReader reader)
         {
             var result = new Dictionary<string, object>();
             foreach (var col in cols)
