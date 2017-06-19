@@ -190,11 +190,21 @@ function CheckFormMaterials() {
     request.setRequestHeader('Authorization', 'Basic ' + authorizationBasic);
     request.setRequestHeader('Accept', 'application/json');
     var datatobesent = JSON.stringify(data1);
-    console.log(datatobesent);
     request.send(datatobesent);
     request.onreadystatechange = function () {
-        if (request.readyState === 4) {
-            alert('success');
+        if (request.readyState === 4 && JSON.parse(request.responseText).status === 'created') {
+            document.getElementById("materialerror").appendChild(CreateError('success', 'Successfully added Material.'));
+        }
+        else if (request.readyState === 4 && JSON.parse(request.responseText).status === 'exists') {
+            document.getElementById("materialerror").appendChild(CreateError('danger', 'Material already exists.'));
+        }
+        else if (request.readyState === 4 && JSON.parse(request.responseText).status === 'error') {
+            document.getElementById("materialerror").appendChild(CreateError('danger', JSON.parse(request.responseText).message));
         }
     };
+}
+function CreateError(type, message) {
+    var element = document.createElement("div");
+    element.innerHTML += '<div class="alert alert-dismissible alert-' + type + '" id="message"><button type="button" class="close" data-dismiss="alert">&times;</button>' + message + '</div>';
+    return element;
 }

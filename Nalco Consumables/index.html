@@ -116,6 +116,8 @@
                         </ul>
                         <form class="form-horizontal">
                             <fieldset>
+                                <div id="materialerror">
+                                </div>
                                 <legend>Add New Material</legend>
                                 <div class="form-group">
                                     <label for="inputMaterialCode" class="col-lg-2 control-label">Material Code</label>
@@ -130,9 +132,9 @@
                                     </div>
                                 </div>
                                 <div class="form-group trigger" style="padding-left:190px!important;">
-                                    <div class="col-lg-5">
-                                        <div class="checkbox">
-                                            <label>
+                                    <div class="col-lg-5 trigger">
+                                        <div class="checkbox trigger">
+                                            <label class="trigger">
                                                 <input class="trigger" type="checkbox" name="printer" id="printer"> Material Type Printer
                                             </label>
                                         </div>
@@ -214,12 +216,12 @@
     </style>
     <script src="js/jquery.min.js"></script>
     <script>
-            $(function () {
-                $('.trigger').click(function () {
-                    $('#printer-description').toggleClass('hidden');
-                    document.getElementById('inputPrinterDescription').value = "";
-                });
+        $(function () {
+            $('.trigger').click(function () {
+                $('#printer-description').toggleClass('hidden');
+                document.getElementById('inputPrinterDescription').value = "";
             });
+        });
     </script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/functions.js"></script>
