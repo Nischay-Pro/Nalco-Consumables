@@ -161,7 +161,6 @@ function MaterialsList() {
                 }],
                 data: data['data']
             });
-            console.log(data);
         }
     }
 }
@@ -204,16 +203,16 @@ function CheckFormMaterials() {
 }
 function CheckFormMaterialsUpdate() {
     var data1 = { data: {} };
-    data1.data['createquery'] = true;
-    data1.data['materialcode'] = document.getElementById('inputMaterialCode').value;
-    data1.data['materialdescription'] = document.getElementById('inputMaterialDescription').value;
-    data1.data['materialprinter'] = document.getElementById('printer').checked;
-    data1.data['materialprinterdescription'] = document.getElementById('inputPrinterDescription').value;
+    data1.data['createquery'] = false;
+    data1.data['materialcode'] = document.getElementById('inputMaterialCodeUpdate').value;
+    data1.data['materialdescription'] = document.getElementById('inputMaterialDescriptionUpdate').value;
+    data1.data['materialprinter'] = document.getElementById('printerupdate').checked;
+    data1.data['materialprinterdescription'] = document.getElementById('inputPrinterDescriptionUpdate').value;
     data1.data['materialprintercount'] = 12;
-    data1.data['materialquantity'] = document.getElementById('inputMaterialQuantity').value;
-    data1.data['materialcriticalflag'] = document.getElementById('criticalflag').checked;
-    data1.data['materialreorderlevel'] = document.getElementById('inputMaterialReorderLevel').value;
-    var e = document.getElementById('selectstorage');
+    data1.data['materialquantity'] = document.getElementById('inputMaterialQuantityUpdate').value;
+    data1.data['materialcriticalflag'] = document.getElementById('criticalflagupdate').checked;
+    data1.data['materialreorderlevel'] = document.getElementById('inputMaterialReorderLevelUpdate').value;
+    var e = document.getElementById('selectstorageupdate');
     data1.data['materialstorage'] = e.options[e.selectedIndex].text;
     var authorizationBasic = window.btoa(username + ':' + password);
     var request = new XMLHttpRequest();
@@ -224,14 +223,14 @@ function CheckFormMaterialsUpdate() {
     var datatobesent = JSON.stringify(data1);
     request.send(datatobesent);
     request.onreadystatechange = function () {
-        if (request.readyState === 4 && JSON.parse(request.responseText).status === 'created') {
-            document.getElementById("materialerror").appendChild(CreateError('success', 'Successfully added Material.'));
+        if (request.readyState === 4 && JSON.parse(request.responseText).status === 'updated') {
+            document.getElementById("materialerrorupdate").appendChild(CreateError('success', 'Successfully updated Material.'));
         }
         else if (request.readyState === 4 && JSON.parse(request.responseText).status === 'exists') {
-            document.getElementById("materialerror").appendChild(CreateError('danger', 'Material already exists.'));
+            document.getElementById("materialerrorupdate").appendChild(CreateError('danger', 'Material does not exist.'));
         }
         else if (request.readyState === 4 && JSON.parse(request.responseText).status === 'error') {
-            document.getElementById("materialerror").appendChild(CreateError('danger', JSON.parse(request.responseText).message));
+            document.getElementById("materialerrorupdate").appendChild(CreateError('danger', JSON.parse(request.responseText).message));
         }
     };
 }
@@ -258,6 +257,13 @@ function CheckFormMaterialsDelete() {
 function CreateError(type, message) {
     var element = document.createElement("div");
     element.innerHTML += '<div class="alert alert-dismissible alert-' + type + '" id="message"><button type="button" class="close" data-dismiss="alert">&times;</button>' + message + '</div>';
+    $(document).ready(function () {
+        window.setTimeout(function () {
+            $(".alert").fadeTo(1500, 0).slideUp(500, function () {
+                $(this).remove();
+            });
+        }, 2000);
+    });
     return element;
 }
 
@@ -278,15 +284,14 @@ function LoadMaterialsUpdate() {
         }
         else if (request.readyState === 4) {
             var data = JSON.parse(request.responseText);
-            document.getElementById('inputMaterialDescriptionUpdate').value = data[0].material_description;
-            document.getElementById('printerupdate').checked = data[0].material_printer;
-            document.getElementById('inputPrinterDescriptionUpdate').value = data[0].printer_description;
-            document.getElementById('inputMaterialQuantityUpdate').value = data[0].material_quantity;
-            document.getElementById('criticalflagupdate').checked = data[0].material_critical_flag;
-            document.getElementById('inputMaterialReorderLevelUpdate').value = data[0].material_reorder_level;
+            document.getElementById('inputMaterialDescriptionUpdate').value = data.material_description;
+            document.getElementById('printerupdate').checked = data.material_printer;
+            document.getElementById('inputPrinterDescriptionUpdate').value = data.printer_description;
+            document.getElementById('inputMaterialQuantityUpdate').value = data.material_quantity;
+            document.getElementById('criticalflagupdate').checked = data.material_critical_flag;
+            document.getElementById('inputMaterialReorderLevelUpdate').value = data.material_reorder_level;
             document.getElementById('UpdateForm').style.display = "block";
-            var textToFind = data[0].material_storage;
-            textToFind = textToFind.split(" ").join("");
+            var textToFind = data.material_storage;
             var dd = document.getElementById('selectstorageupdate');
             for (var i = 0; i < dd.options.length; i++) {
                 if (dd.options[i].text.split(" ").join("").indexOf(textToFind) !== -1) {

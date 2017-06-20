@@ -206,7 +206,7 @@
                                     <div class="form-group">
                                         <label for="inputMaterialDescription" class="col-lg-2 control-label">Material Description</label>
                                         <div class="col-lg-10">
-                                            <input type="text" class="form-control" id="inputMaterialDescriptionUpdate" onkeypress="return isNumber(event);" placeholder="Material Description">
+                                            <input type="text" class="form-control" id="inputMaterialDescriptionUpdate" placeholder="Material Description">
                                         </div>
                                     </div>
                                     <div class="form-group trigger" style="padding-left:190px!important;">
@@ -315,6 +315,13 @@
             if ($('#inputMaterialCodeUpdate').val()) {
                 typingTimer = setTimeout(LoadMaterialsUpdate, doneTypingInterval);
             }
+        });
+        $(document).ready(function () {
+            window.setTimeout(function () {
+                $(".alert").fadeTo(1500, 0).slideUp(500, function () {
+                    $(this).remove();
+                });
+            }, 1000);
         });
     </script>
     <script src="js/bootstrap.min.js"></script>
