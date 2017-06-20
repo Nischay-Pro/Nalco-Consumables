@@ -43,9 +43,19 @@ namespace Nalco_Consumables.Controllers
                 SqlCommand command = new SqlCommand("SELECT * FROM dbo.np_materials", conn);
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
-                    var r = Serialize(reader);
-                    string json = JsonConvert.SerializeObject(r, Formatting.Indented);
-                    return json;
+                    if (reader.HasRows == true)
+                    {
+                        var r = Serialize(reader);
+                        string json = JsonConvert.SerializeObject(r, Formatting.Indented);
+                        return json;
+                    }
+                    else
+                    {
+                        JObject response = new JObject();
+                        response["status"] = "not exists";
+                        string json = JsonConvert.SerializeObject(response, Formatting.Indented);
+                        return json;
+                    }
                 }
             }
         }
@@ -60,9 +70,19 @@ namespace Nalco_Consumables.Controllers
                 SqlCommand command = new SqlCommand("SELECT * FROM dbo.np_materials WHERE material_code=" + id, conn);
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
-                    var r = Serialize(reader);
-                    string json = JsonConvert.SerializeObject(r, Formatting.Indented);
-                    return json;
+                    if (reader.HasRows == true)
+                    {
+                        var r = Serialize(reader);
+                        string json = JsonConvert.SerializeObject(r, Formatting.Indented);
+                        return json;
+                    }
+                    else
+                    {
+                        JObject response = new JObject();
+                        response["status"] = "not exists";
+                        string json = JsonConvert.SerializeObject(response, Formatting.Indented);
+                        return json;
+                    }
                 }
             }
         }
@@ -161,8 +181,38 @@ namespace Nalco_Consumables.Controllers
         }
 
         // DELETE api/<controller>/5
-        public void Delete(int id)
+        public JObject Delete(int id)
         {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection())
+                {
+                    conn.ConnectionString = "Data Source=DESKTOP-97AH258\\SQLEXPRESS;Initial Catalog=nalco_materials;Integrated Security=True";
+                    conn.Open();
+                    SqlCommand cmdCount = new SqlCommand("DELETE FROM nalco_materials.dbo.np_materials WHERE material_code = @materialcode", conn);
+                    cmdCount.Parameters.AddWithValue("@materialcode", id);
+                    int count = cmdCount.ExecuteNonQuery();
+                    if (count > 0)
+                    {
+                        JObject output = new JObject();
+                        output["status"] = "deleted";
+                        return output;
+                    }
+                    else
+                    {
+                        JObject output = new JObject();
+                        output["status"] = "not exists";
+                        return output;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                JObject output = new JObject();
+                output["status"] = "error";
+                output["message"] = ex.Message;
+                return output;
+            }
         }
     }
 }

@@ -203,8 +203,73 @@ function CheckFormMaterials() {
         }
     };
 }
+function CheckFormMaterialsUpdate() {
+    var data1 = { data: {} };
+    data1.data['createquery'] = true;
+    data1.data['materialcode'] = document.getElementById('inputMaterialCode').value;
+    data1.data['materialdescription'] = document.getElementById('inputMaterialDescription').value;
+    data1.data['materialprinter'] = document.getElementById('printer').checked;
+    data1.data['materialprinterdescription'] = document.getElementById('inputPrinterDescription').value;
+    data1.data['materialprintercount'] = 12;
+    data1.data['materialquantity'] = document.getElementById('inputMaterialQuantity').value;
+    data1.data['materialcriticalflag'] = document.getElementById('criticalflag').checked;
+    data1.data['materialreorderlevel'] = document.getElementById('inputMaterialReorderLevel').value;
+    var e = document.getElementById('selectstorage');
+    data1.data['materialstorage'] = e.options[e.selectedIndex].text;
+    var authorizationBasic = window.btoa(username + ':' + password);
+    var request = new XMLHttpRequest();
+    request.open('POST', 'api/Materials', true);
+    request.setRequestHeader('Content-Type', 'application/json');
+    request.setRequestHeader('Authorization', 'Basic ' + authorizationBasic);
+    request.setRequestHeader('Accept', 'application/json');
+    var datatobesent = JSON.stringify(data1);
+    request.send(datatobesent);
+    request.onreadystatechange = function () {
+        if (request.readyState === 4 && JSON.parse(request.responseText).status === 'created') {
+            document.getElementById("materialerror").appendChild(CreateError('success', 'Successfully added Material.'));
+        }
+        else if (request.readyState === 4 && JSON.parse(request.responseText).status === 'exists') {
+            document.getElementById("materialerror").appendChild(CreateError('danger', 'Material already exists.'));
+        }
+        else if (request.readyState === 4 && JSON.parse(request.responseText).status === 'error') {
+            document.getElementById("materialerror").appendChild(CreateError('danger', JSON.parse(request.responseText).message));
+        }
+    };
+}
+function CheckFormMaterialsDelete() {
+    var authorizationBasic = window.btoa(username + ':' + password);
+    var request = new XMLHttpRequest();
+    request.open('DELETE', 'api/Materials/' + document.getElementById('inputMaterialCodeUpdate').value, true);
+    request.setRequestHeader('Content-Type', 'application/json');
+    request.setRequestHeader('Authorization', 'Basic ' + authorizationBasic);
+    request.setRequestHeader('Accept', 'application/json');
+    request.send();
+    request.onreadystatechange = function () {
+        if (request.readyState === 4 && JSON.parse(request.responseText).status === 'deleted') {
+            document.getElementById("materialerrorupdate").appendChild(CreateError('success', 'Successfully deleted Material.'));
+        }
+        else if (request.readyState === 4 && JSON.parse(request.responseText).status === 'not exists') {
+            document.getElementById("materialerrorupdate").appendChild(CreateError('danger', 'Material does not exist.'));
+        }
+        else if (request.readyState === 4 && JSON.parse(request.responseText).status === 'error') {
+            document.getElementById("materialerrorupdate").appendChild(CreateError('danger', JSON.parse(request.responseText).message));
+        }
+    };
+}
 function CreateError(type, message) {
     var element = document.createElement("div");
     element.innerHTML += '<div class="alert alert-dismissible alert-' + type + '" id="message"><button type="button" class="close" data-dismiss="alert">&times;</button>' + message + '</div>';
     return element;
+}
+
+function LoadMaterialsUpdate() {
+    var authorizationBasic = window.btoa(username + ':' + password);
+    var request = new XMLHttpRequest();
+    request.open('GET', 'api/Materials/' + document.getElementById('inputMaterialCodeUpdate').value, true);
+    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+    request.setRequestHeader('Authorization', 'Basic ' + authorizationBasic);
+    request.setRequestHeader('Accept', 'application/json');
+    request.send();
+    request.onreadystatechange = function () {
+    }
 }
