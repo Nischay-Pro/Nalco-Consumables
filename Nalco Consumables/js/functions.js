@@ -130,8 +130,6 @@ function MaterialsList() {
     request.onreadystatechange = function () {
         if (request.readyState === 4 && JSON.parse(request.responseText).message != 'Authorization has been denied for this request.') {
             var data = JSON.parse(request.responseText);
-            data = data.replace(/\s/g, "");
-            data = JSON.parse(data);
             $('#materialslist').bootstrapTable({
                 columns: [{
                     field: 'material_code',
@@ -161,8 +159,9 @@ function MaterialsList() {
                     field: 'material_storage',
                     title: 'Material Storage'
                 }],
-                data: data
+                data: data['data']
             });
+            console.log(data);
         }
     }
 }
@@ -271,14 +270,14 @@ function LoadMaterialsUpdate() {
     request.setRequestHeader('Accept', 'application/json');
     request.send();
     request.onreadystatechange = function () {
-        if (request.readyState === 4 && JSON.parse(JSON.parse(request.responseText)).status === 'not exists') {
+        if (request.readyState === 4 && JSON.parse(request.responseText).status === 'not exists') {
             document.getElementById("materialerrorupdate").appendChild(CreateError('danger', 'Material does not exist.'));
         }
-        else if (request.readyState === 4 && JSON.parse(JSON.parse(request.responseText)).status === 'error') {
+        else if (request.readyState === 4 && JSON.parse(request.responseText).status === 'error') {
             document.getElementById("materialerrorupdate").appendChild(CreateError('danger', JSON.parse(JSON.parse(request.responseText)).message));
         }
         else if (request.readyState === 4) {
-            var data = JSON.parse(JSON.parse(request.responseText));
+            var data = JSON.parse(request.responseText);
             document.getElementById('inputMaterialDescriptionUpdate').value = data[0].material_description;
             document.getElementById('printerupdate').checked = data[0].material_printer;
             document.getElementById('inputPrinterDescriptionUpdate').value = data[0].printer_description;
@@ -290,7 +289,7 @@ function LoadMaterialsUpdate() {
             textToFind = textToFind.split(" ").join("");
             var dd = document.getElementById('selectstorageupdate');
             for (var i = 0; i < dd.options.length; i++) {
-                if (dd.options[i].text.split(" ").join("").indexOf(textToFind) !== -1 ){
+                if (dd.options[i].text.split(" ").join("").indexOf(textToFind) !== -1) {
                     dd.selectedIndex = i;
                     break;
                 }

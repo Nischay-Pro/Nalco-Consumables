@@ -310,6 +310,7 @@
         var typingTimer;
         var doneTypingInterval = 1000;
         $('#inputMaterialCodeUpdate').keyup(function () {
+            document.getElementById('UpdateForm').style.display = "none";
             clearTimeout(typingTimer);
             if ($('#inputMaterialCodeUpdate').val()) {
                 typingTimer = setTimeout(LoadMaterialsUpdate, doneTypingInterval);

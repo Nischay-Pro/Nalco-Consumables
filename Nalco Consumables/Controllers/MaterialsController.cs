@@ -34,34 +34,51 @@ namespace Nalco_Consumables.Controllers
         }
 
         // GET api/<controller>
-        public string Get()
+        public object Get()
         {
-            using (SqlConnection conn = new SqlConnection())
+            try
             {
-                conn.ConnectionString = "Data Source=DESKTOP-97AH258\\SQLEXPRESS;Initial Catalog=nalco_materials;Integrated Security=True";
-                conn.Open();
-                SqlCommand command = new SqlCommand("SELECT * FROM dbo.np_materials", conn);
-                using (SqlDataReader reader = command.ExecuteReader())
+                using (SqlConnection conn = new SqlConnection())
                 {
-                    if (reader.HasRows == true)
+                    conn.ConnectionString = "Data Source=DESKTOP-97AH258\\SQLEXPRESS;Initial Catalog=nalco_materials;Integrated Security=True";
+                    conn.Open();
+                    SqlCommand command = new SqlCommand("SELECT * FROM dbo.np_materials", conn);
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        var r = Serialize(reader);
-                        string json = JsonConvert.SerializeObject(r, Formatting.Indented);
-                        return json;
-                    }
-                    else
-                    {
-                        JObject response = new JObject();
-                        response["status"] = "not exists";
-                        string json = JsonConvert.SerializeObject(response, Formatting.Indented);
-                        return json;
+                        if (reader.HasRows == true)
+                        {
+                            var r = Serialize(reader);
+                            JArray output = new JArray();
+                            string abc = JsonConvert.SerializeObject(r, Formatting.Indented);
+                            output = JArray.Parse(abc);
+                            JObject outputa = new JObject();
+                            outputa["data"] = output;
+                            return outputa;
+                        }
+                        else
+                        {
+                            JArray outputa = new JArray();
+                            JObject response = new JObject();
+                            response["status"] = "not exists";
+                            outputa.Add(response);
+                            return outputa;
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                JArray outputa = new JArray();
+                JObject output = new JObject();
+                output["status"] = "error";
+                output["message"] = ex.Message;
+                outputa.Add(output);
+                return outputa;
             }
         }
 
         // GET api/<controller>/5
-        public string Get(Int64 id)
+        public JObject Get(Int64 id)
         {
             try
             {
@@ -75,15 +92,16 @@ namespace Nalco_Consumables.Controllers
                         if (reader.HasRows == true)
                         {
                             var r = Serialize(reader);
-                            string json = JsonConvert.SerializeObject(r, Formatting.Indented);
-                            return json;
+                            JObject output = new JObject();
+                            string abc = JsonConvert.SerializeObject(r, Formatting.Indented).TrimStart(new char[] { '[' }).TrimEnd(new char[] { ']' });
+                            output = JObject.Parse(abc);
+                            return output;
                         }
                         else
                         {
                             JObject response = new JObject();
                             response["status"] = "not exists";
-                            string json = JsonConvert.SerializeObject(response, Formatting.Indented);
-                            return json;
+                            return response;
                         }
                     }
                 }
@@ -93,8 +111,7 @@ namespace Nalco_Consumables.Controllers
                 JObject response = new JObject();
                 response["status"] = "error";
                 response["message"] = ex.Message;
-                string json = JsonConvert.SerializeObject(response, Formatting.Indented);
-                return json;
+                return response;
             }
         }
 
