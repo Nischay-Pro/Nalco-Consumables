@@ -271,5 +271,15 @@ function LoadMaterialsUpdate() {
     request.setRequestHeader('Accept', 'application/json');
     request.send();
     request.onreadystatechange = function () {
+        if (request.readyState === 4 && JSON.parse(JSON.parse(request.responseText)).status === 'not exists') {
+            document.getElementById("materialerrorupdate").appendChild(CreateError('danger', 'Material does not exist.'));
+        }
+        else if (request.readyState === 4 && JSON.parse(JSON.parse(request.responseText)).status === 'error') {
+            document.getElementById("materialerrorupdate").appendChild(CreateError('danger', JSON.parse(JSON.parse(request.responseText)).message));
+        }
+        else if (request.readyState === 4) {
+            var data = JSON.parse(request.responseText);
+
+        }
     }
 }

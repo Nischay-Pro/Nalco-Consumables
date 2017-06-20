@@ -63,27 +63,38 @@ namespace Nalco_Consumables.Controllers
         // GET api/<controller>/5
         public string Get(int id)
         {
-            using (SqlConnection conn = new SqlConnection())
+            try
             {
-                conn.ConnectionString = "Data Source=DESKTOP-97AH258\\SQLEXPRESS;Initial Catalog=nalco_materials;Integrated Security=True";
-                conn.Open();
-                SqlCommand command = new SqlCommand("SELECT * FROM dbo.np_materials WHERE material_code=" + id, conn);
-                using (SqlDataReader reader = command.ExecuteReader())
+                using (SqlConnection conn = new SqlConnection())
                 {
-                    if (reader.HasRows == true)
+                    conn.ConnectionString = "Data Source=DESKTOP-97AH258\\SQLEXPRESS;Initial Catalog=nalco_materials;Integrated Security=True";
+                    conn.Open();
+                    SqlCommand command = new SqlCommand("SELECT * FROM dbo.np_materials WHERE material_code=" + id, conn);
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        var r = Serialize(reader);
-                        string json = JsonConvert.SerializeObject(r, Formatting.Indented);
-                        return json;
-                    }
-                    else
-                    {
-                        JObject response = new JObject();
-                        response["status"] = "not exists";
-                        string json = JsonConvert.SerializeObject(response, Formatting.Indented);
-                        return json;
+                        if (reader.HasRows == true)
+                        {
+                            var r = Serialize(reader);
+                            string json = JsonConvert.SerializeObject(r, Formatting.Indented);
+                            return json;
+                        }
+                        else
+                        {
+                            JObject response = new JObject();
+                            response["status"] = "not exists";
+                            string json = JsonConvert.SerializeObject(response, Formatting.Indented);
+                            return json;
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                JObject response = new JObject();
+                response["status"] = "error";
+                response["message"] = ex.Message;
+                string json = JsonConvert.SerializeObject(response, Formatting.Indented);
+                return json;
             }
         }
 
