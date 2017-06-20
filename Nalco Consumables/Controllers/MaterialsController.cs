@@ -61,7 +61,7 @@ namespace Nalco_Consumables.Controllers
         }
 
         // GET api/<controller>/5
-        public string Get(int id)
+        public string Get(Int64 id)
         {
             try
             {

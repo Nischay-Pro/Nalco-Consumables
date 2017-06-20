@@ -278,8 +278,23 @@ function LoadMaterialsUpdate() {
             document.getElementById("materialerrorupdate").appendChild(CreateError('danger', JSON.parse(JSON.parse(request.responseText)).message));
         }
         else if (request.readyState === 4) {
-            var data = JSON.parse(request.responseText);
-
+            var data = JSON.parse(JSON.parse(request.responseText));
+            document.getElementById('inputMaterialDescriptionUpdate').value = data[0].material_description;
+            document.getElementById('printerupdate').checked = data[0].material_printer;
+            document.getElementById('inputPrinterDescriptionUpdate').value = data[0].printer_description;
+            document.getElementById('inputMaterialQuantityUpdate').value = data[0].material_quantity;
+            document.getElementById('criticalflagupdate').checked = data[0].material_critical_flag;
+            document.getElementById('inputMaterialReorderLevelUpdate').value = data[0].material_reorder_level;
+            document.getElementById('UpdateForm').style.display = "block";
+            var textToFind = data[0].material_storage;
+            textToFind = textToFind.split(" ").join("");
+            var dd = document.getElementById('selectstorageupdate');
+            for (var i = 0; i < dd.options.length; i++) {
+                if (dd.options[i].text.split(" ").join("").indexOf(textToFind) !== -1 ){
+                    dd.selectedIndex = i;
+                    break;
+                }
+            }
         }
     }
 }
