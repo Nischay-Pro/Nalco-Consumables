@@ -129,6 +129,7 @@ function MaterialsList() {
     request.send();
     request.onreadystatechange = function () {
         if (request.readyState === 4 && JSON.parse(request.responseText).message != 'Authorization has been denied for this request.') {
+            console.log('te');
             var data = JSON.parse(request.responseText);
             $('#materialslist').bootstrapTable({
                 columns: [{
@@ -161,12 +162,9 @@ function MaterialsList() {
                 }],
                 data: data['data']
             });
+            $('#materialslist').bootstrapTable("load", data['data']);
         }
     }
-}
-function RefreshMaterials() {
-    SwitchTo('materials-main', 'materials-create');
-    MaterialsList();
 }
 function CheckFormMaterials() {
     var data1 = { data: {} };
@@ -192,6 +190,7 @@ function CheckFormMaterials() {
     request.onreadystatechange = function () {
         if (request.readyState === 4 && JSON.parse(request.responseText).status === 'created') {
             document.getElementById("materialerror").appendChild(CreateError('success', 'Successfully added Material.'));
+            MaterialsList();
         }
         else if (request.readyState === 4 && JSON.parse(request.responseText).status === 'exists') {
             document.getElementById("materialerror").appendChild(CreateError('danger', 'Material already exists.'));
@@ -225,6 +224,7 @@ function CheckFormMaterialsUpdate() {
     request.onreadystatechange = function () {
         if (request.readyState === 4 && JSON.parse(request.responseText).status === 'updated') {
             document.getElementById("materialerrorupdate").appendChild(CreateError('success', 'Successfully updated Material.'));
+            MaterialsList();
         }
         else if (request.readyState === 4 && JSON.parse(request.responseText).status === 'exists') {
             document.getElementById("materialerrorupdate").appendChild(CreateError('danger', 'Material does not exist.'));
@@ -247,6 +247,7 @@ function CheckFormMaterialsDelete() {
             request.onreadystatechange = function () {
                 if (request.readyState === 4 && JSON.parse(request.responseText).status === 'deleted') {
                     document.getElementById("materialerrorupdate").appendChild(CreateError('success', 'Successfully deleted Material.'));
+                    MaterialsList();
                 }
                 else if (request.readyState === 4 && JSON.parse(request.responseText).status === 'not exists') {
                     document.getElementById("materialerrorupdate").appendChild(CreateError('danger', 'Material does not exist.'));
