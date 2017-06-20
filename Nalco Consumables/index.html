@@ -101,7 +101,7 @@
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <a href="#" onclick="SwitchTo('materials-create','materials-main');" class="btn btn-default">Add New Material</a>
-                                <a href="#" onclick="" class="btn btn-primary">Update / Remove Materials</a>
+                                <a href="#" onclick="SwitchTo('materials-update','materials-main');" class="btn btn-primary">Update / Remove Materials</a>
                                 <a href="#" class="btn btn-info">Reports</a>
                             </div>
                         </div>
@@ -113,6 +113,83 @@
                             <li><a href="index.html">Dashboard</a></li>
                             <li onclick="RefreshMaterials();"><a href="#">Materials</a></li>
                             <li class="active">Create Materials</li>
+                        </ul>
+                        <form class="form-horizontal">
+                            <fieldset>
+                                <div id="materialerror">
+                                </div>
+                                <legend>Add New Material</legend>
+                                <div class="form-group">
+                                    <label for="inputMaterialCode" class="col-lg-2 control-label">Material Code</label>
+                                    <div class="col-lg-10">
+                                        <input type="text" class="form-control" id="inputMaterialCode" placeholder="Material Code">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputMaterialDescription" class="col-lg-2 control-label">Material Description</label>
+                                    <div class="col-lg-10">
+                                        <input type="text" class="form-control" id="inputMaterialDescription" placeholder="Material Description">
+                                    </div>
+                                </div>
+                                <div class="form-group trigger" style="padding-left:190px!important;">
+                                    <div class="col-lg-5 trigger">
+                                        <div class="checkbox trigger">
+                                            <label class="trigger">
+                                                <input class="trigger" type="checkbox" name="printer" id="printer"> Material Type Printer
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group hidden" id="printer-description">
+                                    <label for="inputPrinterDescription" class="col-lg-2 control-label">Printer Description</label>
+                                    <div class="col-lg-10">
+                                        <input type="text" class="form-control" id="inputPrinterDescription" placeholder="Printer Description">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputMaterialQuantity" class="col-lg-2 control-label">Material Quantity</label>
+                                    <div class="col-lg-10">
+                                        <input type="text" class="form-control" id="inputMaterialQuantity" onkeypress="return isNumber(event);">
+                                    </div>
+                                </div>
+                                <div class="form-group" style="padding-left:190px!important;">
+                                    <div class="col-lg-5">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" name="criticalflag" id="criticalflag" onchange=""> Material Critical Flag
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputMaterialQuantity" class="col-lg-2 control-label">Material Reorder Level</label>
+                                    <div class="col-lg-10">
+                                        <input type="text" class="form-control" id="inputMaterialReorderLevel" onkeypress="return isNumber(event);">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="select" class="col-lg-2 control-label">Material Storage</label>
+                                    <div class="col-lg-10">
+                                        <select class="form-control" id="selectstorage">
+                                            <option>Central Storage</option>
+                                            <option>Sub Storage</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-lg-10 col-lg-offset-2">
+                                        <button type="reset" class="btn btn-default">Clear</button>
+                                        <button type="button" class="btn btn-primary" onclick="CheckFormMaterials()">Add</button>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                    <div id="materials-update" style="display:none;">
+                        <ul class="breadcrumb">
+                            <li><a href="index.html">Dashboard</a></li>
+                            <li onclick="RefreshMaterials();"><a href="#">Materials</a></li>
+                            <li class="active">Update or Remove Materials</li>
                         </ul>
                         <form class="form-horizontal">
                             <fieldset>
