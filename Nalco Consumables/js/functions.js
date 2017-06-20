@@ -235,24 +235,33 @@ function CheckFormMaterialsUpdate() {
     };
 }
 function CheckFormMaterialsDelete() {
-    var authorizationBasic = window.btoa(username + ':' + password);
-    var request = new XMLHttpRequest();
-    request.open('DELETE', 'api/Materials/' + document.getElementById('inputMaterialCodeUpdate').value, true);
-    request.setRequestHeader('Content-Type', 'application/json');
-    request.setRequestHeader('Authorization', 'Basic ' + authorizationBasic);
-    request.setRequestHeader('Accept', 'application/json');
-    request.send();
-    request.onreadystatechange = function () {
-        if (request.readyState === 4 && JSON.parse(request.responseText).status === 'deleted') {
-            document.getElementById("materialerrorupdate").appendChild(CreateError('success', 'Successfully deleted Material.'));
+    smoke.confirm("Are you sure you want to delete?", function (e) {
+        if (e) {
+            var authorizationBasic = window.btoa(username + ':' + password);
+            var request = new XMLHttpRequest();
+            request.open('DELETE', 'api/Materials/' + document.getElementById('inputMaterialCodeUpdate').value, true);
+            request.setRequestHeader('Content-Type', 'application/json');
+            request.setRequestHeader('Authorization', 'Basic ' + authorizationBasic);
+            request.setRequestHeader('Accept', 'application/json');
+            request.send();
+            request.onreadystatechange = function () {
+                if (request.readyState === 4 && JSON.parse(request.responseText).status === 'deleted') {
+                    document.getElementById("materialerrorupdate").appendChild(CreateError('success', 'Successfully deleted Material.'));
+                }
+                else if (request.readyState === 4 && JSON.parse(request.responseText).status === 'not exists') {
+                    document.getElementById("materialerrorupdate").appendChild(CreateError('danger', 'Material does not exist.'));
+                }
+                else if (request.readyState === 4 && JSON.parse(request.responseText).status === 'error') {
+                    document.getElementById("materialerrorupdate").appendChild(CreateError('danger', JSON.parse(request.responseText).message));
+                }
+            };
         }
-        else if (request.readyState === 4 && JSON.parse(request.responseText).status === 'not exists') {
-            document.getElementById("materialerrorupdate").appendChild(CreateError('danger', 'Material does not exist.'));
-        }
-        else if (request.readyState === 4 && JSON.parse(request.responseText).status === 'error') {
-            document.getElementById("materialerrorupdate").appendChild(CreateError('danger', JSON.parse(request.responseText).message));
-        }
-    };
+    }, {
+            ok: "Yes",
+            cancel: "No",
+            classname: "custom-class",
+            reverseButtons: true
+        });
 }
 function CreateError(type, message) {
     var element = document.createElement("div");
