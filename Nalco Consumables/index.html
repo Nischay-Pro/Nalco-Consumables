@@ -11,6 +11,8 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/bootstrap-table.min.css" rel="stylesheet">
     <link href="css/smoke.css" rel="stylesheet">
+    <link href="css/fakeLoader.css" rel="stylesheet">
+
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="js/base64.min.js"></script>
@@ -19,7 +21,8 @@
     <![endif]-->
 </head>
 <body>
-    <div class="container">
+    <div id="Loader"></div>
+    <div class="container" id="mainpage" style="display:none">
         <section id="login" style="padding-top:100px">
             <h2>Nalco Consumables</h2>
             <div class="well bs-component">
@@ -294,6 +297,18 @@
         }
     </style>
     <script src="js/jquery.min.js"></script>
+    <script src="js/fakeLoader.min.js"></script>
+    <script type="text/javascript">
+                $("#Loader").fakeLoader();
+    </script>
+    <script type="text/javascript">
+                $("#Loader").fakeLoader({
+                    timeToHide: 4000,
+                    zIndex: "2000",
+                    spinner: "spinner6",
+                    bgColor: "#00bc8c"
+                });
+    </script>
     <script>
         $(function () {
             $('.trigger').click(function () {

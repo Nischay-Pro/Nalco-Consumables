@@ -10,8 +10,8 @@ namespace Nalco_Consumables.Security
             Identity = new GenericIdentity(userName);
         }
 
-        public string UserName { get; set; }
         public IIdentity Identity { get; set; }
+        public string UserName { get; set; }
 
         public bool IsInRole(string role)
         {

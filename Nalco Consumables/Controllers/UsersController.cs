@@ -7,6 +7,12 @@ namespace Nalco_Consumables.Controllers
     [Authorize]
     public class UsersController : ApiController
     {
+        // GET api/<controller>
+        public string Post()
+        {
+            return "Authentication Success";
+        }
+
         [NonAction]
         public IEnumerable<Dictionary<string, object>> Serialize(SqlDataReader reader)
         {
@@ -29,12 +35,6 @@ namespace Nalco_Consumables.Controllers
             foreach (var col in cols)
                 result.Add(col, reader[col]);
             return result;
-        }
-
-        // GET api/<controller>
-        public string Post()
-        {
-            return "Authentication Success";
         }
     }
 }

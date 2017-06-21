@@ -185,6 +185,7 @@
     <Content Include="css\bootstrap-theme.min.css" />
     <Content Include="css\bootstrap.css" />
     <Content Include="css\bootstrap.min.css" />
+    <Content Include="css\fakeLoader.css" />
     <Content Include="css\smoke.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -195,6 +196,7 @@
     <Content Include="js\bootstrap-table.min.js" />
     <Content Include="js\bootstrap.js" />
     <Content Include="js\bootstrap.min.js" />
+    <Content Include="js\fakeLoader.min.js" />
     <Content Include="js\functions.js" />
     <Content Include="js\html5shiv.min.js" />
     <Content Include="js\jquery.base64.js" />

@@ -10,27 +10,39 @@ namespace Nalco_Consumables.Controllers
     [Authorize]
     public class MaterialsController : ApiController
     {
-        [NonAction]
-        public IEnumerable<Dictionary<string, object>> Serialize(SqlDataReader reader)
+        // DELETE api/<controller>/5
+        public JObject Delete(int id)
         {
-            var results = new List<Dictionary<string, object>>();
-            var cols = new List<string>();
-            for (var i = 0; i < reader.FieldCount; i++)
-                cols.Add(reader.GetName(i));
-
-            while (reader.Read())
-                results.Add(SerializeRow(cols, reader));
-
-            return results;
-        }
-
-        [NonAction]
-        private Dictionary<string, object> SerializeRow(IEnumerable<string> cols, SqlDataReader reader)
-        {
-            var result = new Dictionary<string, object>();
-            foreach (var col in cols)
-                result.Add(col, reader[col]);
-            return result;
+            try
+            {
+                using (SqlConnection conn = new SqlConnection())
+                {
+                    conn.ConnectionString = "Data Source=DESKTOP-97AH258\\SQLEXPRESS;Initial Catalog=nalco_materials;Integrated Security=True";
+                    conn.Open();
+                    SqlCommand cmdCount = new SqlCommand("DELETE FROM nalco_materials.dbo.np_materials WHERE material_code = @materialcode", conn);
+                    cmdCount.Parameters.AddWithValue("@materialcode", id);
+                    int count = cmdCount.ExecuteNonQuery();
+                    if (count > 0)
+                    {
+                        JObject output = new JObject();
+                        output["status"] = "deleted";
+                        return output;
+                    }
+                    else
+                    {
+                        JObject output = new JObject();
+                        output["status"] = "not exists";
+                        return output;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                JObject output = new JObject();
+                output["status"] = "error";
+                output["message"] = ex.Message;
+                return output;
+            }
         }
 
         // GET api/<controller>
@@ -208,39 +220,27 @@ namespace Nalco_Consumables.Controllers
         {
         }
 
-        // DELETE api/<controller>/5
-        public JObject Delete(int id)
+        [NonAction]
+        public IEnumerable<Dictionary<string, object>> Serialize(SqlDataReader reader)
         {
-            try
-            {
-                using (SqlConnection conn = new SqlConnection())
-                {
-                    conn.ConnectionString = "Data Source=DESKTOP-97AH258\\SQLEXPRESS;Initial Catalog=nalco_materials;Integrated Security=True";
-                    conn.Open();
-                    SqlCommand cmdCount = new SqlCommand("DELETE FROM nalco_materials.dbo.np_materials WHERE material_code = @materialcode", conn);
-                    cmdCount.Parameters.AddWithValue("@materialcode", id);
-                    int count = cmdCount.ExecuteNonQuery();
-                    if (count > 0)
-                    {
-                        JObject output = new JObject();
-                        output["status"] = "deleted";
-                        return output;
-                    }
-                    else
-                    {
-                        JObject output = new JObject();
-                        output["status"] = "not exists";
-                        return output;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                JObject output = new JObject();
-                output["status"] = "error";
-                output["message"] = ex.Message;
-                return output;
-            }
+            var results = new List<Dictionary<string, object>>();
+            var cols = new List<string>();
+            for (var i = 0; i < reader.FieldCount; i++)
+                cols.Add(reader.GetName(i));
+
+            while (reader.Read())
+                results.Add(SerializeRow(cols, reader));
+
+            return results;
+        }
+
+        [NonAction]
+        private Dictionary<string, object> SerializeRow(IEnumerable<string> cols, SqlDataReader reader)
+        {
+            var result = new Dictionary<string, object>();
+            foreach (var col in cols)
+                result.Add(col, reader[col]);
+            return result;
         }
     }
 }

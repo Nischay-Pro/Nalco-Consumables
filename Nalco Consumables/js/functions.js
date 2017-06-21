@@ -1,5 +1,6 @@
 ﻿var username, password;
 if (getCookie('username') === "") {
+    document.getElementById("mainpage").style.display = "block";
 }
 else {
     username = getCookie('username');
@@ -103,6 +104,7 @@ function CheckUser(first) {
     request.send();
     request.onreadystatechange = function () {
         if (request.readyState === 4) {
+            document.getElementById("mainpage").style.display = "block";
             if (request.responseText === "\"Authentication Success\"") {
                 document.getElementById("dashboard").style.display = "block";
                 document.getElementById("login").style.display = "none";
@@ -113,6 +115,7 @@ function CheckUser(first) {
                 document.getElementById("username_holder").innerHTML = '<span class="glyphicon glyphicon-user"></span> ' + getCookie("username");
             }
             else {
+                document.getElementById("mainpage").style.display = "block";
                 document.getElementById("invalidcreds").appendChild(CreateError('danger', '<strong>Oh snap!</strong> Your Email or Password is incorrect.'));
             }
         }
