@@ -110,11 +110,10 @@ function CheckUser(first) {
                     setCookie("username", document.getElementById("username").value, 1);
                     setCookie("password", document.getElementById("password").value, 1);
                 }
-                document.getElementById("username_holder").innerText = getCookie("username");
-                document.getElementById("invalidcreds").style.display = "none";
+                document.getElementById("username_holder").innerHTML = '<span class="glyphicon glyphicon-user"></span> ' + getCookie("username");
             }
             else {
-                document.getElementById("invalidcreds").style.display = "block";
+                document.getElementById("invalidcreds").appendChild(CreateError('danger', '<strong>Oh snap!</strong> Your Email or Password is incorrect.'));
             }
         }
     };
@@ -129,7 +128,6 @@ function MaterialsList() {
     request.send();
     request.onreadystatechange = function () {
         if (request.readyState === 4 && JSON.parse(request.responseText).message != 'Authorization has been denied for this request.') {
-            console.log('te');
             var data = JSON.parse(request.responseText);
             $('#materialslist').bootstrapTable({
                 columns: [{
