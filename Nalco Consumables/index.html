@@ -12,7 +12,7 @@
     <link href="css/bootstrap-table.min.css" rel="stylesheet">
     <link href="css/smoke.css" rel="stylesheet">
     <link href="css/fakeLoader.css" rel="stylesheet">
-
+    <link href="css/tiles.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="js/base64.min.js"></script>
@@ -24,36 +24,49 @@
     <div id="Loader"></div>
     <div class="container" id="mainpage" style="display:none">
         <section id="login" style="padding-top:100px">
-            <h2>Nalco Consumables</h2>
-            <div class="well bs-component">
-                <div id="invalidcreds"></div>
-                <form class="form-horizontal">
-                    <fieldset>
-                        <legend>Login in</legend>
-                        <div class="form-group">
-                            <label for="inputEmail" class="col-lg-2 control-label">Email</label>
-                            <div class="col-lg-10">
-                                <input type="text" class="form-control" id="username" placeholder="Username">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputPassword" class="col-lg-2 control-label">Password</label>
-                            <div class="col-lg-10">
-                                <input type="password" class="form-control" id="password" placeholder="Password">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-lg-10 col-lg-offset-2">
-                                <button type="reset" class="btn btn-default">Cancel</button>
-                                <button type="button" onclick="ShowMain();" class="btn btn-primary">Login</button>
-                            </div>
-                        </div>
-                    </fieldset>
-                </form>
+            <div class="col-sm-6 col-md-4 col-md-offset-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <strong> Sign in to continue</strong>
+                    </div>
+                    <div class="well bs-component panel-body">
+                        <div id="invalidcreds"></div>
+                        <form>
+                            <fieldset>
+                                <div class="row">
+                                    <div class="col-sm-10 col-md-10  col-md-offset-1 ">
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                                    <i class="glyphicon glyphicon-user"></i>
+                                                </span>
+                                                <input class="form-control" placeholder="Username" name="username" id="username" type="text" autofocus>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                                    <i class="glyphicon glyphicon-lock"></i>
+                                                </span>
+                                                <input class="form-control" placeholder="Password" name="password" id="password" type="password" value="">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="button" onclick="ShowMain();" class="btn btn-primary btn-block" value="Sign in">
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                    <div class="panel-footer ">
+                        Nalco Consumables Control Dashboard
+                    </div>
+                </div>
             </div>
         </section>
     </div>
-    <div id="dashboard" style="display:none">
+    <div id="dashboard" style="display:none;">
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container-fluid">
                 <div class="navbar-header">
@@ -76,16 +89,31 @@
             </div>
         </nav>
         <div id="dashboard-nav" class="container-fluid" style="padding-top:100px">
-            <div class="row">
-                <div class="col-sm-8 col-sm-offset-20 col-md-30 col-md-offset-1 main">
-                    <h1 class="page-header">Dashboard</h1>
-                    <p>Available services and reports.</p>
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <a href="#" onclick="ShowMaterialsMain();" class="btn btn-default">Materials</a>
-                            <a href="#" onclick="" class="btn btn-primary">Issues</a>
-                            <a href="#" class="btn btn-success">PO Receipt</a>
-                            <a href="#" class="btn btn-info">Reports</a>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1><strong>Dashboard</strong></h1>
+                    </div>
+                </div>
+                <div class="row" onclick="ShowMaterialsMain();">
+                    <div class="col-sm-4">
+                        <div class="tile purple">
+                            <h3 class="title">Materials</h3>
+                            <p>View, Create and Update Materials.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="tile green">
+                            <h3 class="title">Green Tile</h3>
+                            <p>Hello Green, this is a colored tile.</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="tile blue">
+                            <h3 class="title">Blue Tile</h3>
+                            <p>Hello Blue, this is a colored tile.</p>
                         </div>
                     </div>
                 </div>
@@ -96,7 +124,7 @@
                 <div class="col-sm-10 col-md-offset-1 main">
                     <div id="materials-main" style="display:none;">
                         <ul class="breadcrumb">
-                            <li><a href="index.html">Dashboard</a></li>
+                            <li><a onclick="SwitchTo('dashboard-nav','materials-main');">Dashboard</a></li>
                             <li class="active">Materials</li>
                         </ul>
                         <div class="panel panel-default">
@@ -113,7 +141,7 @@
                     </div>
                     <div id="materials-create" style="display:none;">
                         <ul class="breadcrumb">
-                            <li><a href="index.html">Dashboard</a></li>
+                            <li><a onclick="SwitchTo('dashboard-nav','materials-create');">Dashboard</a></li>
                             <li onclick="SwitchTo('materials-main', 'materials-create');"><a href="#">Materials</a></li>
                             <li class="active">Create Materials</li>
                         </ul>
@@ -190,7 +218,7 @@
                     </div>
                     <div id="materials-update" style="display:none;">
                         <ul class="breadcrumb">
-                            <li><a href="index.html">Dashboard</a></li>
+                            <li><a onclick="SwitchTo('dashboard-nav','materials-update');">Dashboard</a></li>
                             <li onclick="SwitchTo('materials-main','materials-update');"><a href="#">Materials</a></li>
                             <li class="active">Update or Remove Materials</li>
                         </ul>
@@ -299,15 +327,15 @@
     <script src="js/jquery.min.js"></script>
     <script src="js/fakeLoader.min.js"></script>
     <script type="text/javascript">
-                $("#Loader").fakeLoader();
+        $("#Loader").fakeLoader();
     </script>
     <script type="text/javascript">
-                $("#Loader").fakeLoader({
-                    timeToHide: 4000,
-                    zIndex: "2000",
-                    spinner: "spinner6",
-                    bgColor: "#00bc8c"
-                });
+        $("#Loader").fakeLoader({
+            timeToHide: 5000,
+            zIndex: "2000",
+            spinner: "spinner6",
+            bgColor: "#00bc8c"
+        });
     </script>
     <script>
         $(function () {
