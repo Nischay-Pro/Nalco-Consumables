@@ -121,6 +121,34 @@ function CheckUser(first) {
         }
     };
 }
+function VendorList() {
+    var authorizationBasic = window.btoa(username + ':' + password);
+    var request = new XMLHttpRequest();
+    request.open('GET', 'api/Vendor', true);
+    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+    request.setRequestHeader('Authorization', 'Basic ' + authorizationBasic);
+    request.setRequestHeader('Accept', 'application/json');
+    request.send();
+    request.onreadystatechange = function () {
+        if (request.readyState === 4 && JSON.parse(request.responseText).message !== 'Authorization has been denied for this request.') {
+            var data = JSON.parse(request.responseText);
+            $('#povendorlist').bootstrapTable({
+                columns: [{
+                    field: 'vendor_code',
+                    title: 'Vendor Code'
+                }, {
+                    field: 'vendor_name',
+                    title: 'Vendor Name'
+                }, {
+                    field: 'vendor_contact',
+                    title: 'Vendor Contact Details'
+                }],
+                data: data['data']
+            });
+            $('#povendorlist').bootstrapTable("load", data['data']);
+        }
+    };
+}
 function MaterialsList() {
     var authorizationBasic = window.btoa(username + ':' + password);
     var request = new XMLHttpRequest();
@@ -198,6 +226,60 @@ function CheckFormMaterials() {
         }
         else if (request.readyState === 4 && JSON.parse(request.responseText).status === 'error') {
             document.getElementById("materialerror").appendChild(CreateError('danger', JSON.parse(request.responseText).message));
+        }
+    };
+}
+function CheckFormVendor() {
+    var data1 = { data: {} };
+    data1.data['createquery'] = true;
+    data1.data['vendorcode'] = document.getElementById('VendorCode').value;
+    data1.data['vendorname'] = document.getElementById('VendorName').value;
+    data1.data['vendorcontact'] = document.getElementById('VendorContact').value;
+    var authorizationBasic = window.btoa(username + ':' + password);
+    var request = new XMLHttpRequest();
+    request.open('POST', 'api/Vendor', true);
+    request.setRequestHeader('Content-Type', 'application/json');
+    request.setRequestHeader('Authorization', 'Basic ' + authorizationBasic);
+    request.setRequestHeader('Accept', 'application/json');
+    var datatobesent = JSON.stringify(data1);
+    request.send(datatobesent);
+    request.onreadystatechange = function () {
+        if (request.readyState === 4 && JSON.parse(request.responseText).status === 'created') {
+            document.getElementById("povendorerror").appendChild(CreateError('success', 'Successfully added Vendor.'));
+            VendorList();
+        }
+        else if (request.readyState === 4 && JSON.parse(request.responseText).status === 'exists') {
+            document.getElementById("povendorerror").appendChild(CreateError('danger', 'Vendor already exists.'));
+        }
+        else if (request.readyState === 4 && JSON.parse(request.responseText).status === 'error') {
+            document.getElementById("povendorerror").appendChild(CreateError('danger', JSON.parse(request.responseText).message));
+        }
+    };
+}
+function CheckFormVendorUpdate() {
+    var data1 = { data: {} };
+    data1.data['createquery'] = false;
+    data1.data['vendorcode'] = document.getElementById('VendorCodeUpdate').value;
+    data1.data['vendorname'] = document.getElementById('VendorNameUpdate').value;
+    data1.data['vendorcontact'] = document.getElementById('VendorContactUpdate').value;
+    var authorizationBasic = window.btoa(username + ':' + password);
+    var request = new XMLHttpRequest();
+    request.open('POST', 'api/Vendor', true);
+    request.setRequestHeader('Content-Type', 'application/json');
+    request.setRequestHeader('Authorization', 'Basic ' + authorizationBasic);
+    request.setRequestHeader('Accept', 'application/json');
+    var datatobesent = JSON.stringify(data1);
+    request.send(datatobesent);
+    request.onreadystatechange = function () {
+        if (request.readyState === 4 && JSON.parse(request.responseText).status === 'updated') {
+            document.getElementById("vendorerrorupdate").appendChild(CreateError('success', 'Successfully updated Vendor.'));
+            VendorList();
+        }
+        else if (request.readyState === 4 && JSON.parse(request.responseText).status === 'exists') {
+            document.getElementById("vendorerrorupdate").appendChild(CreateError('danger', 'Vendor does not exist.'));
+        }
+        else if (request.readyState === 4 && JSON.parse(request.responseText).status === 'error') {
+            document.getElementById("vendorerrorupdate").appendChild(CreateError('danger', JSON.parse(request.responseText).message));
         }
     };
 }
@@ -313,7 +395,31 @@ function LoadMaterialsUpdate() {
         }
     };
 }
+function LoadVendorUpdate() {
+    var authorizationBasic = window.btoa(username + ':' + password);
+    var request = new XMLHttpRequest();
+    request.open('GET', 'api/Vendor/' + document.getElementById('VendorCodeUpdate').value, true);
+    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+    request.setRequestHeader('Authorization', 'Basic ' + authorizationBasic);
+    request.setRequestHeader('Accept', 'application/json');
+    request.send();
+    request.onreadystatechange = function () {
+        if (request.readyState === 4 && JSON.parse(request.responseText).status === 'not exists') {
+            document.getElementById("vendorerrorupdate").appendChild(CreateError('danger', 'Vendor does not exist.'));
+        }
+        else if (request.readyState === 4 && JSON.parse(request.responseText).status === 'error') {
+            document.getElementById("vendorerrorupdate").appendChild(CreateError('danger', JSON.parse(JSON.parse(request.responseText)).message));
+        }
+        else if (request.readyState === 4) {
+            var data = JSON.parse(request.responseText);
+            document.getElementById('VendorNameUpdate').value = data.vendor_name;
+            document.getElementById('VendorContactUpdate').value = data.vendor_contact;
+            document.getElementById('UpdateFormVendor').style.display = "block";
+        }
+    };
+}
 
 function ShowPOMain() {
     SwitchTo('po-main', 'dashboard-nav');
+    VendorList();
 }
