@@ -135,39 +135,27 @@ namespace Nalco_Consumables.Controllers
             try
             {
                 JObject dataval = data["data"].ToObject<JObject>();
-                string materialcode, materialdescription, materialprinter, materialprinterdescription, materialprintercount, materialquantity, materialcriticalflag, materialreorderlevel, materialstorage;
+                string vendorcode, vendorname, vendorcontact;
                 bool createquery = (bool)dataval["createquery"]; ;
-                materialcode = (string)dataval["materialcode"];
-                materialdescription = (string)dataval["materialdescription"];
-                materialprinterdescription = (string)dataval["materialprinterdescription"];
-                materialprinter = (string)dataval["materialprinter"];
-                materialprintercount = (string)dataval["materialprintercount"];
-                materialquantity = (string)dataval["materialquantity"];
-                materialcriticalflag = (string)dataval["materialcriticalflag"];
-                materialreorderlevel = (string)dataval["materialreorderlevel"];
-                materialstorage = (string)dataval["materialstorage"];
+                vendorcode = (string)dataval["vendorcode"];
+                vendorname = (string)dataval["vendorname"];
+                vendorcontact = (string)dataval["vendorcontact"];
                 using (SqlConnection conn = new SqlConnection())
                 {
                     conn.ConnectionString = connection;
                     conn.Open();
-                    SqlCommand cmdCount = new SqlCommand("SELECT count(*) from np_vendor WHERE material_code = @materialcode", conn);
-                    cmdCount.Parameters.AddWithValue("@materialcode", materialcode);
+                    SqlCommand cmdCount = new SqlCommand("SELECT count(*) from np_vendor WHERE vendor_code = @vendorcode", conn);
+                    cmdCount.Parameters.AddWithValue("@vendorcode", vendorcode);
                     int count = (int)cmdCount.ExecuteScalar();
 
                     if (count > 0)
                     {
                         if (createquery == false)
                         {
-                            SqlCommand updCommand = new SqlCommand("UPDATE np_materials SET material_description = @materialdescription, material_printer_count = @materialprintercount,material_quantity = @materialquantity, material_printer = @materialprinter, material_critical_flag = @materialcriticalflag, material_reorder_level = @materialreorderlevel, material_storage = @materialstorage, material_printer_description = @materialprinterdescription WHERE material_code=@materialcode", conn);
-                            updCommand.Parameters.AddWithValue("@materialcode", materialcode);
-                            updCommand.Parameters.AddWithValue("@materialdescription", materialdescription);
-                            updCommand.Parameters.AddWithValue("@materialprinter", materialprinter);
-                            updCommand.Parameters.AddWithValue("@materialprinterdescription", materialprinterdescription);
-                            updCommand.Parameters.AddWithValue("@materialprintercount", materialprintercount);
-                            updCommand.Parameters.AddWithValue("@materialquantity", materialquantity);
-                            updCommand.Parameters.AddWithValue("@materialcriticalflag", materialcriticalflag);
-                            updCommand.Parameters.AddWithValue("@materialreorderlevel", materialreorderlevel);
-                            updCommand.Parameters.AddWithValue("@materialstorage", materialstorage);
+                            SqlCommand updCommand = new SqlCommand("UPDATE np_vendor SET vendor_name = @vendorname, vendor_contact = @vendorcontact WHERE vendor_code=@vendorcode", conn);
+                            updCommand.Parameters.AddWithValue("@vendorcode", vendorcode);
+                            updCommand.Parameters.AddWithValue("@vendorname", vendorname);
+                            updCommand.Parameters.AddWithValue("@vendorcontact", vendorcontact);
                             int rowsUpdated = updCommand.ExecuteNonQuery();
                             JObject output = new JObject();
                             output["status"] = "updated";
@@ -184,16 +172,10 @@ namespace Nalco_Consumables.Controllers
                     {
                         if (createquery == true)
                         {
-                            SqlCommand updCommand = new SqlCommand("INSERT INTO[dbo].[np_materials]([material_code], [material_description], [material_printer], [material_printer_description], [material_printer_count], [material_quantity], [material_critical_flag], [material_reorder_level], [material_storage]) VALUES(@materialcode, @materialdescription, @materialprinter, @materialprinterdescription, @materialprintercount, @materialquantity, @materialcriticalflag, @materialreorderlevel, @materialstorage)", conn);
-                            updCommand.Parameters.AddWithValue("@materialcode", materialcode);
-                            updCommand.Parameters.AddWithValue("@materialdescription", materialdescription);
-                            updCommand.Parameters.AddWithValue("@materialprinter", materialprinter);
-                            updCommand.Parameters.AddWithValue("@materialprinterdescription", materialprinterdescription);
-                            updCommand.Parameters.AddWithValue("@materialprintercount", materialprintercount);
-                            updCommand.Parameters.AddWithValue("@materialquantity", materialquantity);
-                            updCommand.Parameters.AddWithValue("@materialcriticalflag", materialcriticalflag);
-                            updCommand.Parameters.AddWithValue("@materialreorderlevel", materialreorderlevel);
-                            updCommand.Parameters.AddWithValue("@materialstorage", materialstorage);
+                            SqlCommand updCommand = new SqlCommand("INSERT INTO[dbo].[np_vendor]([vendor_code], [vendor_name], [vendor_contact]) VALUES(@vendorcode, @vendorname, @vendorcontact)", conn);
+                            updCommand.Parameters.AddWithValue("@vendorcode", vendorcode);
+                            updCommand.Parameters.AddWithValue("@vendorname", vendorname);
+                            updCommand.Parameters.AddWithValue("@vendorcontact", vendorcontact);
                             int rowsUpdated = updCommand.ExecuteNonQuery();
                             JObject output = new JObject();
                             output["status"] = "created";
