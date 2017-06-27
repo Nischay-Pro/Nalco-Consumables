@@ -44,35 +44,35 @@ strong {
     }
 
     .tile.purple {
-        background: #5133AB;
+        background: #176EFF;
     }
 
         .tile.purple:hover {
-            background: #3e2784;
+            background: #1665EC;
         }
 
     .tile.red {
-        background: #AC193D;
+        background: #1FB8BC;
     }
 
         .tile.red:hover {
-            background: #7f132d;
+            background: #157D7F;
         }
 
     .tile.green {
-        background: #00A600;
+        background: #00BC8C;
     }
 
         .tile.green:hover {
-            background: #007300;
+            background: #007F5F;
         }
 
     .tile.blue {
-        background: #2672EC;
+        background: #19A3FF;
     }
 
         .tile.blue:hover {
-            background: #125acd;
+            background: #1797EC;
         }
 
     .tile.orange {

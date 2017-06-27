@@ -7,7 +7,7 @@ else {
     password = getCookie('password');
     CheckUser(false);
 }
-if (typeof Array.prototype.forEach != 'function') {
+if (typeof Array.prototype.forEach !== 'function') {
     Array.prototype.forEach = function (callback) {
         for (var i = 0; i < this.length; i++) {
             callback.apply(this, [this[i], i, this]);
@@ -87,8 +87,8 @@ function getCookie(cname) {
     return "";
 }
 function isNumber(evt) {
-    evt = (evt) ? evt : window.event;
-    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    evt = evt ? evt : window.event;
+    var charCode = evt.which ? evt.which : evt.keyCode;
     if ((charCode > 31 && charCode < 48) || charCode > 57) {
         return false;
     }
@@ -108,7 +108,7 @@ function CheckUser(first) {
             if (request.responseText === "\"Authentication Success\"") {
                 document.getElementById("dashboard").style.display = "block";
                 document.getElementById("login").style.display = "none";
-                if (first == true) {
+                if (first === true) {
                     setCookie("username", document.getElementById("username").value, 1);
                     setCookie("password", document.getElementById("password").value, 1);
                 }
@@ -130,7 +130,7 @@ function MaterialsList() {
     request.setRequestHeader('Accept', 'application/json');
     request.send();
     request.onreadystatechange = function () {
-        if (request.readyState === 4 && JSON.parse(request.responseText).message != 'Authorization has been denied for this request.') {
+        if (request.readyState === 4 && JSON.parse(request.responseText).message !== 'Authorization has been denied for this request.') {
             var data = JSON.parse(request.responseText);
             $('#materialslist').bootstrapTable({
                 columns: [{
@@ -165,7 +165,7 @@ function MaterialsList() {
             });
             $('#materialslist').bootstrapTable("load", data['data']);
         }
-    }
+    };
 }
 function CheckFormMaterials() {
     var data1 = { data: {} };
@@ -311,5 +311,9 @@ function LoadMaterialsUpdate() {
                 }
             }
         }
-    }
+    };
+}
+
+function ShowPOMain() {
+    SwitchTo('po-main', 'dashboard-nav');
 }
