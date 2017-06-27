@@ -8,6 +8,7 @@
 
 # Build results
 
+
 [Dd]ebug/
 [Rr]elease/
 x64/
@@ -21,7 +22,7 @@ build/
 # MSTest test Results
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
-
+[Ww]eb.config
 *_i.c
 *_p.c
 *.ilk
