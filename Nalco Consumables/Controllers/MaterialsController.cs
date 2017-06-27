@@ -10,6 +10,8 @@ namespace Nalco_Consumables.Controllers
     [Authorize]
     public class MaterialsController : ApiController
     {
+        public string connection = System.Configuration.ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString;
+
         // DELETE api/<controller>/5
         public JObject Delete(int id)
         {
@@ -17,7 +19,7 @@ namespace Nalco_Consumables.Controllers
             {
                 using (SqlConnection conn = new SqlConnection())
                 {
-                    conn.ConnectionString = "Data Source=DESKTOP-97AH258\\SQLEXPRESS;Initial Catalog=nalco_materials;Integrated Security=True";
+                    conn.ConnectionString = connection;
                     conn.Open();
                     SqlCommand cmdCount = new SqlCommand("DELETE FROM nalco_materials.dbo.np_materials WHERE material_code = @materialcode", conn);
                     cmdCount.Parameters.AddWithValue("@materialcode", id);
@@ -52,7 +54,7 @@ namespace Nalco_Consumables.Controllers
             {
                 using (SqlConnection conn = new SqlConnection())
                 {
-                    conn.ConnectionString = "Data Source=DESKTOP-97AH258\\SQLEXPRESS;Initial Catalog=nalco_materials;Integrated Security=True";
+                    conn.ConnectionString = connection;
                     conn.Open();
                     SqlCommand command = new SqlCommand("SELECT * FROM dbo.np_materials", conn);
                     using (SqlDataReader reader = command.ExecuteReader())
@@ -96,7 +98,7 @@ namespace Nalco_Consumables.Controllers
             {
                 using (SqlConnection conn = new SqlConnection())
                 {
-                    conn.ConnectionString = "Data Source=DESKTOP-97AH258\\SQLEXPRESS;Initial Catalog=nalco_materials;Integrated Security=True";
+                    conn.ConnectionString = connection;
                     conn.Open();
                     SqlCommand command = new SqlCommand("SELECT * FROM dbo.np_materials WHERE material_code=" + id, conn);
                     using (SqlDataReader reader = command.ExecuteReader())
@@ -146,7 +148,7 @@ namespace Nalco_Consumables.Controllers
                 materialstorage = (string)dataval["materialstorage"];
                 using (SqlConnection conn = new SqlConnection())
                 {
-                    conn.ConnectionString = "Data Source=DESKTOP-97AH258\\SQLEXPRESS;Initial Catalog=nalco_materials;Integrated Security=True";
+                    conn.ConnectionString = connection;
                     conn.Open();
                     SqlCommand cmdCount = new SqlCommand("SELECT count(*) from np_materials WHERE material_code = @materialcode", conn);
                     cmdCount.Parameters.AddWithValue("@materialcode", materialcode);
