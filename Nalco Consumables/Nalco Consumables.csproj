@@ -181,6 +181,8 @@
     <Compile Include="Security\AuthHandler.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="css\bootstrap-datepicker3.min.css" />
+    <Content Include="css\bootstrap-datepicker3.standalone.min.css" />
     <Content Include="css\bootstrap-table.min.css" />
     <Content Include="css\bootstrap-theme.css" />
     <Content Include="css\bootstrap-theme.min.css" />
@@ -194,10 +196,13 @@
     <Content Include="Global.asax" />
     <Content Include="index.html" />
     <Content Include="js\base64.min.js" />
+    <Content Include="js\bootstrap-datepicker.js" />
+    <Content Include="js\bootstrap-datepicker.min.js" />
     <Content Include="js\bootstrap-table-export.js" />
     <Content Include="js\bootstrap-table.min.js" />
     <Content Include="js\bootstrap.js" />
     <Content Include="js\bootstrap.min.js" />
+    <Content Include="js\clone-form-td.js" />
     <Content Include="js\fakeLoader.min.js" />
     <Content Include="js\functions.js" />
     <Content Include="js\html5shiv.min.js" />
@@ -207,6 +212,7 @@
     <Content Include="js\respond.min.js" />
     <Content Include="js\smoke.min.js" />
     <Content Include="js\tableExport.js" />
+    <Content Include="locales\bootstrap-datepicker.en-GB.min.js" />
     <Content Include="test.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

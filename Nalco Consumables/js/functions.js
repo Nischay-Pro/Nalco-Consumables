@@ -39,17 +39,6 @@ function SwitchTo(a, b) {
     document.getElementById(a).style.display = "block";
     document.getElementById(b).style.display = "none";
 }
-function MaterialPrinterCheck() {
-}
-function checkAddress(printer) {
-    //if (printer.checked === true) {
-    //    document.getElementById('printer-description').style.display = "block";
-    //}
-    //else {
-    //    document.getElementById('printer-description').style.display = "none";
-    //    document.getElementById('inputPrinterDescription').value = "";
-    //}
-}
 
 function deleteAllCookies() {
     var cookies = document.cookie.split(";");
@@ -289,7 +278,10 @@ function CheckFormMaterialsUpdate() {
     data1.data['materialcode'] = document.getElementById('inputMaterialCodeUpdate').value;
     data1.data['materialdescription'] = document.getElementById('inputMaterialDescriptionUpdate').value;
     data1.data['materialprinter'] = document.getElementById('printerupdate').checked;
-    data1.data['materialprinterdescription'] = document.getElementById('inputPrinterDescriptionUpdate').value;
+    if (document.getElementById('inputPrinterDescriptionUpdate').value!== null) {
+        data1.data['materialprinterdescription'] = document.getElementById('inputPrinterDescriptionUpdate').value;
+        document.getElementById('printer').checked=true;
+    }
     data1.data['materialprintercount'] = 12;
     data1.data['materialquantity'] = document.getElementById('inputMaterialQuantityUpdate').value;
     data1.data['materialcriticalflag'] = document.getElementById('criticalflagupdate').checked;
