@@ -199,6 +199,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\POMinController.cs" />
     <Compile Include="Controllers\POController.cs" />
     <Compile Include="Controllers\VendorController.cs" />
     <Compile Include="Controllers\MaterialsController.cs" />
