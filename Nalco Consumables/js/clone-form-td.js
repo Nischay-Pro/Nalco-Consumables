@@ -78,6 +78,7 @@ $(function () {
         $('#btnDel').attr('disabled', false);
         var objd = document.getElementsByClassName('mes');
         objd[entryid - 1].id = 'test' + entryid;
+        document.getElementsByClassName('mes1')[entryid - 1].innerHTML = 'Material #' + entryid;
         // Right now you can only add 4 sections, for a total of 5. Change '5' below to the max number of sections you want to allow.
         if (newNum === 50)
             $('#btnAdd').attr('disabled', true).prop('value', "You've reached the limit"); // value here updates the text in the 'add' button when the limit is reached
