@@ -415,9 +415,6 @@ function ShowIssuesMain() {
     document.getElementById('issues-main').style.display = "block";
 }
 
-
-
-
 function ShowPOMain() {
     SwitchTo('po-main', 'dashboard-nav');
     VendorList();
@@ -426,7 +423,7 @@ function ShowPOMain() {
 function CheckPOReceiptMain() {
     var data1 = { data: {} };
     data1.data['createquery'] = true;
-    data1.data['materialcode'] = document.getElementById('inputMaterialCode').value;
+    data1.data['ponumber'] = document.getElementById('inputMaterialCode').value;
     data1.data['materialdescription'] = document.getElementById('inputMaterialDescription').value;
     data1.data['materialprinter'] = document.getElementById('printer').checked;
     data1.data['materialprinterdescription'] = document.getElementById('inputPrinterDescription').value;
