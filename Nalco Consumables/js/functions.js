@@ -415,3 +415,38 @@ function ShowPOMain() {
     SwitchTo('po-main', 'dashboard-nav');
     VendorList();
 }
+
+function CheckPOReceiptMain() {
+    var data1 = { data: {} };
+    data1.data['createquery'] = true;
+    data1.data['materialcode'] = document.getElementById('inputMaterialCode').value;
+    data1.data['materialdescription'] = document.getElementById('inputMaterialDescription').value;
+    data1.data['materialprinter'] = document.getElementById('printer').checked;
+    data1.data['materialprinterdescription'] = document.getElementById('inputPrinterDescription').value;
+    data1.data['materialprintercount'] = 12;
+    data1.data['materialquantity'] = document.getElementById('inputMaterialQuantity').value;
+    data1.data['materialcriticalflag'] = document.getElementById('criticalflag').checked;
+    data1.data['materialreorderlevel'] = document.getElementById('inputMaterialReorderLevel').value;
+    var e = document.getElementById('selectstorage');
+    data1.data['materialstorage'] = e.options[e.selectedIndex].text;
+    var authorizationBasic = window.btoa(username + ':' + password);
+    var request = new XMLHttpRequest();
+    request.open('POST', 'api/Materials', true);
+    request.setRequestHeader('Content-Type', 'application/json');
+    request.setRequestHeader('Authorization', 'Basic ' + authorizationBasic);
+    request.setRequestHeader('Accept', 'application/json');
+    var datatobesent = JSON.stringify(data1);
+    request.send(datatobesent);
+    request.onreadystatechange = function () {
+        if (request.readyState === 4 && JSON.parse(request.responseText).status === 'created') {
+            document.getElementById("materialerror").appendChild(CreateError('success', 'Successfully added Material.'));
+            MaterialsList();
+        }
+        else if (request.readyState === 4 && JSON.parse(request.responseText).status === 'exists') {
+            document.getElementById("materialerror").appendChild(CreateError('danger', 'Material already exists.'));
+        }
+        else if (request.readyState === 4 && JSON.parse(request.responseText).status === 'error') {
+            document.getElementById("materialerror").appendChild(CreateError('danger', JSON.parse(request.responseText).message));
+        }
+    };
+}
