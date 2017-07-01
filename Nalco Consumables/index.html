@@ -24,7 +24,7 @@
 <body>
     <div id="Loader"></div>
     <div class="container" id="mainpage" style="display:none">
-        <section id="login" style="padding-top:100px">
+        <div id="login" style="padding-top:100px">
             <div class="col-sm-6 col-md-4 col-md-offset-4">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -65,7 +65,7 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
     </div>
     <div id="dashboard" style="display:none;">
         <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -154,9 +154,9 @@
                         </ul>
                         <form class="form-horizontal">
                             <fieldset>
+                                <legend>Add New Material</legend>
                                 <div id="materialerror">
                                 </div>
-                                <legend>Add New Material</legend>
                                 <div class="form-group">
                                     <label for="inputMaterialCode" class="col-lg-2 control-label">Material Code</label>
                                     <div class="col-lg-10">
@@ -527,8 +527,7 @@
             </div>
         </div>
     </div>
-
-    <section id="logout" style="display:none">
+    <div id="logout" style="display:none">
         <div id="dashboard-nav" class="container-fluid" style="padding-top:100px">
             <div class="row">
                 <div class="col-sm-8 col-sm-offset-20 col-md-30 col-md-offset-1 main">
@@ -536,8 +535,8 @@
                 </div>
             </div>
         </div>
-    </section>
-    <section id="footer" style="display:none">
+    </div>
+    <div id="footer" style="display:none">
         <footer>
             <div class="row">
                 <div class="col-lg-12">
@@ -547,7 +546,7 @@
                 </div>
             </div>
         </footer>
-    </section>
+    </div>
     <script src="js/getElementExtendor.js"></script>
     <style type="text/css">
         .hidden {
