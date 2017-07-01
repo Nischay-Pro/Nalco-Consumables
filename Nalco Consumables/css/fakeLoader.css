@@ -8,7 +8,6 @@
   position: relative;
 }
 
-
 .double-bounce1, .double-bounce2 {
   width: 100%;
   height: 100%;
@@ -18,7 +17,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  
+
   -webkit-animation: bounce 2.0s infinite ease-in-out;
   animation: bounce 2.0s infinite ease-in-out;
 }
@@ -34,10 +33,10 @@
 }
 
 @keyframes bounce {
-  0%, 100% { 
+  0%, 100% {
     transform: scale(0.0);
     -webkit-transform: scale(0.0);
-  } 50% { 
+  } 50% {
     transform: scale(1.0);
     -webkit-transform: scale(1.0);
   }
@@ -48,7 +47,6 @@
   height: 40px;
   position: relative;
 }
-
 
 .container1 > div, .container2 > div, .container3 > div {
   width: 6px;
@@ -146,10 +144,10 @@
 }
 
 @keyframes bouncedelay {
-  0%, 80%, 100% { 
+  0%, 80%, 100% {
     transform: scale(0.0);
     -webkit-transform: scale(0.0);
-  } 40% { 
+  } 40% {
     transform: scale(1.0);
     -webkit-transform: scale(1.0);
   }
@@ -158,7 +156,7 @@
 .spinner3 {
   width: 40px;
   height: 40px;
-  position: relative;  
+  position: relative;
   -webkit-animation: rotate 2.0s infinite linear;
   animation: rotate 2.0s infinite linear;
 }
@@ -171,7 +169,7 @@
   top: 0;
   background-color: #fff;
   border-radius: 100%;
-  
+
   -webkit-animation: bounce 2.0s infinite ease-in-out;
   animation: bounce 2.0s infinite ease-in-out;
 }
@@ -192,10 +190,10 @@
 }
 
 @keyframes bounce {
-  0%, 100% { 
+  0%, 100% {
     transform: scale(0.0);
     -webkit-transform: scale(0.0);
-  } 50% { 
+  } 50% {
     transform: scale(1.0);
     -webkit-transform: scale(1.0);
   }
@@ -216,13 +214,13 @@
 }
 
 @keyframes rotateplane {
-  0% { 
+  0% {
     transform: perspective(120px) rotateX(0deg) rotateY(0deg);
-    -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg) 
-  } 50% { 
+    -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg)
+  } 50% {
     transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
-    -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg) 
-  } 100% { 
+    -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg)
+  } 100% {
     transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
     -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
   }
@@ -241,7 +239,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  
+
   -webkit-animation: cubemove 1.8s infinite ease-in-out;
   animation: cubemove 1.8s infinite ease-in-out;
 }
@@ -259,19 +257,19 @@
 }
 
 @keyframes cubemove {
-  25% { 
+  25% {
     transform: translateX(42px) rotate(-90deg) scale(0.5);
     -webkit-transform: translateX(42px) rotate(-90deg) scale(0.5);
-  } 50% { 
+  } 50% {
     transform: translateX(42px) translateY(42px) rotate(-179deg);
     -webkit-transform: translateX(42px) translateY(42px) rotate(-179deg);
-  } 50.1% { 
+  } 50.1% {
     transform: translateX(42px) translateY(42px) rotate(-180deg);
     -webkit-transform: translateX(42px) translateY(42px) rotate(-180deg);
-  } 75% { 
+  } 75% {
     transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5);
     -webkit-transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5);
-  } 100% { 
+  } 100% {
     transform: rotate(-360deg);
     -webkit-transform: rotate(-360deg);
   }
@@ -289,7 +287,7 @@
   width: 6px;
   margin-left:2px;
   display: inline-block;
-  
+
   -webkit-animation: stretchdelay 1.2s infinite ease-in-out;
   animation: stretchdelay 1.2s infinite ease-in-out;
 }
@@ -315,15 +313,15 @@
 }
 
 @-webkit-keyframes stretchdelay {
-  0%, 40%, 100% { -webkit-transform: scaleY(0.4) }  
+  0%, 40%, 100% { -webkit-transform: scaleY(0.4) }
   20% { -webkit-transform: scaleY(1.0) }
 }
 
 @keyframes stretchdelay {
-  0%, 40%, 100% { 
+  0%, 40%, 100% {
     transform: scaleY(0.4);
     -webkit-transform: scaleY(0.4);
-  }  20% { 
+  }  20% {
     transform: scaleY(1.0);
     -webkit-transform: scaleY(1.0);
   }
@@ -341,7 +339,7 @@
       margin-left:3px;
       border-radius: 50%;
       display: inline-block;
-      
+
       -webkit-animation: stretchdelay 0.7s infinite ease-in-out;
       animation: stretchdelay 0.7s infinite ease-in-out;
     }
@@ -367,12 +365,12 @@
     }
 
     @-webkit-keyframes stretchdelay {
-      0%, 40%, 100% { -webkit-transform: translateY(-10px) }  
+      0%, 40%, 100% { -webkit-transform: translateY(-10px) }
       20% { -webkit-transform: translateY(-20px) }
     }
 
     @keyframes stretchdelay {
-      0%, 40%, 100% { 
+      0%, 40%, 100% {
         transform: translateY(-10px);
         -webkit-transform: translateY(-10px);
       } 20% {

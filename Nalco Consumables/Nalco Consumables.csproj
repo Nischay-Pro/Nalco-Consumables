@@ -235,6 +235,7 @@
     <Content Include="js\clone-form-td.js" />
     <Content Include="js\fakeLoader.min.js" />
     <Content Include="js\functions.js" />
+    <Content Include="js\getElementExtendor.js" />
     <Content Include="js\html5shiv.min.js" />
     <Content Include="js\jquery.base64.js" />
     <Content Include="js\jquery.min.js" />

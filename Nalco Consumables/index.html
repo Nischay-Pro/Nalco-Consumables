@@ -336,85 +336,82 @@
                                 <div id="poerror">
                                 </div>
                                 <legend>Add New PO Receipt</legend>
-                                <div id="entry1" class="clonedInput">
-                                    <div class="form-group">
-                                        <label for="PONumber" class="col-lg-2 control-label">PO Number</label>
-                                        <div class="col-lg-10">
-                                            <input type="text" class="form-control" id="PONumber" placeholder="PO Number" onkeypress="return isNumber(event);">
-                                        </div>
+                                <div class="form-group">
+                                    <label for="PONumber" class="col-lg-2 control-label">PO Number</label>
+                                    <div class="col-lg-10">
+                                        <input type="text" class="form-control" id="PONumber" placeholder="PO Number" onkeypress="return isNumber(event);">
                                     </div>
-                                    <div class="form-group">
-                                        <label for="inputMaterialDescription" class="col-lg-2 control-label">Material Description</label>
-                                        <div class="col-lg-10">
-                                            <input type="text" class="form-control" id="inputMaterialDescription" placeholder="Material Description">
-                                        </div>
-                                    </div>
-                                    <div class="form-group trigger" style="padding-left:190px!important;">
-                                        <div class="col-lg-5 trigger">
-                                            <div class="checkbox trigger">
-                                                <label class="trigger">
-                                                    <input class="trigger" type="checkbox" name="printer" id="printer"> Material Type Printer
-                                                </label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputMaterialQuantity" class="col-lg-2 control-label">PO Receipt Date</label>
+                                    <div class="col-lg-10">
+                                        <div class="input-group date" data-provide="datepicker" id="podatepicker" data-date-format="mm-dd-yyyy" data-date-clearBtn>
+                                            <input type="text" class="form-control">
+                                            <div class="input-group-addon">
+                                                <span class="glyphicon glyphicon-th"></span>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group hidden" id="printer-description">
-                                        <label for="inputPrinterDescription" class="col-lg-2 control-label">Printer Description</label>
-                                        <div class="col-lg-10">
-                                            <input type="text" class="form-control" id="inputPrinterDescription" placeholder="Printer Description">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputMaterialQuantity" class="col-lg-2 control-label">Material Quantity</label>
-                                        <div class="col-lg-10">
-                                            <input type="text" class="form-control" id="inputMaterialQuantity" onkeypress="return isNumber(event);">
-                                        </div>
-                                    </div>
-                                    <div class="form-group" style="padding-left:190px!important;">
-                                        <div class="col-lg-5">
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" name="criticalflag" id="criticalflag" onchange=""> Material Critical Flag
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputMaterialQuantity" class="col-lg-2 control-label">Material Reorder Level</label>
-                                        <div class="col-lg-10">
-                                            <input type="text" class="form-control" id="inputMaterialReorderLevel" onkeypress="return isNumber(event);">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="select" class="col-lg-2 control-label">Material Storage</label>
-                                        <div class="col-lg-10">
-                                            <select class="form-control" id="selectstorage">
-                                                <option>Central Storage</option>
-                                                <option>Sub Storage</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputMaterialQuantity" class="col-lg-2 control-label">PO Receipt Date</label>
-                                        <div class="col-lg-10">
-                                            <div class="input-group date" data-provide="datepicker" id="podatepicker" data-date-format="mm-dd-yyyy" data-date-clearBtn>
-                                                <input type="text" class="form-control">
-                                                <div class="input-group-addon">
-                                                    <span class="glyphicon glyphicon-th"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-lg-10 col-lg-offset-2">
-                                            <button type="reset" class="btn btn-default">Clear</button>
-                                            <button type="button" class="btn btn-primary" onclick="CheckFormMaterials()">Add</button>
-                                            <button type="button" id="btnAdd" name="btnAdd" class="btn btn-info">add section</button>
-                                            <button type="button" id="btnDel" name="btnDel" class="btn btn-danger">remove section above</button>
                                         </div>
                                     </div>
                                 </div>
-</fieldset>
+                                <div class="form-group">
+                                    <label for="PONumber" class="col-lg-2 control-label">PO Inspection Report Number</label>
+                                    <div class="col-lg-10">
+                                        <input type="text" class="form-control" id="POReportNumber" placeholder="PO Inspection Report Number">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="POVendor" class="col-lg-2 control-label">PO Vendor Number</label>
+                                    <div class="col-lg-10">
+                                        <input type="text" class="form-control" id="POVendor" placeholder="PO Vendor Number" onkeypress="return isNumber(event);">
+                                    </div>
+                                </div>
+                                <div id="entry1" class="clonedInput panel panel-default">
+                                    <div class="panel-heading">
+                                        <strong>Add a Material</strong>
+                                    </div>
+                                    <div class="well bs-component panel-body">
+                                        <div class="form-group">
+                                            <label for="MaterialCodePO" class="col-lg-2 control-label">Material Code</label>
+                                            <div class="col-lg-10">
+                                                <input type="text" class="form-control" id="MaterialCodePO" placeholder="Material Code">
+                                            </div>
+                                            <div id="test1" class="mes col-lg-2 control-label" style="display:none;">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="MaterialUnitPO" class="col-lg-2 control-label">Material Unit</label>
+                                            <div class="col-lg-10">
+                                                <input type="text" class="form-control" id="MaterialUnitPO" placeholder="Material Unit">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="MaterialQuantityPO" class="col-lg-2 control-label">Material Quantity</label>
+                                            <div class="col-lg-10">
+                                                <input type="text" class="form-control" id="MaterialQuantityPO" placeholder="Material Quantity" onkeypress="return isNumber(event);">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="MaterialUnitRatePO" class="col-lg-2 control-label">Material Unit Rate</label>
+                                            <div class="col-lg-10">
+                                                <input type="text" class="form-control" id="MaterialUnitRatePO" placeholder="Material Unit Rate" onkeypress="return isNumber(event);">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="MaterialPRPO" class="col-lg-2 control-label">Material PR Reference</label>
+                                            <div class="col-lg-10">
+                                                <input type="text" class="form-control" id="MaterialPRPO" placeholder="Material PR Reference" onkeypress="return isNumber(event);">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-lg-10 col-lg-offset-2">
+                                        <button type="button" id="btnAdd" name="btnAdd" class="btn btn-info">Add a New Material</button>
+                                        <button type="button" id="btnDel" name="btnDel" class="btn btn-danger">Remove Material above</button>
+                                        <button type="button" class="btn btn-primary" onclick="CheckFormMaterials()">Add PO Receipt to Database</button>
+                                    </div>
+                                </div>
+                            </fieldset>
                         </form>
                     </div>
                     <div id="po-vendor" style="display:none;">
@@ -539,6 +536,7 @@
             </div>
         </footer>
     </section>
+    <script src="js/getElementExtendor.js"></script>
     <style type="text/css">
         .hidden {
             visibility: hidden;

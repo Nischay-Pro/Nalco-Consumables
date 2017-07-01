@@ -278,9 +278,9 @@ function CheckFormMaterialsUpdate() {
     data1.data['materialcode'] = document.getElementById('inputMaterialCodeUpdate').value;
     data1.data['materialdescription'] = document.getElementById('inputMaterialDescriptionUpdate').value;
     data1.data['materialprinter'] = document.getElementById('printerupdate').checked;
-    if (document.getElementById('inputPrinterDescriptionUpdate').value!== null) {
+    if (document.getElementById('inputPrinterDescriptionUpdate').value !== null) {
         data1.data['materialprinterdescription'] = document.getElementById('inputPrinterDescriptionUpdate').value;
-        document.getElementById('printer').checked=true;
+        document.getElementById('printer').checked = true;
     }
     data1.data['materialprintercount'] = 12;
     data1.data['materialquantity'] = document.getElementById('inputMaterialQuantityUpdate').value;
