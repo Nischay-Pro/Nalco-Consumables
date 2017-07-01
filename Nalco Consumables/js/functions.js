@@ -420,6 +420,9 @@ function ShowPOMain() {
     VendorList();
 }
 
+function ShowReportsMain() {
+    SwitchTo('reports-main', 'dashboard-nav');
+}
 function CheckPOReceiptMain() {
     var data1 = { data: {} };
     data1.data['createquery'] = true;
