@@ -410,6 +410,13 @@ function LoadVendorUpdate() {
         }
     };
 }
+function ShowIssuesMain() {
+    document.getElementById('dashboard-nav').style.display = "none";
+    document.getElementById('issues-main').style.display = "block";
+}
+
+
+
 
 function ShowPOMain() {
     SwitchTo('po-main', 'dashboard-nav');
