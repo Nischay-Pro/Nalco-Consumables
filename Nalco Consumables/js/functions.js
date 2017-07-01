@@ -423,34 +423,56 @@ function ShowPOMain() {
 function CheckPOReceiptMain() {
     var data1 = { data: {} };
     data1.data['createquery'] = true;
-    data1.data['ponumber'] = document.getElementById('inputMaterialCode').value;
-    data1.data['materialdescription'] = document.getElementById('inputMaterialDescription').value;
-    data1.data['materialprinter'] = document.getElementById('printer').checked;
-    data1.data['materialprinterdescription'] = document.getElementById('inputPrinterDescription').value;
-    data1.data['materialprintercount'] = 12;
-    data1.data['materialquantity'] = document.getElementById('inputMaterialQuantity').value;
-    data1.data['materialcriticalflag'] = document.getElementById('criticalflag').checked;
-    data1.data['materialreorderlevel'] = document.getElementById('inputMaterialReorderLevel').value;
-    var e = document.getElementById('selectstorage');
-    data1.data['materialstorage'] = e.options[e.selectedIndex].text;
+    data1.data['ponumber'] = document.getElementById('PONumber').value;
+    data1.data['podate'] = document.getElementById('datePO').value;
+    data1.data['poinspectionnumber'] = document.getElementById('POReportNumber').checked;
+    data1.data['povendorcode'] = document.getElementById('POVendor').value;
+    data1.data['poapprovedby'] = getCookie('username');
+    data1.data['pomaterials'] = QuerifyPOReceipts();
     var authorizationBasic = window.btoa(username + ':' + password);
     var request = new XMLHttpRequest();
-    request.open('POST', 'api/Materials', true);
+    request.open('POST', 'api/PO', true);
     request.setRequestHeader('Content-Type', 'application/json');
     request.setRequestHeader('Authorization', 'Basic ' + authorizationBasic);
     request.setRequestHeader('Accept', 'application/json');
     var datatobesent = JSON.stringify(data1);
     request.send(datatobesent);
+    //console.log(datatobesent);
     request.onreadystatechange = function () {
         if (request.readyState === 4 && JSON.parse(request.responseText).status === 'created') {
-            document.getElementById("materialerror").appendChild(CreateError('success', 'Successfully added Material.'));
-            MaterialsList();
+            document.getElementById("poerror").appendChild(CreateError('success', 'Successfully added PO Receipt.'));
         }
         else if (request.readyState === 4 && JSON.parse(request.responseText).status === 'exists') {
-            document.getElementById("materialerror").appendChild(CreateError('danger', 'Material already exists.'));
+            document.getElementById("poerror").appendChild(CreateError('danger', 'PO Receipt already exists.'));
+        }
+        else if (request.readyState === 4 && JSON.parse(request.responseText).status === 'cannot be updated') {
+            document.getElementById("poerror").appendChild(CreateError('danger', 'You cannot update PO Receipts.'));
         }
         else if (request.readyState === 4 && JSON.parse(request.responseText).status === 'error') {
-            document.getElementById("materialerror").appendChild(CreateError('danger', JSON.parse(request.responseText).message));
+            document.getElementById("poerror").appendChild(CreateError('danger', JSON.parse(request.responseText).message));
+        }
+    };
+}
+
+function QuerifyPOReceipts() {
+    var arrayobj = [];
+    var objects = document.getElementsByClassName('clonedInput');
+    var i = 0;
+    Array.prototype.forEach.call(objects, function (element) {
+        arrayobj[i] = {};
+        var objectsra = element.getElementsByClassName('form-control');
+        Array.prototype.forEach.call(objectsra, function (element2) {
+            arrayobj[i][element2.id] = element2.value;
+        });
+        i = i + 1;
+    });
+    return arrayobj;
+}
+
+if (typeof Array.prototype.forEach != 'function') {
+    Array.prototype.forEach = function (callback) {
+        for (var i = 0; i < this.length; i++) {
+            callback.apply(this, [this[i], i, this]);
         }
     };
 }

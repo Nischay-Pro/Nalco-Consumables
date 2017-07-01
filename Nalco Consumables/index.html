@@ -355,17 +355,6 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputMaterialQuantity" class="col-lg-2 control-label">PO Receipt Date</label>
-                                    <div class="col-lg-10">
-                                        <div class="input-group date" data-provide="datepicker" id="podatepicker" data-date-format="mm-dd-yyyy" data-date-clearbtn>
-                                            <input type="text" class="form-control">
-                                            <div class="input-group-addon">
-                                                <span class="glyphicon glyphicon-th"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
                                     <label for="PONumber" class="col-lg-2 control-label">PO Inspection Report Number</label>
                                     <div class="col-lg-10">
                                         <input type="text" class="form-control" id="POReportNumber" placeholder="PO Inspection Report Number">
@@ -375,6 +364,17 @@
                                     <label for="POVendor" class="col-lg-2 control-label">PO Vendor Number</label>
                                     <div class="col-lg-10">
                                         <input type="text" class="form-control" id="POVendor" placeholder="PO Vendor Number" onkeypress="return isNumber(event);">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputMaterialQuantity" class="col-lg-2 control-label">PO Receipt Date</label>
+                                    <div class="col-lg-10">
+                                        <div class="input-group date" data-provide="datepicker" id="podatepicker" data-date-format="mm-dd-yyyy" data-date-clearbtn>
+                                            <input type="text" class="form-control" id="datePO">
+                                            <div class="input-group-addon">
+                                                <span class="glyphicon glyphicon-th"></span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div id="entry1" class="clonedInput panel panel-default">
@@ -420,7 +420,7 @@
                                     <div class="col-lg-10 col-lg-offset-2">
                                         <button type="button" id="btnAdd" name="btnAdd" class="btn btn-info">Add a New Material</button>
                                         <button type="button" id="btnDel" name="btnDel" class="btn btn-danger">Remove Material above</button>
-                                        <button type="button" class="btn btn-primary" onclick="CheckFormMaterials()">Add PO Receipt to Database</button>
+                                        <button type="button" class="btn btn-primary" onclick="CheckPOReceiptMain()">Add PO Receipt to Database</button>
                                     </div>
                                 </div>
                             </fieldset>
