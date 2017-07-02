@@ -138,6 +138,46 @@ function VendorList() {
         }
     };
 }
+function POList() {
+    var authorizationBasic = window.btoa(username + ':' + password);
+    var request = new XMLHttpRequest();
+    request.open('GET', 'api/POMin', true);
+    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+    request.setRequestHeader('Authorization', 'Basic ' + authorizationBasic);
+    request.setRequestHeader('Accept', 'application/json');
+    request.send();
+    request.onreadystatechange = function () {
+        if (request.readyState === 4 && JSON.parse(request.responseText).message !== 'Authorization has been denied for this request.') {
+            var data = JSON.parse(request.responseText);
+            $('#polist').bootstrapTable({
+                columns: [{
+                    field: 'po_number',
+                    title: 'PO Number'
+                }, {
+                    field: 'po_vendor_code',
+                    title: 'PO Vendor Code'
+                }, {
+                    field: 'po_inspection_report_no',
+                    title: 'PO Inspection Report Number'
+                }, {
+                    field: 'po_inspection_report_no',
+                    title: 'PO Inspection Report Number'
+                }, {
+                    field: 'po_material_count',
+                    title: 'PO Material Count'
+                }, {
+                    field: 'po_approved_by',
+                    title: 'PO Approved By'
+                }, {
+                    field: 'po_approved_by',
+                    title: 'PO Approved By'
+                }],
+                data: data['data']
+            });
+            $('#polist').bootstrapTable("load", data['data']);
+        }
+    };
+}
 function MaterialsList() {
     var authorizationBasic = window.btoa(username + ':' + password);
     var request = new XMLHttpRequest();
@@ -417,6 +457,7 @@ function ShowIssuesMain() {
 
 function ShowPOMain() {
     SwitchTo('po-main', 'dashboard-nav');
+    POList();
     VendorList();
 }
 
@@ -428,7 +469,7 @@ function CheckPOReceiptMain() {
     data1.data['createquery'] = true;
     data1.data['ponumber'] = document.getElementById('PONumber').value;
     data1.data['podate'] = document.getElementById('datePO').value;
-    data1.data['poinspectionnumber'] = document.getElementById('POReportNumber').checked;
+    data1.data['poinspectionnumber'] = document.getElementById('POReportNumber').value;
     data1.data['povendorcode'] = document.getElementById('POVendor').value;
     data1.data['poapprovedby'] = getCookie('username');
     data1.data['pomaterials'] = QuerifyPOReceipts();

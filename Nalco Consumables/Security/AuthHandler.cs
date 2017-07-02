@@ -13,6 +13,7 @@ using System.Web;
 public class AuthHandler : DelegatingHandler
 {
     private string _userName = "";
+    private bool AdminRole;
 
     public IEnumerable<Dictionary<string, object>> Serialize(SqlDataReader reader)
     {
@@ -33,8 +34,16 @@ public class AuthHandler : DelegatingHandler
         //set CurrentPrincipal and Current.User
         if (ValidateCredentials(request.Headers.Authorization))
         {
-            Thread.CurrentPrincipal = new APIPrincipal(_userName);
-            HttpContext.Current.User = new APIPrincipal(_userName);
+            if (AdminRole)
+            {
+                Thread.CurrentPrincipal = new APIPrincipalAdmin(_userName);
+                HttpContext.Current.User = new APIPrincipalAdmin(_userName);
+            }
+            else
+            {
+                Thread.CurrentPrincipal = new APIPrincipalUser(_userName);
+                HttpContext.Current.User = new APIPrincipalUser(_userName);
+            }
         }
         //Execute base.SendAsync to execute default
         //actions and once it is completed,
@@ -60,6 +69,27 @@ public class AuthHandler : DelegatingHandler
             conn.ConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString;
             conn.Open();
             SqlCommand command = new SqlCommand("SELECT * FROM dbo.np_users WHERE pers_no=" + username + " AND pers_passwd='" + password + "'", conn);
+            using (SqlDataReader reader = command.ExecuteReader())
+            {
+                if (reader.HasRows)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+    }
+
+    private bool IsAdmin(string username, string password)
+    {
+        using (SqlConnection conn = new SqlConnection())
+        {
+            conn.ConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString;
+            conn.Open();
+            SqlCommand command = new SqlCommand("SELECT * FROM dbo.np_users WHERE pers_no=" + username + " AND pers_passwd='" + password + "' AND access_flg='1'", conn);
             using (SqlDataReader reader = command.ExecuteReader())
             {
                 if (reader.HasRows)
@@ -106,6 +136,7 @@ public class AuthHandler : DelegatingHandler
                 if (CheckUserInDatabase(username, password))
                 {
                     _userName = username;
+                    AdminRole = IsAdmin(username, password);
                     return true;//request authenticated.
                 }
             }

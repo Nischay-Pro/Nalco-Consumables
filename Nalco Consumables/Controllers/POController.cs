@@ -7,7 +7,7 @@ using System.Web.Http;
 
 namespace Nalco_Consumables.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Administrator")]
     public class POController : ApiController
     {
         public string connection = System.Configuration.ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString;
