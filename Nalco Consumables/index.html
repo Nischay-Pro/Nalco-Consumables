@@ -667,9 +667,24 @@
 
     <div id="logout" style="display:none">
         <div id="dashboard-nav" class="container-fluid" style="padding-top:100px">
-            <div class="row">
-                <div class="col-sm-8 col-sm-offset-20 col-md-30 col-md-offset-1 main">
-                    <p class="text-success">You have successfully logged out.</p>
+
+            <div class=" text-center" style="border:1px solid white;margin:10px 400px 10px 400px;">
+
+                <div style="padding:10px;">
+                    <h2>Logged Out</h2>
+                    <p style="color:aqua">You have successfully logged out.</p>
+                    <div class="glyphicon glyphicon-log-out ">Done</div><br />
+                </div>
+                <div class="row">
+                    <div class="col-lg-3"></div>
+                    <div class="col-lg-6">
+                        <div class="well">
+                            <p>Didn't mean to logout?</p>
+                            
+                            <div><button onclick="SwitchTo('login', 'logout');" class="btn btn-primary">Login again?</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3"></div>
                 </div>
             </div>
         </div>

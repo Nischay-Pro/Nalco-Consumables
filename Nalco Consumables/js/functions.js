@@ -55,6 +55,7 @@ function LogOut() {
     document.getElementById("dashboard").style.display = "none";
     document.getElementById("logout").style.display = "block";
 }
+
 function setCookie(cname, cvalue, exdays) {
     var d = new Date();
     d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
@@ -373,11 +374,11 @@ function CheckFormMaterialsDelete() {
             };
         }
     }, {
-            ok: "Yes",
-            cancel: "No",
-            classname: "custom-class",
-            reverseButtons: true
-        });
+        ok: "Yes",
+        cancel: "No",
+        classname: "custom-class",
+        reverseButtons: true
+    });
 }
 function CreateError(type, message) {
     var element = document.createElement("div");
