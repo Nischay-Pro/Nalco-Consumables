@@ -97,31 +97,40 @@
                     </div>
                 </div>
                 <div class="row">
+
                     <div class="col-sm-4" onclick="ShowMaterialsMain();">
-                        <div class="tile purple">
-                            <h3 class="title">Materials</h3>
-                            <p>View, Create and Update Materials</p>
-                        </div>
+                        <a href="#">
+                            <div class="tile purple">
+                                <h3 class="title">Materials</h3>
+                                <p>View, Create and Update Materials</p>
+                            </div>
+                        </a>
                     </div>
                     <div class="col-sm-4" onclick="ShowIssuesMain();">
-                        <div class="tile blue">
-                            <h3 class="title">Issues</h3>
-                            <p>View, Create and Approve Issues</p>
-                        </div>
+                        <a href="#">
+                            <div class="tile blue">
+                                <h3 class="title">Issues</h3>
+                                <p>View, Create and Approve Issues</p>
+                            </div>
+                        </a>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-4" onclick="ShowPOMain();">
-                        <div class="tile red">
-                            <h3 class="title">PO Receipts</h3>
-                            <p>Add and Verify PO Receipts</p>
-                        </div>
+                        <a href="#">
+                            <div class="tile red">
+                                <h3 class="title">PO Receipts</h3>
+                                <p>Add and Verify PO Receipts</p>
+                            </div>
+                        </a>
                     </div>
                     <div class="col-sm-4" onclick="ShowReportsMain();">
-                        <div class=" tile green">
-                            <h3 class="title">Reports</h3>
-                            <p>View, Create and Export Reports</p>
-                        </div>
+                        <a href="#">
+                            <div class=" tile green">
+                                <h3 class="title">Reports</h3>
+                                <p>View, Create and Export Reports</p>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -131,7 +140,7 @@
                 <div class="col-sm-10 col-md-offset-1 main">
                     <div id="materials-main" style="display:none;">
                         <ul class="breadcrumb">
-                            <li><a onclick="SwitchTo('dashboard-nav','materials-main');">Dashboard</a></li>
+                            <li><a href="#" onclick="SwitchTo('dashboard-nav','materials-main');">Dashboard</a></li>
                             <li class="active">Materials</li>
                         </ul>
                         <div class="panel panel-default">
@@ -148,7 +157,7 @@
                     </div>
                     <div id="materials-create" style="display:none;">
                         <ul class="breadcrumb">
-                            <li><a onclick="SwitchTo('dashboard-nav','materials-create');">Dashboard</a></li>
+                            <li><a href="#" onclick="SwitchTo('dashboard-nav','materials-create');">Dashboard</a></li>
                             <li onclick="SwitchTo('materials-main', 'materials-create');"><a href="#">Materials</a></li>
                             <li class="active">Create Materials</li>
                         </ul>
@@ -225,7 +234,7 @@
                     </div>
                     <div id="materials-update" style="display:none;">
                         <ul class="breadcrumb">
-                            <li><a onclick="SwitchTo('dashboard-nav','materials-update');">Dashboard</a></li>
+                            <li><a href="#" onclick="SwitchTo('dashboard-nav','materials-update');">Dashboard</a></li>
                             <li onclick="SwitchTo('materials-main','materials-update');"><a href="#">Materials</a></li>
                             <li class="active">Update or Remove Materials</li>
                         </ul>
@@ -310,7 +319,7 @@
                 <div class="col-sm-10 col-md-offset-1 main">
                     <div id="issues-main" style="display:none;">
                         <ul class="breadcrumb">
-                            <li><a onclick="SwitchTo('dashboard-nav','issues-main');">Dashboard</a></li>
+                            <li><a href="#" onclick="SwitchTo('dashboard-nav','issues-main');">Dashboard</a></li>
                             <li class="active">Issues</li>
                         </ul>
                         <div class="panel panel-default">
@@ -332,7 +341,7 @@
                     </div>
                     <div id="issues-create" style="display:none;">
                         <ul class="breadcrumb">
-                            <li><a onclick="SwitchTo('dashboard-nav','issues-create');">Dashboard</a></li>
+                            <li><a href="#" onclick="SwitchTo('dashboard-nav','issues-create');">Dashboard</a></li>
                             <li onclick="SwitchTo('issues-main', 'issues-create');"><a href="#">Issues</a></li>
                             <li class="active">Create an Issue</li>
                         </ul>
@@ -400,7 +409,7 @@
                     </div>
                     <div id="issues-approve" style="display:none;">
                         <ul class="breadcrumb">
-                            <li><a onclick="SwitchTo('dashboard-nav','issues-approve');">Dashboard</a></li>
+                            <li><a href="#" onclick="SwitchTo('dashboard-nav','issues-approve');">Dashboard</a></li>
                             <li><a onclick="SwitchTo('issues-main','issues-approve');">Issues</a></li>
                             <li class="active">Approve Issues</li>
                         </ul>
@@ -431,7 +440,7 @@
                 <div class="col-sm-10 col-md-offset-1 main">
                     <div id="po-main" style="display:none;">
                         <ul class="breadcrumb">
-                            <li><a onclick="SwitchTo('dashboard-nav','po-main');">Dashboard</a></li>
+                            <li><a href="#" onclick="SwitchTo('dashboard-nav','po-main');">Dashboard</a></li>
                             <li class="active">PO Receipts</li>
                         </ul>
                         <div class="panel panel-default">
@@ -448,7 +457,7 @@
                     </div>
                     <div id="po-create" style="display:none;">
                         <ul class="breadcrumb">
-                            <li><a onclick="SwitchTo('dashboard-nav','po-create');">Dashboard</a></li>
+                            <li><a href="#" onclick="SwitchTo('dashboard-nav','po-create');">Dashboard</a></li>
                             <li onclick="SwitchTo('po-main', 'po-create');"><a href="#">PO Receipt</a></li>
                             <li class="active">Add PO Receipt</li>
                         </ul>
@@ -537,7 +546,7 @@
                     </div>
                     <div id="po-vendor" style="display:none;">
                         <ul class="breadcrumb">
-                            <li><a onclick="SwitchTo('dashboard-nav','po-vendor');">Dashboard</a></li>
+                            <li><a href="#" onclick="SwitchTo('dashboard-nav','po-vendor');">Dashboard</a></li>
                             <li><a onclick="SwitchTo('po-main','po-vendor');">PO Receipts</a></li>
                             <li class="active">Vendor</li>
                         </ul>
@@ -555,7 +564,7 @@
                     </div>
                     <div id="po-vendor-create" style="display:none;">
                         <ul class="breadcrumb">
-                            <li><a onclick="SwitchTo('dashboard-nav','po-vendor-create');">Dashboard</a></li>
+                            <li><a href="#" onclick="SwitchTo('dashboard-nav','po-vendor-create');">Dashboard</a></li>
                             <li><a onclick="SwitchTo('po-main','po-vendor-create');">PO Receipts</a></li>
                             <li><a onclick="SwitchTo('po-vendor','po-vendor-create');">Vendor</a></li>
                             <li class="active">Add New Vendor</li>
@@ -641,7 +650,7 @@
             <div class="col-sm-10 col-md-offset-1 main">
                 <div id="reports-main" style="display:none;">
                     <ul class="breadcrumb">
-                        <li><a onclick="SwitchTo('dashboard-nav','reports-main');">Dashboard</a></li>
+                        <li><a href="#" onclick="SwitchTo('dashboard-nav','reports-main');">Dashboard</a></li>
                         <li class="active">Reports</li>
                     </ul>
                     <div class="panel panel-default">
@@ -665,11 +674,26 @@
         </div>
     </div>
 
-    <div id="logout" style="display:none">
+    <div id="logout" style="display:none" class="container-fluid">
         <div id="dashboard-nav" class="container-fluid" style="padding-top:100px">
-            <div class="row">
-                <div class="col-sm-8 col-sm-offset-20 col-md-30 col-md-offset-1 main">
-                    <p class="text-success">You have successfully logged out.</p>
+
+            <div class=" text-center" style="border:1px solid white;">
+
+                <div style="padding:10px;">
+                    <h2>Logged Out</h2>
+                    <p style="color:aqua">You have successfully logged out.</p>
+                    <div class="glyphicon glyphicon-log-out ">Done</div><br />
+                </div>
+                <div class="row">
+                    <div class="col-lg-3"></div>
+                    <div class="col-lg-6">
+                        <div class="well">
+                            <p>Didn't mean to logout?</p>
+
+                            <div><button onclick="SwitchTo('login', 'logout');" class="btn btn-primary">Login again?</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3"></div>
                 </div>
             </div>
         </div>
