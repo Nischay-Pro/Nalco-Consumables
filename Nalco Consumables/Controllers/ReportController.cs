@@ -1,12 +1,16 @@
 ﻿using ClosedXML.Excel;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text.RegularExpressions;
 using System.Web.Http;
 
 namespace Nalco_Consumables.Controllers
@@ -16,22 +20,62 @@ namespace Nalco_Consumables.Controllers
         public string connection = System.Configuration.ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString;
 
         [NonAction]
-        public object GenerateReport(DataTable data, string name, string sheetname)
+        public object GenerateReport(DataTable data, string name, string sheetname, bool poreceipt)
         {
-            using (XLWorkbook wb = new XLWorkbook())
+            if (poreceipt)
             {
-                wb.Worksheets.Add(data, sheetname);
-                var stream = new MemoryStream();
-                wb.SaveAs(stream);
-                var result = new HttpResponseMessage(HttpStatusCode.OK)
+                int i = 0;
+                for (i = 0; i < data.Columns.Count; i++)
                 {
-                    Content = new ByteArrayContent(stream.ToArray())
-                };
-                result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+                    if (data.Columns[i].ToString() == "po_materials")
+                    {
+                        break;
+                    }
+                }
+                string s = null;
+                for (int j = 0; i < data.Rows.Count; i++)
                 {
-                    FileName = name
-                };
-                return result;
+                    s = s + "Row Number : " + i + "Row Value : " + data.Rows[j][i].ToString() + System.Environment.NewLine;
+                }
+                string f = RemoveWhitespace(data.Rows[3][i].ToString());
+
+                f = JsonConvert.SerializeObject(f);
+                f = Regex.Unescape(f);
+                JProperty g = JProperty.Parse(f);
+                return g;
+                //using (XLWorkbook wb = new XLWorkbook())
+                //{
+                //    wb.Worksheets.Add(data, sheetname);
+                //    var stream = new MemoryStream();
+                //    wb.SaveAs(stream);
+                //    var result = new HttpResponseMessage(HttpStatusCode.OK)
+                //    {
+                //        Content = new ByteArrayContent(stream.ToArray())
+                //    };
+                //    result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+                //    {
+                //        FileName = name
+                //    };
+                //    return result;
+                //}
+            }
+            else
+            {
+                using (XLWorkbook wb = new XLWorkbook())
+                {
+                    wb.Worksheets.Add(data, sheetname);
+                    var stream = new MemoryStream();
+                    wb.SaveAs(stream);
+                    var result = new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new ByteArrayContent(stream.ToArray())
+                    };
+                    result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+                    {
+                        FileName = name
+                    };
+                    return result;
+                }
             }
         }
 
@@ -39,7 +83,7 @@ namespace Nalco_Consumables.Controllers
         {
             //try
             //{
-            return Querify("SELECT * FROM dbo.np_vendor", "Vendor.xlsx", "Vendors");
+            return Querify("SELECT * FROM dbo.np_po", "Vendor.txt", "Vendors", true);
 
             //}
             //catch (Exception ex)
@@ -52,7 +96,7 @@ namespace Nalco_Consumables.Controllers
         }
 
         [NonAction]
-        public object Querify(string sqlquery, string filename, string sheetname)
+        public object Querify(string sqlquery, string filename, string sheetname, bool materials)
         {
             using (SqlConnection conn = new SqlConnection())
             {
@@ -67,11 +111,19 @@ namespace Nalco_Consumables.Controllers
                         using (DataTable dt = new DataTable())
                         {
                             sda.Fill(dt);
-                            return GenerateReport(dt, filename, sheetname);
+                            return GenerateReport(dt, filename, sheetname, materials);
                         }
                     }
                 }
             }
+        }
+
+        [NonAction]
+        public string RemoveWhitespace(string input)
+        {
+            return new string(input.ToCharArray()
+                .Where(c => !Char.IsWhiteSpace(c))
+                .ToArray());
         }
 
         [NonAction]
