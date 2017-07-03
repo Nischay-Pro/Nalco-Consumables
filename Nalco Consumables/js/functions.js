@@ -374,11 +374,11 @@ function CheckFormMaterialsDelete() {
             };
         }
     }, {
-        ok: "Yes",
-        cancel: "No",
-        classname: "custom-class",
-        reverseButtons: true
-    });
+            ok: "Yes",
+            cancel: "No",
+            classname: "custom-class",
+            reverseButtons: true
+        });
 }
 function CreateError(type, message) {
     var element = document.createElement("div");
@@ -514,7 +514,7 @@ function QuerifyPOReceipts() {
     return arrayobj;
 }
 
-if (typeof Array.prototype.forEach != 'function') {
+if (typeof Array.prototype.forEach !== 'function') {
     Array.prototype.forEach = function (callback) {
         for (var i = 0; i < this.length; i++) {
             callback.apply(this, [this[i], i, this]);
