@@ -41,7 +41,7 @@ namespace Nalco_Consumables.Controllers
 
                 f = JsonConvert.SerializeObject(f);
                 f = Regex.Unescape(f);
-                JProperty g = JProperty.Parse(f);
+                //JProperty g = JProperty.Parse(f);
                 return g;
                 //using (XLWorkbook wb = new XLWorkbook())
                 //{
