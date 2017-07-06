@@ -14,6 +14,41 @@ if (typeof Array.prototype.forEach !== 'function') {
         }
     };
 }
+
+function KeyPress(event) {
+    if (event.which == 13 || event.keyCode == 13) {
+        ShowMain();
+    }
+}
+
+function IssuesCreate(event) {
+    if (event.which == 13 || event.keyCode == 13) {
+        CheckFormIssues();
+    }
+}
+
+function IssuesApprove(event) {
+    if (event.which == 13 || event.keyCode == 13) {
+        CheckFormIssuesApprove();
+    }
+}
+
+function Add(event) {
+    isNumber(event);
+    if (event.which == 13 || event.keyCode == 13) {
+        CheckFormMaterials();
+    }
+    return isNumber(event);
+}
+
+function Update(event) {
+    isNumber(event);
+    if (event.which == 13 || event.keyCode == 13) {
+        CheckFormMaterialsUpdate();
+    }
+    return isNumber(event);
+}
+
 function ShowMain() {
     username = document.getElementById("username").value;
     password = document.getElementById("password").value;
@@ -374,11 +409,11 @@ function CheckFormMaterialsDelete() {
             };
         }
     }, {
-            ok: "Yes",
-            cancel: "No",
-            classname: "custom-class",
-            reverseButtons: true
-        });
+        ok: "Yes",
+        cancel: "No",
+        classname: "custom-class",
+        reverseButtons: true
+    });
 }
 function CreateError(type, message) {
     var element = document.createElement("div");
