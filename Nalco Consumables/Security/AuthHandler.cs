@@ -89,7 +89,7 @@ public class AuthHandler : DelegatingHandler
         {
             conn.ConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString;
             conn.Open();
-            SqlCommand command = new SqlCommand("SELECT * FROM dbo.np_users WHERE pers_no=" + username + " AND pers_passwd='" + password + "' AND access_flg='1'", conn);
+            SqlCommand command = new SqlCommand("SELECT * FROM dbo.np_users WHERE pers_no=" + username + " AND pers_passwd='" + password + "' AND access_flg='Y'", conn);
             using (SqlDataReader reader = command.ExecuteReader())
             {
                 if (reader.HasRows)

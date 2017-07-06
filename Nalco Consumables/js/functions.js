@@ -138,6 +138,8 @@ function CheckUser(first) {
                     setCookie("password", document.getElementById("password").value, 1);
                 }
                 document.getElementById("username_holder").innerHTML = '<span class="glyphicon glyphicon-user"></span> ' + getCookie("username");
+                GetUserName();
+
             }
             else {
                 document.getElementById("mainpage").style.display = "block";
@@ -145,6 +147,25 @@ function CheckUser(first) {
             }
         }
     };
+}
+function GetUserName() {
+    var authorizationBasic = window.btoa(username + ':' + password);
+    var request = new XMLHttpRequest();
+    request.open('GET', 'api/Employ/' + Number(username).pad(5), true);
+    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+    request.setRequestHeader('Authorization', 'Basic ' + authorizationBasic);
+    request.setRequestHeader('Accept', 'application/json');
+    request.send();
+    request.onreadystatechange = function () {
+        if (request.readyState === 4) {
+            if (JSON.parse(request.responseText).Message === "Authorization has been denied for this request.") {
+            }
+            else {
+                document.getElementById("username_holder").innerHTML = '<span class="glyphicon glyphicon-user"></span> ' + Number(getCookie("username")).pad(5) + ' - ' + toTitleCase(JSON.parse(request.responseText).data[0].employ_name);
+
+            }
+        }
+    }
 }
 function VendorList() {
     var authorizationBasic = window.btoa(username + ':' + password);
@@ -555,4 +576,12 @@ if (typeof Array.prototype.forEach !== 'function') {
             callback.apply(this, [this[i], i, this]);
         }
     };
+}
+function toTitleCase(str) {
+    return str.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
+}
+Number.prototype.pad = function (size) {
+    var s = String(this);
+    while (s.length < (size || 2)) { s = "0" + s; }
+    return s;
 }
