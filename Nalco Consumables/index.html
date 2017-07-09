@@ -553,8 +553,8 @@
                                             <label for="MaterialCodePO" class="col-lg-2 control-label">Material Code</label>
                                             <div class="col-lg-10">
                                                 <div class="mes2">
-                                                    <select id="MaterialCodePO" class="js-data-example-ajax-1">
-                                                        <option disabled selected>Please enter 1 or more characters</option>
+                                                    <select id="MaterialCodePO" class="js-data-example-ajax-1 form-control">
+                                                        <option disabled selected>Type the Material Code</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -584,11 +584,6 @@
                                 </div>
                             </fieldset>
                         </form>
-                        <div class="mes2">
-                            <select id="MaterialCodePO" class="js-data-example-ajax-1">
-                                <option disabled selected>Please enter 1 or more characters</option>
-                            </select>
-                        </div>
                     </div>
                     <div id="po-vendor" style="display:none;">
                         <ul class="breadcrumb">
@@ -878,7 +873,6 @@
         }
 
         function formatRepoSelection(repo) {
-            console.log(repo);
             return repo.full_name || repo.text || repo.material_code + ' - ' + repo.material_description;
         }
     </script>

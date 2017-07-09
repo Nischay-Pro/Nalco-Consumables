@@ -229,9 +229,6 @@ function POList() {
                 }, {
                     field: 'po_approved_by',
                     title: 'PO Approved By'
-                }, {
-                    field: 'po_approved_by',
-                    title: 'PO Approved By'
                 }],
                 data: data['data']
             });
@@ -532,7 +529,7 @@ function CheckPOReceiptMain() {
     data1.data['podate'] = document.getElementById('datePO').value;
     data1.data['poinspectionnumber'] = document.getElementById('POReportNumber').value;
     data1.data['povendorcode'] = document.getElementById('POVendor').value;
-    data1.data['poapprovedby'] = getCookie('username');
+    data1.data['poapprovedby'] = Number(username).pad(5);
     data1.data['pomaterials'] = QuerifyPOReceipts();
     var authorizationBasic = window.btoa(username + ':' + password);
     var request = new XMLHttpRequest();
@@ -546,6 +543,7 @@ function CheckPOReceiptMain() {
     request.onreadystatechange = function () {
         if (request.readyState === 4 && JSON.parse(request.responseText).status === 'created') {
             document.getElementById("poerror").appendChild(CreateError('success', 'Successfully added PO Receipt.'));
+            POList();
         }
         else if (request.readyState === 4 && JSON.parse(request.responseText).status === 'exists') {
             document.getElementById("poerror").appendChild(CreateError('danger', 'PO Receipt already exists.'));

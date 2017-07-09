@@ -132,56 +132,58 @@ namespace Nalco_Consumables.Controllers
         // POST api/<controller>
         public JObject Post([FromBody] JObject data)
         {
-            try
+            //try
+            //{
+            JObject dataval = data["data"].ToObject<JObject>();
+            string ponumber, podate, poinspectionnumber, poapprovedby, povendorcode;
+            DateTime poapproveddatetime = DateTime.Now;
+            int pomaterialcount;
+            bool createquery = (bool)dataval["createquery"];
+            bool poapproved = true;
+            JArray pomaterialsa = dataval["pomaterials"].ToObject<JArray>();
+            string pomaterials = pomaterialsa.ToString();
+            ponumber = (string)dataval["ponumber"];
+            podate = (string)dataval["podate"];
+            poinspectionnumber = (string)dataval["poinspectionnumber"];
+            JArray items = (JArray)dataval["pomaterials"];
+            pomaterialcount = items.Count;
+            poapprovedby = (string)dataval["poapprovedby"];
+            povendorcode = (string)dataval["povendorcode"];
+            using (SqlConnection conn = new SqlConnection())
             {
-                JObject dataval = data["data"].ToObject<JObject>();
-                string ponumber, podate, poinspectionnumber, poapprovedby, povendorcode;
-                DateTime poapproveddatetime = DateTime.Now;
-                int pomaterialcount;
-                bool createquery = (bool)dataval["createquery"];
-                bool poapproved = true;
-                JArray pomaterialsa = dataval["pomaterials"].ToObject<JArray>();
-                string pomaterials = pomaterialsa.ToString();
-                ponumber = (string)dataval["ponumber"];
-                podate = (string)dataval["podate"];
-                poinspectionnumber = (string)dataval["poinspectionnumber"];
-                JArray items = (JArray)dataval["pomaterials"];
-                pomaterialcount = items.Count;
-                poapprovedby = (string)dataval["poapprovedby"];
-                povendorcode = (string)dataval["povendorcode"];
-                using (SqlConnection conn = new SqlConnection())
-                {
-                    conn.ConnectionString = connection;
-                    conn.Open();
-                    SqlCommand cmdCount = new SqlCommand("SELECT count(*) from np_po WHERE po_number = @ponumber", conn);
-                    cmdCount.Parameters.AddWithValue("@ponumber", ponumber);
-                    int count = (int)cmdCount.ExecuteScalar();
+                conn.ConnectionString = connection;
+                conn.Open();
+                SqlCommand cmdCount = new SqlCommand("SELECT count(*) from np_po WHERE po_number = @ponumber", conn);
+                cmdCount.Parameters.AddWithValue("@ponumber", ponumber);
+                int count = (int)cmdCount.ExecuteScalar();
 
-                    if (count > 0)
+                if (count > 0)
+                {
+                    if (createquery == false)
                     {
-                        if (createquery == false)
-                        {
-                            //SqlCommand updCommand = new SqlCommand("UPDATE np_po SET vendor_name = @vendorname, vendor_contact = @vendorcontact WHERE vendor_code=@vendorcode", conn);
-                            //updCommand.Parameters.AddWithValue("@vendorcode", vendorcode);
-                            //updCommand.Parameters.AddWithValue("@vendorname", vendorname);
-                            //updCommand.Parameters.AddWithValue("@vendorcontact", vendorcontact);
-                            //int rowsUpdated = updCommand.ExecuteNonQuery();
-                            JObject output = new JObject();
-                            output["status"] = "cannot be updated";
-                            return output;
-                        }
-                        else
-                        {
-                            JObject output = new JObject();
-                            output["status"] = "exists";
-                            return output;
-                        }
+                        //SqlCommand updCommand = new SqlCommand("UPDATE np_po SET vendor_name = @vendorname, vendor_contact = @vendorcontact WHERE vendor_code=@vendorcode", conn);
+                        //updCommand.Parameters.AddWithValue("@vendorcode", vendorcode);
+                        //updCommand.Parameters.AddWithValue("@vendorname", vendorname);
+                        //updCommand.Parameters.AddWithValue("@vendorcontact", vendorcontact);
+                        //int rowsUpdated = updCommand.ExecuteNonQuery();
+                        JObject output = new JObject();
+                        output["status"] = "cannot be updated";
+                        return output;
                     }
                     else
                     {
-                        if (createquery == true)
+                        JObject output = new JObject();
+                        output["status"] = "exists";
+                        return output;
+                    }
+                }
+                else
+                {
+                    if (createquery == true)
+                    {
+                        foreach (JObject item in items)
                         {
-                            SqlCommand updCommand = new SqlCommand("INSERT INTO [dbo].[np_po] ([po_number], [po_date], [po_inspection_report_no], [po_material_count], [po_approved], [po_approved_by], [po_approved_datetime], [po_materials], [po_vendor_code]) VALUES (@ponumber, @podate, @poinspectionnumber, @pomaterialcount, @poapproved, @poapprovedby, @poapproveddatetime, @pomaterials, @povendorcode)", conn);
+                            SqlCommand updCommand = new SqlCommand("INSERT INTO [dbo].[np_po] ([po_number], [po_date], [po_inspection_report_no], [po_material_count], [po_approved], [po_approved_by], [po_approved_datetime], [po_vendor_code],[po_material_code],[po_material_quantity],[po_material_pr_reference]) VALUES (@ponumber, @podate, @poinspectionnumber, @pomaterialcount, @poapproved, @poapprovedby, @poapproveddatetime, @povendorcode,@pomaterialcode,@pomaterialquantity,@pomaterialprreference)", conn);
                             updCommand.Parameters.AddWithValue("@ponumber", ponumber);
                             updCommand.Parameters.AddWithValue("@podate", podate);
                             updCommand.Parameters.AddWithValue("@poinspectionnumber", poinspectionnumber);
@@ -189,29 +191,32 @@ namespace Nalco_Consumables.Controllers
                             updCommand.Parameters.AddWithValue("@poapproved", poapproved);
                             updCommand.Parameters.AddWithValue("@poapprovedby", poapprovedby);
                             updCommand.Parameters.AddWithValue("@poapproveddatetime", poapproveddatetime);
-                            updCommand.Parameters.AddWithValue("@pomaterials", pomaterials);
                             updCommand.Parameters.AddWithValue("@povendorcode", povendorcode);
+                            updCommand.Parameters.AddWithValue("@pomaterialcode", (string)item["MaterialCodePO"]);
+                            updCommand.Parameters.AddWithValue("@pomaterialquantity", (int)item["MaterialQuantityPO"]);
+                            updCommand.Parameters.AddWithValue("@pomaterialprreference", (string)item["MaterialPRPO"]);
                             int rowsUpdated = updCommand.ExecuteNonQuery();
-                            JObject output = new JObject();
-                            output["status"] = "created";
-                            return output;
                         }
-                        else
-                        {
-                            JObject output = new JObject();
-                            output["status"] = "cannot be updated";
-                            return output;
-                        }
+                        JObject output = new JObject();
+                        output["status"] = "created";
+                        return output;
+                    }
+                    else
+                    {
+                        JObject output = new JObject();
+                        output["status"] = "cannot be updated";
+                        return output;
                     }
                 }
             }
-            catch (Exception ex)
-            {
-                JObject output = new JObject();
-                output["status"] = "error";
-                output["message"] = ex.Message;
-                return output;
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    JObject output = new JObject();
+            //    output["status"] = "error";
+            //    output["message"] = ex.Message;
+            //    return output;
+            //}
         }
 
         [NonAction]

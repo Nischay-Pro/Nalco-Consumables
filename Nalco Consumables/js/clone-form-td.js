@@ -40,7 +40,7 @@ $(function () {
             Keep in mind that the .val() method is what clears the element when it gets cloned. Radio and checkboxes need .val([]) instead of .val('').
         */
         // H2 - section
-        newElem.find('.mes2').html('<select id="MaterialCodePO" class="js-data-example-ajax-' + entryid + '"><option disabled selected>Please enter 1 or more characters</option></select>');
+        newElem.find('.mes2').html('<select id="MaterialCodePO" class="js-data-example-ajax-' + entryid + ' form-control"><option disabled selected>Please enter 1 or more characters</option></select>');
         newElem.find('.heading-reference').attr('id', 'ID' + newNum + '_reference').attr('name', 'ID' + newNum + '_reference').html('Entry #' + newNum);
 
         // Title - select
