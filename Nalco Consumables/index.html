@@ -34,7 +34,7 @@
                     </div>
                     <div class="well bs-component panel-body">
                         <div id="invalidcreds"></div>
-                        <form>
+                        <form id="loginform">
                             <fieldset>
                                 <div class="row">
                                     <div class="col-sm-10 col-md-10  col-md-offset-1 ">
@@ -43,7 +43,7 @@
                                                 <span class="input-group-addon">
                                                     <i class="glyphicon glyphicon-user"></i>
                                                 </span>
-                                                <input class="form-control" placeholder="Username" name="username" id="username" type="text" autofocus>
+                                                <input class="form-control" placeholder="Username" name="username" id="username" type="text" autofocus onkeypress="KeyPress(event);">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -51,7 +51,7 @@
                                                 <span class="input-group-addon">
                                                     <i class="glyphicon glyphicon-lock"></i>
                                                 </span>
-                                                <input class="form-control" placeholder="Password" name="password" id="password" type="password" value="">
+                                                <input class="form-control" placeholder="Password" name="password" id="password" type="password" value="" onkeypress="KeyPress(event);">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -146,8 +146,8 @@
                         </ul>
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                <a href="#" onclick="SwitchTo('materials-create','materials-main');" class="btn btn-default">Add New Material</a>
-                                <a href="#" onclick="SwitchTo('materials-update','materials-main');" class="btn btn-primary">Update / Remove Materials</a>
+                                <a href="#" onclick="SwitchTo('materials-create','materials-main');" class="btn btn-default" style="margin:3px 5px 4px 5px;">Add New Material</a>
+                                <a href="#" onclick="SwitchTo('materials-update','materials-main');" class="btn btn-primary" style="margin:3px 5px 4px 5px;">Update / Remove Materials</a>
                             </div>
                         </div>
                         <h2>List of Available Materials</h2>
@@ -209,12 +209,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="inputMaterialQuantity" class="col-lg-2 control-label">Material Reorder Level</label>
-                                    <div class="col-lg-10">
-                                        <input type="text" class="form-control" id="inputMaterialReorderLevel" onkeypress="return isNumber(event);">
-                                    </div>
-                                </div>
+
                                 <div class="form-group">
                                     <label for="select" class="col-lg-2 control-label">Material Storage</label>
                                     <div class="col-lg-10">
@@ -222,6 +217,12 @@
                                             <option>Central Storage</option>
                                             <option>Sub Storage</option>
                                         </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputMaterialQuantity" class="col-lg-2 control-label">Material Reorder Level</label>
+                                    <div class="col-lg-10">
+                                        <input type="text" class="form-control" id="inputMaterialReorderLevel" onkeypress="return Add(event);">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -287,12 +288,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="inputMaterialQuantity" class="col-lg-2 control-label">Material Reorder Level</label>
-                                        <div class="col-lg-10">
-                                            <input type="text" class="form-control" id="inputMaterialReorderLevelUpdate" onkeypress="return isNumber(event);">
-                                        </div>
-                                    </div>
+
                                     <div class="form-group">
                                         <label for="select" class="col-lg-2 control-label">Material Storage</label>
                                         <div class="col-lg-10">
@@ -300,6 +296,12 @@
                                                 <option>Central Storage</option>
                                                 <option>Sub Storage</option>
                                             </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputMaterialQuantity" class="col-lg-2 control-label">Material Reorder Level</label>
+                                        <div class="col-lg-10">
+                                            <input type="text" class="form-control" id="inputMaterialReorderLevelUpdate" onkeypress="return Update(event);">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -325,8 +327,9 @@
                         </ul>
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                <a href="#" onclick="SwitchTo('issues-create','issues-main');" class="btn btn-default">Create an Issue</a>
-                                <a href="#" onclick="SwitchTo('issues-approve','issues-main');" class="btn btn-primary">Approve an Issue</a>
+                                <a href="#" onclick="SwitchTo('issues-create','issues-main');" class="btn btn-primary" style="margin:3px 5px 4px 5px;">Create an Issue (Central Storage)</a>
+                                <a href="#" onclick="SwitchTo('issuessubstore-create','issues-main');" class="btn btn-default" style="margin:3px 5px 4px 5px;">Create an Issue (Sub Storage)</a>
+                                <a href="#" onclick="SwitchTo('issues-approve','issues-main');" class="btn btn-primary" style="margin:3px 5px 4px 5px;">Approve an Issue</a>
                             </div>
                         </div>
                         <h2>List of Issues Approved</h2>
@@ -344,22 +347,22 @@
                         <ul class="breadcrumb">
                             <li><a href="#" onclick="SwitchTo('dashboard-nav','issues-create');">Dashboard</a></li>
                             <li><a href="#" onclick="SwitchTo('issues-main', 'issues-create');">Issues</a></li>
-                            <li class="active">Create an Issue</li>
+                            <li class="active">Create an Issue (Central Storage)</li>
                         </ul>
                         <form class="form-horizontal">
                             <fieldset>
 
-                                <legend>Create an Issue</legend>
+                                <legend>Create an Issue (Central Storage)</legend>
                                 <div id="materialerror">
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputIssueVoucherNo" class="col-lg-2 control-label">Issue Voucher Number</label>
+                                    <label for="inputIssueVoucherNo" class="col-lg-2 control-label">SAP Voucher Number</label>
                                     <div class="col-lg-10">
                                         <input type="text" class="form-control" id="inputIssueVoucherNo" placeholder="Issue Voucher Number" onkeypress="return isNumber(event);">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputIssueMatCode" class="col-lg-2 control-label">Issue Material Code</label>
+                                    <label for="inputIssueMatCode" class="col-lg-2 control-label">Material Code</label>
                                     <div class="col-lg-10">
                                         <input type="text" class="form-control" id="inputIssueMatCode" placeholder="Issue Material Code" onkeypress="return isNumber(event);">
                                     </div>
@@ -384,25 +387,70 @@
                                 <div class="form-group">
                                     <label for="inputIssueDept" class="col-lg-2 control-label">Issue Department</label>
                                     <div class="col-lg-10">
-                                        <input type="text" class="form-control" id="inputIssueDepartment" placeholder="Issue Department" onkeypress="return isNumber(event);">
+                                        <input type="text" class="form-control" id="inputIssueDepartment" placeholder="Issue Department">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="inputIssueIssuedTo" class="col-lg-2 control-label">Issue Issued To</label>
                                     <div class="col-lg-10">
-                                        <input type="text" class="form-control" id="inputIssueIssuedTo" placeholder="Issue Issued To" onkeypress="return isNumber(event);">
+                                        <input type="text" class="form-control" id="inputIssueIssuedTo" placeholder="Issue Issued To">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="inputIssueCollectedBy" class="col-lg-2 control-label">Issue Collected By</label>
                                     <div class="col-lg-10">
-                                        <input type="text" class="form-control" id="inputIssueCollectedBy" placeholder="Issue Collected By" onkeypress="return isNumber(event);">
+                                        <input type="text" class="form-control" id="inputIssueCollectedBy" placeholder="Issue Collected By" onkeypress="IssuesCreate(event);">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="col-lg-10 col-lg-offset-2">
                                         <button type="reset" class="btn btn-default">Clear</button>
                                         <button type="button" class="btn btn-primary" onclick="CheckFormIssues()">Create</button>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                    <div id="issuessubstore-create" style="display:none;">
+                        <ul class="breadcrumb">
+                            <li><a href="#" onclick="SwitchTo('dashboard-nav','issuessubstore-create');">Dashboard</a></li>
+                            <li><a href="#" onclick="SwitchTo('issues-main', 'issuessubstore-create');">Issues</a></li>
+                            <li class="active">Create an Issue (Sub Storage)</li>
+                        </ul>
+                        <form class="form-horizontal">
+                            <fieldset>
+
+                                <legend>Create an Issue (Sub Storage)</legend>
+                                <div id="materialerror">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputIssueMatCode" class="col-lg-2 control-label"> Issue Material Code</label>
+                                    <div class="col-lg-10">
+                                        <input type="text" class="form-control" id="inputIssueMatCode" placeholder="Issue Material Code" onkeypress="return isNumber(event);">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputIssueQuantity" class="col-lg-2 control-label"> Issue Quantity</label>
+                                    <div class="col-lg-10">
+                                        <input type="text" class="form-control" id="inputIssueQuantity" placeholder="Issue Quantity" onkeypress="return isNumber(event);">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputIssueIssuedTo" class="col-lg-2 control-label"> Issue Issued To</label>
+                                    <div class="col-lg-10">
+                                        <input type="text" class="form-control" id="inputIssueIssuedTo" placeholder="Issue Issued To">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputIssuePurpose" class="col-lg-2 control-label"> Issue Purpose</label>
+                                    <div class="col-lg-10">
+                                        <input type="text" class="form-control" id="inputIssuePurpose" placeholder="Issue Purpose" onkeypress="return IssuesCreateSub(event);">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-lg-10 col-lg-offset-2">
+                                        <button type="reset" class="btn btn-default">Clear</button>
+                                        <button type="button" class="btn btn-primary" onclick="CheckFormIssuesSub()">Create</button>
                                     </div>
                                 </div>
                             </fieldset>
@@ -421,7 +469,7 @@
 
                                     <label for="issues-id" class="col-lg-2 control-label">IssuesId</label>
                                     <div class="col-lg-10">
-                                        <input type="text" class="form-control" id="issues-id" placeholder="Issues Id" ">
+                                        <input type="text" class="form-control" id="issues-id" placeholder="Issues Id" onkeypress="IssuesApprove(event);">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -446,8 +494,8 @@
                         </ul>
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                <a href="#" onclick="SwitchTo('po-create','po-main');" class="btn btn-default">Add New PO Receipt</a>
-                                <a href="#" onclick="SwitchTo('po-vendor','po-main');" class="btn btn-default">Vendor Dashboard</a>
+                                <a href="#" onclick="SwitchTo('po-create','po-main');" class="btn btn-default" style="margin:3px 5px 4px 5px;">Add New PO Receipt</a>
+                                <a href="#" onclick="SwitchTo('po-vendor','po-main');" class="btn btn-default" style="margin:3px 5px 4px 5px;">Vendor Dashboard</a>
                             </div>
                         </div>
                         <h2>List of PO Receipts approved</h2>
@@ -529,9 +577,9 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="col-lg-10 col-lg-offset-2">
-                                        <button type="button" id="btnAdd" name="btnAdd" class="btn btn-info">Add a New Material</button>
-                                        <button type="button" id="btnDel" name="btnDel" class="btn btn-danger">Remove Material above</button>
-                                        <button type="button" class="btn btn-primary" onclick="CheckPOReceiptMain()">Add PO Receipt to Database</button>
+                                        <button type="button" id="btnAdd" name="btnAdd" class="btn btn-info" style="margin:3px 5px 4px 5px;">Add a New Material</button>
+                                        <button type="button" id="btnDel" name="btnDel" class="btn btn-danger" style="margin:3px 5px 4px 5px;">Remove Material above</button>
+                                        <button type="button" class="btn btn-primary" onclick="CheckPOReceiptMain()" style="margin:3px 5px 4px 5px;">Add PO Receipt to Database</button>
                                     </div>
                                 </div>
                             </fieldset>
