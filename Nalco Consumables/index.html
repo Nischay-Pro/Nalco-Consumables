@@ -325,7 +325,8 @@
                         </ul>
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                <a href="#" onclick="SwitchTo('issues-create','issues-main');" class="btn btn-default">Create an Issue</a>
+                                <a href="#" onclick="SwitchTo('issues-create','issues-main');" class="btn btn-primary">Create an Issue (Central Storage)</a>
+                                <a href="#" onclick="SwitchTo('issuessubstore-create','issues-main');" class="btn btn-default">Create an Issue (Sub Storage)</a>
                                 <a href="#" onclick="SwitchTo('issues-approve','issues-main');" class="btn btn-primary">Approve an Issue</a>
                             </div>
                         </div>
@@ -344,22 +345,22 @@
                         <ul class="breadcrumb">
                             <li><a href="#" onclick="SwitchTo('dashboard-nav','issues-create');">Dashboard</a></li>
                             <li><a href="#" onclick="SwitchTo('issues-main', 'issues-create');">Issues</a></li>
-                            <li class="active">Create an Issue</li>
+                            <li class="active">Create an Issue (Central Storage)</li>
                         </ul>
                         <form class="form-horizontal">
                             <fieldset>
 
-                                <legend>Create an Issue</legend>
+                                <legend>Create an Issue (Central Storage)</legend>
                                 <div id="materialerror">
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputIssueVoucherNo" class="col-lg-2 control-label">Issue Voucher Number</label>
+                                    <label for="inputIssueVoucherNo" class="col-lg-2 control-label">SAP Voucher Number</label>
                                     <div class="col-lg-10">
                                         <input type="text" class="form-control" id="inputIssueVoucherNo" placeholder="Issue Voucher Number" onkeypress="return isNumber(event);">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputIssueMatCode" class="col-lg-2 control-label">Issue Material Code</label>
+                                    <label for="inputIssueMatCode" class="col-lg-2 control-label">Material Code</label>
                                     <div class="col-lg-10">
                                         <input type="text" class="form-control" id="inputIssueMatCode" placeholder="Issue Material Code" onkeypress="return isNumber(event);">
                                     </div>
@@ -408,6 +409,51 @@
                             </fieldset>
                         </form>
                     </div>
+                    <div id="issuessubstore-create" style="display:none;">
+                        <ul class="breadcrumb">
+                            <li><a href="#" onclick="SwitchTo('dashboard-nav','issuessubstore-create');">Dashboard</a></li>
+                            <li><a href="#" onclick="SwitchTo('issues-main', 'issuessubstore-create');">Issues</a></li>
+                            <li class="active">Create an Issue (Sub Storage)</li>
+                        </ul>
+                        <form class="form-horizontal">
+                            <fieldset>
+
+                                <legend>Create an Issue (Sub Storage)</legend>
+                                <div id="materialerror">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputIssueMatCode" class="col-lg-2 control-label"> Issue Material Code</label>
+                                    <div class="col-lg-10">
+                                        <input type="text" class="form-control" id="inputIssueMatCode" placeholder="Issue Material Code" onkeypress="return isNumber(event);">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputIssueQuantity" class="col-lg-2 control-label"> Issue Quantity</label>
+                                    <div class="col-lg-10">
+                                        <input type="text" class="form-control" id="inputIssueQuantity" placeholder="Issue Quantity" onkeypress="return isNumber(event);">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputIssueIssuedTo" class="col-lg-2 control-label"> Issue Issued To</label>
+                                    <div class="col-lg-10">
+                                        <input type="text" class="form-control" id="inputIssueIssuedTo" placeholder="Issue Issued To">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputIssuePurpose" class="col-lg-2 control-label"> Issue Purpose</label>
+                                    <div class="col-lg-10">
+                                        <input type="text" class="form-control" id="inputIssuePurpose" placeholder="Issue Purpose" onkeypress="return IssuesCreateSub(event);">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-lg-10 col-lg-offset-2">
+                                        <button type="reset" class="btn btn-default">Clear</button>
+                                        <button type="button" class="btn btn-primary" onclick="CheckFormIssuesSub()">Create</button>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
                     <div id="issues-approve" style="display:none;">
                         <ul class="breadcrumb">
                             <li><a href="#" onclick="SwitchTo('dashboard-nav','issues-approve');">Dashboard</a></li>
@@ -434,7 +480,7 @@
                         </form>
                     </div>
                 </div>
-            </div>
+                </div>
         </div>
         <div id="po-nav" class="container-fluid">
             <div class="row">
