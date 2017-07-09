@@ -104,7 +104,6 @@ function CheckUser(first) {
                 }
                 document.getElementById("username_holder").innerHTML = '<span class="glyphicon glyphicon-user"></span> ' + getCookie("username");
                 GetUserName();
-
             }
             else {
                 document.getElementById("mainpage").style.display = "block";
@@ -127,7 +126,6 @@ function GetUserName() {
             }
             else {
                 document.getElementById("username_holder").innerHTML = '<span class="glyphicon glyphicon-user"></span> ' + Number(getCookie("username")).pad(5) + ' - ' + toTitleCase(JSON.parse(request.responseText).data[0].employ_name);
-
             }
         }
     }

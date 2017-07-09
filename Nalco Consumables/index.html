@@ -14,6 +14,8 @@
     <link href="css/fakeLoader.css" rel="stylesheet">
     <link href="css/tiles.css" rel="stylesheet">
     <link href="css/bootstrap-datepicker3.min.css" rel="stylesheet">
+    <link href="css/select2.min.css" rel="stylesheet">
+    <link href="css/font-awesome.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="js/base64.min.js"></script>
@@ -502,7 +504,11 @@
                                         <div class="form-group">
                                             <label for="MaterialCodePO" class="col-lg-2 control-label">Material Code</label>
                                             <div class="col-lg-10">
-                                                <input type="text" class="form-control" id="MaterialCodePO" placeholder="Material Code">
+                                                <div class="mes2">
+                                                    <select id="MaterialCodePO" class="js-data-example-ajax-1">
+                                                        <option disabled selected>Please enter 1 or more characters</option>
+                                                    </select>
+                                                </div>
                                             </div>
                                             <div id="test1" class="mes col-lg-2 control-label" style="display:none;">
                                             </div>
@@ -530,6 +536,11 @@
                                 </div>
                             </fieldset>
                         </form>
+                        <div class="mes2">
+                            <select id="MaterialCodePO" class="js-data-example-ajax-1">
+                                <option disabled selected>Please enter 1 or more characters</option>
+                            </select>
+                        </div>
                     </div>
                     <div id="po-vendor" style="display:none;">
                         <ul class="breadcrumb">
@@ -677,7 +688,7 @@
                         <div class="well">
                             <p>Didn't mean to logout?</p>
 
-                            <div><button onclick="SwitchTo('login', 'logout');" class="btn btn-primary">Login again?</div>
+                            <div><button onclick="SwitchTo('login', 'logout');" class="btn btn-primary">Login again?</button></div>
                         </div>
                     </div>
                     <div class="col-lg-3"></div>
@@ -704,6 +715,7 @@
     </style>
     <script src="js/jquery.min.js"></script>
     <script src="js/fakeLoader.min.js"></script>
+    <script type="text/javascript" src="js/placeholders.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/bootstrap-table.min.js"></script>
     <script type="text/javascript" src="js/jquery.base64.js"></script>
@@ -713,6 +725,9 @@
     <script type="text/javascript" src="js/smoke.min.js"></script>
     <script type="text/javascript" src="js/clone-form-td.js"></script>
     <script type="text/javascript" src="js/bootstrap-datepicker.js"></script>
+    <script type="text/javascript" src="js/select2.full.js"></script>
+    <script type="text/javascript" src="js/prettify.min.js"></script>
+    <script type="text/javascript" src="js/anchor.min.js"></script>
     <script type="text/javascript" src="locales/bootstrap-datepicker.en-GB.min.js" charset="UTF-8"></script>
     <script type="text/javascript">
         $("#Loader").fakeLoader();
@@ -761,6 +776,63 @@
                 });
             }, 1000);
         });
+        Selectify('.js-data-example-ajax-1');
+        function Selectify(classname) {
+            $(classname).select2({
+                ajax: {
+                    url: function (params) {
+                        return "http://localhost:56797/api/MaterialsSearch/" + params.term;
+                    },
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("Authorization", "Basic " + window.btoa(username + ":" + password));
+                    },
+                    data: null,
+                    dataType: 'json',
+                    delay: 250,
+                    processResults: function (data, params) {
+                        params.page = params.page || 1;
+                        data.data.forEach(function (entry, index) {
+                            entry.id = '' + entry.material_code;
+                        });
+                        return {
+                            results: data.data,
+                            pagination: true
+                        };
+                    },
+                    cache: true
+                },
+                escapeMarkup: function (markup) { return markup; },
+                minimumInputLength: 1,
+                templateResult: formatRepo,
+                templateSelection: formatRepoSelection
+            });
+        };
+
+        function formatRepo(repo) {
+
+            if (repo.loading) return repo.text;
+
+            var markup = "<div class='select2-result-repository clearfix' style='color:#464545!important'>" +
+                "<div class='select2-result-repository__meta'>" +
+                "<div class='select2-result-repository__title'>" + repo.material_code + "</div>";
+
+            if (repo.material_description) {
+                markup += "<div class='select2-result-repository__description'>" + repo.material_description + "</div>";
+            }
+
+            markup += "<div class='select2-result-repository__statistics'>" +
+                "<div class='select2-result-repository__forks'><i class='fa fa-flash'></i> " + repo.material_quantity + " Quantity</div>" +
+                "<div class='select2-result-repository__stargazers'><i class='fa fa-star'></i> " + repo.material_reorder_level + " Reorder Level</div>" +
+                "<div class='select2-result-repository__watchers'><i class='fa fa-eye'></i> " + repo.material_storage + " Storage</div>" +
+                "</div>" +
+                "</div></div>";
+            return markup;
+        }
+
+        function formatRepoSelection(repo) {
+            console.log(repo);
+            return repo.full_name || repo.text || repo.material_code + ' - ' + repo.material_description;
+        }
     </script>
 </body>
 </html>
