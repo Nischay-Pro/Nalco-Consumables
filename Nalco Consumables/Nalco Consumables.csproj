@@ -215,7 +215,7 @@
     <Compile Include="Controllers\VendorController.cs" />
     <Compile Include="Controllers\MaterialsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
-    <Compile Include="ErrorHandler\AiHandleErrorAttribute.cs" />
+    <Compile Include="css\ErrorHandler\AiHandleErrorAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -242,6 +242,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="index.html" />
+    <Content Include="index1.html" />
     <Content Include="js\anchor.min.js" />
     <Content Include="js\base64.min.js" />
     <Content Include="js\bootstrap-datepicker.js" />

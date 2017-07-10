@@ -109,8 +109,9 @@ function ShowMain() {
     CheckUser(true);
 }
 function ShowMaterialsMain() {
-    document.getElementById("dashboard-nav").style.display = "none";
-    document.getElementById("materials-main").style.display = "block";
+    SwitchTo('materials-main', 'dashboard-nav');
+    //document.getElementById("dashboard-nav").style.display = "none";
+    //document.getElementById("materials-main").style.display = "block";
     MaterialsList();
 }
 function ShowMaterialCreate(reverse) {

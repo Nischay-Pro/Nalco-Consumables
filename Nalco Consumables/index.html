@@ -198,7 +198,7 @@
                                 <div class="form-group">
                                     <label for="inputMaterialQuantity" class="col-lg-2 control-label">Material Quantity</label>
                                     <div class="col-lg-10">
-                                        <input type="text" class="form-control" id="inputMaterialQuantity" onkeypress="return isNumber(event);">
+                                        <input type="text" class="form-control" id="inputMaterialQuantity" placeholder="Material Quantity" onkeypress="return isNumber(event);">
                                     </div>
                                 </div>
                                 <div class="form-group" style="padding-left:190px!important;">
@@ -223,7 +223,7 @@
                                 <div class="form-group">
                                     <label for="inputMaterialQuantity" class="col-lg-2 control-label">Material Reorder Level</label>
                                     <div class="col-lg-10">
-                                        <input type="text" class="form-control" id="inputMaterialReorderLevel" onkeypress="return Add(event);">
+                                        <input type="text" class="form-control" id="inputMaterialReorderLevel" placeholder="Material Reorder Level" onkeypress="return Add(event);">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -282,6 +282,7 @@
                                     </div>
                                     <div class="form-group" style="padding-left:190px!important;">
                                         <div class="col-lg-5">
+                                            f
                                             <div class="checkbox">
                                                 <label>
                                                     <input type="checkbox" name="criticalflag" id="criticalflagupdate" onchange=""> Material Critical Flag
@@ -545,12 +546,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div id="entry1" class="clonedInput panel panel-default">
+                                <div id="entry1" class="clonedInput panel panel-default ">
                                     <div class="panel-heading">
                                         <strong class="mes1">Material #1</strong>
                                     </div>
+
                                     <div class="well bs-component panel-body">
+
                                         <div class="form-group">
+
                                             <label for="MaterialCodePO" class="col-lg-2 control-label">Material Code</label>
                                             <div class="col-lg-10">
                                                 <div class="mes2">
@@ -559,23 +563,37 @@
                                                     </select>
                                                 </div>
                                             </div>
+
                                             <div id="test1" class="mes col-lg-2 control-label" style="display:none;">
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="MaterialQuantityPO" class="col-lg-2 control-label">Material Quantity</label>
-                                            <div class="col-lg-10">
-                                                <input type="text" class="form-control" id="MaterialQuantityPO" placeholder="Material Quantity" onkeypress="return isNumber(event);">
+
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="form-group ">
+                                                    <div class="row">
+                                                        <label for="MaterialQuantityPO" class="col-lg-4 control-label">Material Quantity</label>
+                                                        <div class="col-lg-8">
+                                                            <input type="text" class="form-control" id="MaterialQuantityPO" placeholder="Material Quantity" onkeypress="return isNumber(event);">
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="MaterialPRPO" class="col-lg-2 control-label">Material PR Reference</label>
-                                            <div class="col-lg-10">
-                                                <input type="text" class="form-control" id="MaterialPRPO" placeholder="Material PR Reference" onkeypress="return isNumber(event);">
+
+                                            <div class="col-lg-6">
+                                                <div class="form-group ">
+                                                    <div class="row">
+                                                        <label for="MaterialPRPO" class="col-lg-4 control-label">Material PR Reference</label>
+                                                        <div class="col-lg-8">
+                                                            <input type="text" class="form-control" id="MaterialPRPO" placeholder="Material PR Reference" onkeypress="return isNumber(event);">
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="form-group">
                                     <div class="col-lg-10 col-lg-offset-2">
                                         <button type="button" id="btnAdd" name="btnAdd" class="btn btn-info" style="margin:3px 5px 4px 5px;">Add a New Material</button>
@@ -686,31 +704,31 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div id="reports-nav" class="container-fluid">
-        <div class="row">
-            <div class="col-sm-10 col-md-offset-1 main">
-                <div id="reports-main" style="display:none;">
-                    <ul class="breadcrumb">
-                        <li><a href="#" onclick="SwitchTo('dashboard-nav','reports-main');">Dashboard</a></li>
-                        <li class="active">Reports</li>
-                    </ul>
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <a href="#" onclick="SwitchTo('reports-create','reports-main');" class="btn btn-default">Create New Report</a>
+        <div id="reports-nav" class="container-fluid">
+            <div class="row">
+                <div class="col-sm-10 col-md-offset-1 main">
+                    <div id="reports-main" style="display:none;">
+                        <ul class="breadcrumb">
+                            <li><a href="#" onclick="SwitchTo('dashboard-nav','reports-main');">Dashboard</a></li>
+                            <li class="active">Reports</li>
+                        </ul>
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <a href="#" onclick="SwitchTo('reports-create','reports-main');" class="btn btn-default">Create New Report</a>
+                            </div>
+                        </div>
+                        <h2>List of Reports Available</h2>
+                        <div id="reportssearch">
+                            <button class="btn btn-primary" onclick="ReportsList()"><span class="glyphicon glyphicon-refresh"></span> Refresh</button>
                         </div>
                     </div>
-                    <h2>List of Reports Available</h2>
-                    <div id="reportssearch">
-                        <button class="btn btn-primary" onclick="ReportsList()"><span class="glyphicon glyphicon-refresh"></span> Refresh</button>
+                    <div id="issues-create" style="display:none;">
+                        <ul class="breadcrumb">
+                            <li><a onclick="SwitchTo('dashboard-nav','reports-create');">Dashboard</a></li>
+                            <li onclick="SwitchTo('reports-main', 'reports-create');"><a href="#">Issues</a></li>
+                            <li class="active">Create New Report</li>
+                        </ul>
                     </div>
-                </div>
-                <div id="issues-create" style="display:none;">
-                    <ul class="breadcrumb">
-                        <li><a onclick="SwitchTo('dashboard-nav','reports-create');">Dashboard</a></li>
-                        <li onclick="SwitchTo('reports-main', 'reports-create');"><a href="#">Issues</a></li>
-                        <li class="active">Create New Report</li>
-                    </ul>
                 </div>
             </div>
         </div>
