@@ -810,7 +810,7 @@
                     );
 
                     $message[0].className += ' select2-results__message';
-
+                    $message[0].style = 'color:#464545!important;';
                     this.$results.append($message);
                 };
 
