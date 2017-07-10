@@ -379,6 +379,12 @@ function CheckFormMaterialsUpdate() {
     if (document.getElementById('inputPrinterDescriptionUpdate').value !== null) {
         data1.data['materialprinterdescription'] = document.getElementById('inputPrinterDescriptionUpdate').value;
         document.getElementById('printer').checked = true;
+        document.getElementById('printer-description-update').display = "block";
+    }
+    else {
+        data1.data['materialprinterdescription'] = "";
+        document.getElementById('printer').checked = false;
+        document.getElementById('printer-description-update').display = "none";
     }
     data1.data['materialprintercount'] = 12;
     data1.data['materialquantity'] = document.getElementById('inputMaterialQuantityUpdate').value;
@@ -474,6 +480,14 @@ function LoadMaterialsUpdate() {
             document.getElementById('criticalflagupdate').checked = data.material_critical_flag;
             document.getElementById('inputMaterialReorderLevelUpdate').value = data.material_reorder_level;
             document.getElementById('UpdateForm').style.display = "block";
+            if (data.material_printer) {
+                document.getElementById('printer').checked = true;
+                $('#printer-description-update').removeClass('hidden');
+            }
+            else {
+                document.getElementById('printer').checked = false;
+                $('#printer-description-update').addClass('hidden');
+            }
             var textToFind = data.material_storage;
             var dd = document.getElementById('selectstorageupdate');
             for (var i = 0; i < dd.options.length; i++) {

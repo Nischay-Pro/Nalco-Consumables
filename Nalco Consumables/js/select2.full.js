@@ -1838,7 +1838,7 @@
                         '<li class="select2-search select2-search--inline">' +
                         '<input class="select2-search__field" type="search" tabindex="-1"' +
                         ' autocomplete="off" autocorrect="off" autocapitalize="off"' +
-                        ' spellcheck="false" role="textbox" aria-autocomplete="list" onkeypress="return isNumber(event);"/>' +
+                        ' spellcheck="false" role="textbox" aria-autocomplete="list"/>' +
                         '</li>'
                     );
 
@@ -3889,7 +3889,7 @@
                         '<span class="select2-search select2-search--dropdown">' +
                         '<input class="select2-search__field" type="search" tabindex="-1"' +
                         ' autocomplete="off" autocorrect="off" autocapitalize="off"' +
-                        ' spellcheck="false" role="textbox" onkeypress="return isNumber(event);" />' +
+                        ' spellcheck="false" role="textbox"/>' +
                         '</span>'
                     );
 

@@ -21,8 +21,8 @@ namespace Nalco_Consumables.Controllers
                 {
                     conn.ConnectionString = connection;
                     conn.Open();
-                    SqlCommand cmdCount = new SqlCommand("DELETE FROM nalco_materials.dbo.np_po WHERE po_number = @ponumber", conn);
-                    cmdCount.Parameters.AddWithValue("@ponumber", id);
+                    SqlCommand cmdCount = new SqlCommand("DELETE FROM nalco_materials.dbo.np_issues WHERE issue_voucher_no = @issuenumber", conn);
+                    cmdCount.Parameters.AddWithValue("@issuenumber", id);
                     int count = cmdCount.ExecuteNonQuery();
                     if (count > 0)
                     {
@@ -56,7 +56,7 @@ namespace Nalco_Consumables.Controllers
                 {
                     conn.ConnectionString = connection;
                     conn.Open();
-                    SqlCommand command = new SqlCommand("SELECT * FROM dbo.np_po", conn);
+                    SqlCommand command = new SqlCommand("SELECT * FROM dbo.np_issues", conn);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         if (reader.HasRows == true)
@@ -100,7 +100,7 @@ namespace Nalco_Consumables.Controllers
                 {
                     conn.ConnectionString = connection;
                     conn.Open();
-                    SqlCommand command = new SqlCommand("SELECT * FROM dbo.np_po WHERE po_number=" + id, conn);
+                    SqlCommand command = new SqlCommand("SELECT * FROM dbo.np_issue WHERE issue_voucher_no=" + id, conn);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         if (reader.HasRows == true)
@@ -135,26 +135,21 @@ namespace Nalco_Consumables.Controllers
             //try
             //{
             JObject dataval = data["data"].ToObject<JObject>();
-            string ponumber, podate, poinspectionnumber, poapprovedby, povendorcode;
-            DateTime poapproveddatetime = DateTime.Now;
-            int pomaterialcount;
+            DateTime issuedate = DateTime.Now;
             bool createquery = (bool)dataval["createquery"];
-            bool poapproved = true;
-            JArray pomaterialsa = dataval["pomaterials"].ToObject<JArray>();
-            string pomaterials = pomaterialsa.ToString();
-            ponumber = (string)dataval["ponumber"];
-            podate = (string)dataval["podate"];
-            poinspectionnumber = (string)dataval["poinspectionnumber"];
-            JArray items = (JArray)dataval["pomaterials"];
-            pomaterialcount = items.Count;
-            poapprovedby = (string)dataval["poapprovedby"];
-            povendorcode = (string)dataval["povendorcode"];
+            bool substore = (bool)dataval["substore"];
+            bool approveissue = false;
+            if (!substore)
+            {
+                approveissue = true;
+            }
+            string issuematerialcode = (string)dataval["issuematerialcode"];
             using (SqlConnection conn = new SqlConnection())
             {
                 conn.ConnectionString = connection;
                 conn.Open();
                 SqlCommand cmdCount = new SqlCommand("SELECT count(*) from np_po WHERE po_number = @ponumber", conn);
-                cmdCount.Parameters.AddWithValue("@ponumber", ponumber);
+                //cmdCount.Parameters.AddWithValue("@ponumber", ponumber);
                 int count = (int)cmdCount.ExecuteScalar();
 
                 if (count > 0)
@@ -181,26 +176,26 @@ namespace Nalco_Consumables.Controllers
                 {
                     if (createquery == true)
                     {
-                        foreach (JObject item in items)
-                        {
-                            SqlCommand updCommand = new SqlCommand("INSERT INTO [dbo].[np_po] ([po_number], [po_date], [po_inspection_report_no], [po_material_count], [po_approved], [po_approved_by], [po_approved_datetime], [po_vendor_code],[po_material_code],[po_material_quantity],[po_material_pr_reference]) VALUES (@ponumber, @podate, @poinspectionnumber, @pomaterialcount, @poapproved, @poapprovedby, @poapproveddatetime, @povendorcode,@pomaterialcode,@pomaterialquantity,@pomaterialprreference)", conn);
-                            updCommand.Parameters.AddWithValue("@ponumber", ponumber);
-                            updCommand.Parameters.AddWithValue("@podate", podate);
-                            updCommand.Parameters.AddWithValue("@poinspectionnumber", poinspectionnumber);
-                            updCommand.Parameters.AddWithValue("@pomaterialcount", pomaterialcount);
-                            updCommand.Parameters.AddWithValue("@poapproved", poapproved);
-                            updCommand.Parameters.AddWithValue("@poapprovedby", poapprovedby);
-                            updCommand.Parameters.AddWithValue("@poapproveddatetime", poapproveddatetime);
-                            updCommand.Parameters.AddWithValue("@povendorcode", povendorcode);
-                            updCommand.Parameters.AddWithValue("@pomaterialcode", (string)item["MaterialCodePO"]);
-                            updCommand.Parameters.AddWithValue("@pomaterialquantity", (int)item["MaterialQuantityPO"]);
-                            updCommand.Parameters.AddWithValue("@pomaterialprreference", (string)item["MaterialPRPO"]);
-                            int rowsUpdated = updCommand.ExecuteNonQuery();
-                            SqlCommand updCommand2 = new SqlCommand("UPDATE [dbo].[np_materials] SET [material_quantity] = [material_quantity] + @pomaterialquantity WHERE [material_code] = @pomaterialcode;", conn);
-                            updCommand2.Parameters.AddWithValue("@pomaterialcode", (string)item["MaterialCodePO"]);
-                            updCommand2.Parameters.AddWithValue("@pomaterialquantity", (int)item["MaterialQuantityPO"]);
-                            int rowsUpdated2 = updCommand2.ExecuteNonQuery();
-                        }
+                        //foreach (JObject item in items)
+                        //{
+                        //    SqlCommand updCommand = new SqlCommand("INSERT INTO [dbo].[np_po] ([po_number], [po_date], [po_inspection_report_no], [po_material_count], [po_approved], [po_approved_by], [po_approved_datetime], [po_vendor_code],[po_material_code],[po_material_quantity],[po_material_pr_reference]) VALUES (@ponumber, @podate, @poinspectionnumber, @pomaterialcount, @poapproved, @poapprovedby, @poapproveddatetime, @povendorcode,@pomaterialcode,@pomaterialquantity,@pomaterialprreference)", conn);
+                        //    updCommand.Parameters.AddWithValue("@ponumber", ponumber);
+                        //    updCommand.Parameters.AddWithValue("@podate", podate);
+                        //    updCommand.Parameters.AddWithValue("@poinspectionnumber", poinspectionnumber);
+                        //    updCommand.Parameters.AddWithValue("@pomaterialcount", pomaterialcount);
+                        //    updCommand.Parameters.AddWithValue("@poapproved", poapproved);
+                        //    updCommand.Parameters.AddWithValue("@poapprovedby", poapprovedby);
+                        //    updCommand.Parameters.AddWithValue("@poapproveddatetime", poapproveddatetime);
+                        //    updCommand.Parameters.AddWithValue("@povendorcode", povendorcode);
+                        //    updCommand.Parameters.AddWithValue("@pomaterialcode", (string)item["MaterialCodePO"]);
+                        //    updCommand.Parameters.AddWithValue("@pomaterialquantity", (int)item["MaterialQuantityPO"]);
+                        //    updCommand.Parameters.AddWithValue("@pomaterialprreference", (string)item["MaterialPRPO"]);
+                        //    int rowsUpdated = updCommand.ExecuteNonQuery();
+                        //    SqlCommand updCommand2 = new SqlCommand("UPDATE [dbo].[np_materials] SET [material_quantity] = [material_quantity] + @pomaterialquantity WHERE [material_code] = @pomaterialcode;", conn);
+                        //    updCommand2.Parameters.AddWithValue("@pomaterialcode", (string)item["MaterialCodePO"]);
+                        //    updCommand2.Parameters.AddWithValue("@pomaterialquantity", (int)item["MaterialQuantityPO"]);
+                        //    int rowsUpdated2 = updCommand2.ExecuteNonQuery();
+                        //}
                         JObject output = new JObject();
                         output["status"] = "created";
                         return output;

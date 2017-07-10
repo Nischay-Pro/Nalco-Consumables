@@ -18,10 +18,9 @@ namespace Nalco_Consumables.Controllers
             //{
             using (SqlConnection conn = new SqlConnection())
             {
-                var idclean = Regex.Replace(id, "[^0-9]+", string.Empty);
                 conn.ConnectionString = connection;
                 conn.Open();
-                SqlCommand command = new SqlCommand("SELECT * FROM [nalco_materials].[dbo].[np_materials] WHERE material_code LIKE '%" + idclean + "%';", conn);
+                SqlCommand command = new SqlCommand("SELECT * FROM [nalco_materials].[dbo].[np_materials] WHERE material_code LIKE '%" + id + "%' OR material_description LIKE '%" + id + "%';", conn);
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
                     if (reader.HasRows == true)
