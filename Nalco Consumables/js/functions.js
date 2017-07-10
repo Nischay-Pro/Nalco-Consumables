@@ -431,11 +431,11 @@ function CheckFormMaterialsDelete() {
             };
         }
     }, {
-        ok: "Yes",
-        cancel: "No",
-        classname: "custom-class",
-        reverseButtons: true
-    });
+            ok: "Yes",
+            cancel: "No",
+            classname: "custom-class",
+            reverseButtons: true
+        });
 }
 function CreateError(type, message) {
     var element = document.createElement("div");

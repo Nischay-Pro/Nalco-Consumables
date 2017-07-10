@@ -196,6 +196,10 @@ namespace Nalco_Consumables.Controllers
                             updCommand.Parameters.AddWithValue("@pomaterialquantity", (int)item["MaterialQuantityPO"]);
                             updCommand.Parameters.AddWithValue("@pomaterialprreference", (string)item["MaterialPRPO"]);
                             int rowsUpdated = updCommand.ExecuteNonQuery();
+                            SqlCommand updCommand2 = new SqlCommand("UPDATE [dbo].[np_materials] SET [material_quantity] = [material_quantity] + @pomaterialquantity WHERE [material_code] = @pomaterialcode;", conn);
+                            updCommand2.Parameters.AddWithValue("@pomaterialcode", (string)item["MaterialCodePO"]);
+                            updCommand2.Parameters.AddWithValue("@pomaterialquantity", (int)item["MaterialQuantityPO"]);
+                            int rowsUpdated2 = updCommand2.ExecuteNonQuery();
                         }
                         JObject output = new JObject();
                         output["status"] = "created";

@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Text.RegularExpressions;
 using System.Web.Http;
 
 namespace Nalco_Consumables.Controllers
@@ -11,15 +12,16 @@ namespace Nalco_Consumables.Controllers
     {
         public string connection = System.Configuration.ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString;
 
-        public object Get(int id)
+        public object Get(string id)
         {
             //try
             //{
             using (SqlConnection conn = new SqlConnection())
             {
+                var idclean = Regex.Replace(id, "[^0-9]+", string.Empty);
                 conn.ConnectionString = connection;
                 conn.Open();
-                SqlCommand command = new SqlCommand("SELECT * FROM [nalco_materials].[dbo].[np_materials] WHERE material_code LIKE '%" + id + "%';", conn);
+                SqlCommand command = new SqlCommand("SELECT * FROM [nalco_materials].[dbo].[np_materials] WHERE material_code LIKE '%" + idclean + "%';", conn);
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
                     if (reader.HasRows == true)
