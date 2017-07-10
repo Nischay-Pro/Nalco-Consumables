@@ -55,14 +55,63 @@ function Update(event) {
     return isNumber(event);
 }
 
+function AddVendor(event) {
+    if (event.which == 13 || event.keyCode == 13) {
+        CheckFormVendor();
+    }
+}
+
+function UpdateVendor(event) {
+    if (event.which == 13 || event.keyCode == 13) {
+        CheckFormVendorUpdate();
+    }
+}
+
+function ClearAddMaterials() {
+    SwitchTo('materials-create', 'materials-main');
+    document.getElementById("AddMaterialsForm").reset();
+}
+
+function ClearUpdateMaterials() {
+    SwitchTo('materials-update', 'materials-main');
+    document.getElementById("UpdateMaterialsForm").reset();
+    document.getElementById("UpdateForm").style.display = "none";
+}
+
+function ClearCreateIssueCS() {
+    SwitchTo('issues-create', 'issues-main');
+    document.getElementById("CreateIssuesCSForm").reset();
+}
+
+function ClearCreateIssueSS() {
+    SwitchTo('issuessubstore-create', 'issues-main');
+    document.getElementById("CreateIssuesSSForm").reset();
+}
+
+function ClearApproveIssue() {
+    SwitchTo('issues-approve', 'issues-main');
+    document.getElementById("ApproveIssuesForm").reset();
+}
+
+function ClearAddVendor() {
+    SwitchTo('po-vendor-create', 'po-vendor');
+    document.getElementById("AddVendorForm").reset();
+}
+
+function ClearUpdateVendor() {
+    SwitchTo('po-vendor-update', 'po-vendor');
+    document.getElementById("UpdateVendorForm").reset();
+}
+
 function ShowMain() {
     username = document.getElementById("username").value;
     password = document.getElementById("password").value;
     CheckUser(true);
 }
 function ShowMaterialsMain() {
-    document.getElementById("dashboard-nav").style.display = "none";
-    document.getElementById("materials-main").style.display = "block";
+    SwitchTo('materials-main', 'dashboard-nav');
+    //document.getElementById("dashboard-nav").style.display = "none";
+    //document.getElementById("materials-main").style.display = "block";
     MaterialsList();
 }
 function ShowMaterialCreate(reverse) {
