@@ -232,6 +232,7 @@
     <Content Include="css\bootstrap.min.css" />
     <Content Include="css\fakeLoader.css" />
     <Content Include="css\font-awesome.css" />
+    <Content Include="css\s2-docs.css" />
     <Content Include="css\select2.min.css" />
     <Content Include="css\smoke.css" />
     <Content Include="css\tiles.css" />

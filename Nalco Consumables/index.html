@@ -16,6 +16,7 @@
     <link href="css/bootstrap-datepicker3.min.css" rel="stylesheet">
     <link href="css/select2.min.css" rel="stylesheet">
     <link href="css/font-awesome.css" rel="stylesheet">
+    <link href="css/s2-docs.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="js/base64.min.js"></script>
@@ -833,7 +834,6 @@
                     dataType: 'json',
                     delay: 250,
                     processResults: function (data, params) {
-                        params.page = params.page || 1;
                         data.data.forEach(function (entry, index) {
                             entry.id = '' + entry.material_code;
                         });
@@ -864,10 +864,9 @@
             }
 
             markup += "<div class='select2-result-repository__statistics'>" +
-                "<div class='select2-result-repository__forks'><i class='fa fa-flash'></i> " + repo.material_quantity + " Quantity</div>" +
-                "<div class='select2-result-repository__stargazers'><i class='fa fa-star'></i> " + repo.material_reorder_level + " Reorder Level</div>" +
-                "<div class='select2-result-repository__watchers'><i class='fa fa-eye'></i> " + repo.material_storage + " Storage</div>" +
-                "</div>" +
+                "<div class='select2-result-repository__forks'><i class='fa fa-archive'></i> Quantity: " + repo.material_quantity + "</div>" +
+                "<div class='select2-result-repository__stargazers'><i class='fa fa-level-up'></i> Reorder Level: " + repo.material_reorder_level + "</div>" +
+                "<div class='select2-result-repository__watchers'><i class='fa fa-location-arrow'></i> Storage: " + repo.material_storage + "</div>" +
                 "</div></div>";
             return markup;
         }
