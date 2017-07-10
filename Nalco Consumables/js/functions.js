@@ -221,14 +221,14 @@ function POList() {
                     field: 'po_inspection_report_no',
                     title: 'PO Inspection Report Number'
                 }, {
-                    field: 'po_inspection_report_no',
-                    title: 'PO Inspection Report Number'
-                }, {
-                    field: 'po_material_count',
-                    title: 'PO Material Count'
-                }, {
                     field: 'po_approved_by',
                     title: 'PO Approved By'
+                }, {
+                    field: 'po_material_code',
+                    title: 'PO Material Code'
+                }, {
+                    field: 'po_material_quantity',
+                    title: 'PO Material Quantity'
                 }],
                 data: data['data']
             });

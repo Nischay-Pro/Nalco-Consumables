@@ -20,7 +20,7 @@ namespace Nalco_Consumables.Controllers
                 {
                     conn.ConnectionString = connection;
                     conn.Open();
-                    SqlCommand command = new SqlCommand("SELECT TOP 1000 [po_number] ,[po_inspection_report_no] ,[po_material_count] ,[po_approved_by] ,[po_vendor_code] FROM [nalco_materials].[dbo].[np_po]", conn);
+                    SqlCommand command = new SqlCommand("SELECT TOP 1000 [po_number] ,[po_inspection_report_no] ,[po_material_quantity],[po_material_code] ,[po_approved_by] ,[po_vendor_code] FROM [nalco_materials].[dbo].[np_po]", conn);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         if (reader.HasRows == true)
