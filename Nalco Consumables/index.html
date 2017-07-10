@@ -146,8 +146,8 @@
                         </ul>
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                <a href="#" onclick="SwitchTo('materials-create','materials-main');" class="btn btn-default" style="margin:3px 5px 4px 5px;">Add New Material</a>
-                                <a href="#" onclick="SwitchTo('materials-update','materials-main');" class="btn btn-primary" style="margin:3px 5px 4px 5px;">Update / Remove Materials</a>
+                                <a href="#" onclick="ClearAddMaterials();" class="btn btn-default" style="margin:3px 5px 4px 5px;">Add New Material</a>
+                                <a href="#" onclick="ClearUpdateMaterials();" class="btn btn-primary" style="margin:3px 5px 4px 5px;">Update / Remove Materials</a>
                             </div>
                         </div>
                         <h2>List of Available Materials</h2>
@@ -162,7 +162,7 @@
                             <li onclick="SwitchTo('materials-main', 'materials-create');"><a href="#">Materials</a></li>
                             <li class="active">Create Materials</li>
                         </ul>
-                        <form class="form-horizontal">
+                        <form id="AddMaterialsForm" class="form-horizontal">
                             <fieldset>
                                 <legend>Add New Material</legend>
                                 <div id="materialerror">
@@ -240,7 +240,7 @@
                             <li onclick="SwitchTo('materials-main','materials-update');"><a href="#">Materials</a></li>
                             <li class="active">Update or Remove Materials</li>
                         </ul>
-                        <form class="form-horizontal">
+                        <form id="UpdateMaterialsForm" class="form-horizontal">
                             <fieldset>
                                 <div id="materialerrorupdate">
                                 </div>
@@ -327,9 +327,9 @@
                         </ul>
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                <a href="#" onclick="SwitchTo('issues-create','issues-main');" class="btn btn-primary" style="margin:3px 5px 4px 5px;">Create an Issue (Central Storage)</a>
-                                <a href="#" onclick="SwitchTo('issuessubstore-create','issues-main');" class="btn btn-default" style="margin:3px 5px 4px 5px;">Create an Issue (Sub Storage)</a>
-                                <a href="#" onclick="SwitchTo('issues-approve','issues-main');" class="btn btn-primary" style="margin:3px 5px 4px 5px;">Approve an Issue</a>
+                                <a href="#" onclick="ClearCreateIssueCS();" class="btn btn-primary" style="margin:3px 5px 4px 5px;">Create an Issue (Central Storage)</a>
+                                <a href="#" onclick="ClearCreateIssueSS();" class="btn btn-default" style="margin:3px 5px 4px 5px;">Create an Issue (Sub Storage)</a>
+                                <a href="#" onclick="ClearApproveIssue();" class="btn btn-primary" style="margin:3px 5px 4px 5px;">Approve an Issue</a>
                             </div>
                         </div>
                         <h2>List of Issues Approved</h2>
@@ -349,7 +349,7 @@
                             <li><a href="#" onclick="SwitchTo('issues-main', 'issues-create');">Issues</a></li>
                             <li class="active">Create an Issue (Central Storage)</li>
                         </ul>
-                        <form class="form-horizontal">
+                        <form id="CreateIssuesCSForm" class="form-horizontal">
                             <fieldset>
 
                                 <legend>Create an Issue (Central Storage)</legend>
@@ -417,7 +417,7 @@
                             <li><a href="#" onclick="SwitchTo('issues-main', 'issuessubstore-create');">Issues</a></li>
                             <li class="active">Create an Issue (Sub Storage)</li>
                         </ul>
-                        <form class="form-horizontal">
+                        <form id="CreateIssuesSSForm" class="form-horizontal">
                             <fieldset>
 
                                 <legend>Create an Issue (Sub Storage)</legend>
@@ -463,7 +463,7 @@
                             <li class="active">Approve Issues</li>
                         </ul>
 
-                        <form class="form-horizontal">
+                        <form id="ApproveIssuesForm" class="form-horizontal">
                             <fieldset>
                                 <div class="form-group">
 
@@ -588,13 +588,13 @@
                     <div id="po-vendor" style="display:none;">
                         <ul class="breadcrumb">
                             <li><a href="#" onclick="SwitchTo('dashboard-nav','po-vendor');">Dashboard</a></li>
-                            <li><a onclick="SwitchTo('po-main','po-vendor');">PO Receipts</a></li>
+                            <li><a href="#" onclick="SwitchTo('po-main','po-vendor');">PO Receipts</a></li>
                             <li class="active">Vendor</li>
                         </ul>
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                <a href="#" onclick="SwitchTo('po-vendor-create','po-vendor');" class="btn btn-default">Add New Vendor</a>
-                                <a href="#" onclick="SwitchTo('po-vendor-update','po-vendor');" class="btn btn-default">Update Vendor</a>
+                                <a href="#" onclick="ClearAddVendor();" class="btn btn-default">Add New Vendor</a>
+                                <a href="#" onclick="ClearUpdateVendor();" class="btn btn-default">Update Vendor</a>
                             </div>
                         </div>
                         <h2>List of Vendors existing</h2>
@@ -606,11 +606,11 @@
                     <div id="po-vendor-create" style="display:none;">
                         <ul class="breadcrumb">
                             <li><a href="#" onclick="SwitchTo('dashboard-nav','po-vendor-create');">Dashboard</a></li>
-                            <li><a onclick="SwitchTo('po-main','po-vendor-create');">PO Receipts</a></li>
-                            <li><a onclick="SwitchTo('po-vendor','po-vendor-create');">Vendor</a></li>
+                            <li><a href="#" onclick="SwitchTo('po-main','po-vendor-create');">PO Receipts</a></li>
+                            <li><a href="#" onclick="SwitchTo('po-vendor','po-vendor-create');">Vendor</a></li>
                             <li class="active">Add New Vendor</li>
                         </ul>
-                        <form class="form-horizontal">
+                        <form id="AddVendorForm" class="form-horizontal">
                             <fieldset>
                                 <div id="povendorerror">
                                 </div>
@@ -636,7 +636,7 @@
                                 <div class="form-group">
                                     <div class="col-lg-10 col-lg-offset-2">
                                         <button type="reset" class="btn btn-default">Clear</button>
-                                        <button type="button" class="btn btn-primary" onclick="CheckFormVendor()">Add</button>
+                                        <button type="button" class="btn btn-primary" onclick="AddVendor(event)">Add</button>
                                     </div>
                                 </div>
                             </fieldset>
@@ -644,12 +644,12 @@
                     </div>
                     <div id="po-vendor-update" style="display:none;">
                         <ul class="breadcrumb">
-                            <li><a onclick="SwitchTo('dashboard-nav','po-vendor-update');">Dashboard</a></li>
-                            <li><a onclick="SwitchTo('po-main','po-vendor-update');">PO Receipts</a></li>
-                            <li><a onclick="SwitchTo('po-vendor','po-vendor-update');">Vendor</a></li>
+                            <li><a href="#" onclick="SwitchTo('dashboard-nav','po-vendor-update');">Dashboard</a></li>
+                            <li><a href="#" onclick="SwitchTo('po-main','po-vendor-update');">PO Receipts</a></li>
+                            <li><a href="#" onclick="SwitchTo('po-vendor','po-vendor-update');">Vendor</a></li>
                             <li class="active">Update Vendor</li>
                         </ul>
-                        <form class="form-horizontal">
+                        <form id="UpdateVendorForm" class="form-horizontal">
                             <fieldset>
                                 <div id="vendorerrorupdate">
                                 </div>
@@ -675,7 +675,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="col-lg-10 col-lg-offset-2">
-                                            <button type="button" class="btn btn-primary" onclick="CheckFormVendorUpdate()">Update Changes</button>
+                                            <button type="button" class="btn btn-primary" onclick="UpdateVendor(event)">Update Changes</button>
                                         </div>
                                     </div>
                                 </div>
