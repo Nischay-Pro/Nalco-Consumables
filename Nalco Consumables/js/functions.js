@@ -719,7 +719,7 @@ function Selectify(classname, dataheader) {
             data: dataheader,
             dataType: 'json',
             delay: 250,
-            allowClear:true,
+            allowClear: true,
             processResults: function (data, params) {
                 console.log(data);
                 data.data.forEach(function (entry, index) {
@@ -745,7 +745,6 @@ function Selectify(classname, dataheader) {
     });
 };
 function formatRepo(repo) {
-
     if (repo.loading) return repo.text;
 
     var markup = "<div class='select2-result-repository clearfix' style='color:#464545!important'>" +
@@ -806,7 +805,6 @@ function SelectifyDepartment(classname, dataheader) {
     });
 };
 function formatRepoDepartment(repo) {
-
     if (repo.loading) return repo.text;
 
     var markup = "<div class='select2-result-repository clearfix' style='color:#464545!important'>" +
@@ -828,27 +826,12 @@ function formatRepoDepartment(repo) {
 }
 
 function formatRepoSelectionDepartment(repo) {
-    console.log(repo);
     if (repo.employ_loc_name) {
         return repo.employ_loc_cd + ' - ' + repo.employ_loc_name;
     }
     return repo.full_name || repo.text || repo.employ_dept_cd + ' - ' + repo.employ_dept_name;
 }
-function getNewData() {
-    var authorizationBasic = window.btoa(username + ':' + password);
-    var request = new XMLHttpRequest();
-    request.open('POST', 'api/EmploySearch/' + document.getElementById("CSIssueLocation").value, true);
-    request.setRequestHeader('Content-Type', 'application/json');
-    request.setRequestHeader('Authorization', 'Basic ' + authorizationBasic);
-    request.setRequestHeader('Accept', 'application/json');
-    var datatobesent = JSON.stringify({ data: { dept: false, deptcode: document.getElementById("CSIssueDepartment").value } });
-    request.send(datatobesent);
-    request.onreadystatechange = function () {
-        if (request.readyState) {
-            return JSON.parse(request.responseText).data;
-        }
-    }
-}
+
 function ClearIssueForm() {
     document.getElementById('CSIsssueCleaner').innerHTML = '<select id="CSIssueLocation" class="department-code-issue-substore form-control"> <option disabled selected>Select your Working Location</option> </select> <button type="button" class="btn btn-primary btn-xs" onclick="ClearIssueForm()">Clear Location</button>';
     SelectifyDepartment('#CSIssueLocation', JSON.stringify({ data: { dept: false, deptcode: document.getElementById("CSIssueDepartment").value } }));
