@@ -135,32 +135,40 @@ namespace Nalco_Consumables.Controllers
             //try
             //{
             JObject dataval = data["data"].ToObject<JObject>();
-            DateTime issuedate = DateTime.Now;
+            DateTime issuedate;
             bool createquery = (bool)dataval["createquery"];
             bool substore = (bool)dataval["substore"];
             bool approveissue = false;
+            string sapvoucher = null, materialcode = null, issuequantity = null, issuedepartment = null, issueto = null, issuecollected = null, issuelocation = null, issueapprovedby = null;
             if (!substore)
             {
                 approveissue = true;
+                sapvoucher = "CS" + (string)dataval["sapvoucher"];
+                materialcode = (string)dataval["materialcode"];
+                issuedate = (DateTime)dataval["issuedate"];
+                issuequantity = (string)dataval["issuequantity"];
+                issuedepartment = (string)dataval["issuedepartment"];
+                issueto = (string)dataval["issueto"];
+                issuecollected = (string)dataval["issuecollectedby"];
+                issuelocation = (string)dataval["issuelocation"];
+                issueapprovedby = (string)dataval["issueapprovedby"];
+            }
+            else
+            {
+                issuedate = DateTime.Now;
             }
             string issuematerialcode = (string)dataval["issuematerialcode"];
             using (SqlConnection conn = new SqlConnection())
             {
                 conn.ConnectionString = connection;
                 conn.Open();
-                SqlCommand cmdCount = new SqlCommand("SELECT count(*) from np_po WHERE po_number = @ponumber", conn);
-                //cmdCount.Parameters.AddWithValue("@ponumber", ponumber);
-                int count = (int)cmdCount.ExecuteScalar();
-
+                SqlCommand cmdCount = new SqlCommand("SELECT * from np_issue WHERE issue_voucher_no = @vouchernumber", conn);
+                cmdCount.Parameters.AddWithValue("@vouchernumber", sapvoucher);
+                int count = (int)cmdCount.ExecuteNonQuery();
                 if (count > 0)
                 {
                     if (createquery == false)
                     {
-                        //SqlCommand updCommand = new SqlCommand("UPDATE np_po SET vendor_name = @vendorname, vendor_contact = @vendorcontact WHERE vendor_code=@vendorcode", conn);
-                        //updCommand.Parameters.AddWithValue("@vendorcode", vendorcode);
-                        //updCommand.Parameters.AddWithValue("@vendorname", vendorname);
-                        //updCommand.Parameters.AddWithValue("@vendorcontact", vendorcontact);
-                        //int rowsUpdated = updCommand.ExecuteNonQuery();
                         JObject output = new JObject();
                         output["status"] = "cannot be updated";
                         return output;
@@ -176,29 +184,33 @@ namespace Nalco_Consumables.Controllers
                 {
                     if (createquery == true)
                     {
-                        //foreach (JObject item in items)
-                        //{
-                        //    SqlCommand updCommand = new SqlCommand("INSERT INTO [dbo].[np_po] ([po_number], [po_date], [po_inspection_report_no], [po_material_count], [po_approved], [po_approved_by], [po_approved_datetime], [po_vendor_code],[po_material_code],[po_material_quantity],[po_material_pr_reference]) VALUES (@ponumber, @podate, @poinspectionnumber, @pomaterialcount, @poapproved, @poapprovedby, @poapproveddatetime, @povendorcode,@pomaterialcode,@pomaterialquantity,@pomaterialprreference)", conn);
-                        //    updCommand.Parameters.AddWithValue("@ponumber", ponumber);
-                        //    updCommand.Parameters.AddWithValue("@podate", podate);
-                        //    updCommand.Parameters.AddWithValue("@poinspectionnumber", poinspectionnumber);
-                        //    updCommand.Parameters.AddWithValue("@pomaterialcount", pomaterialcount);
-                        //    updCommand.Parameters.AddWithValue("@poapproved", poapproved);
-                        //    updCommand.Parameters.AddWithValue("@poapprovedby", poapprovedby);
-                        //    updCommand.Parameters.AddWithValue("@poapproveddatetime", poapproveddatetime);
-                        //    updCommand.Parameters.AddWithValue("@povendorcode", povendorcode);
-                        //    updCommand.Parameters.AddWithValue("@pomaterialcode", (string)item["MaterialCodePO"]);
-                        //    updCommand.Parameters.AddWithValue("@pomaterialquantity", (int)item["MaterialQuantityPO"]);
-                        //    updCommand.Parameters.AddWithValue("@pomaterialprreference", (string)item["MaterialPRPO"]);
-                        //    int rowsUpdated = updCommand.ExecuteNonQuery();
-                        //    SqlCommand updCommand2 = new SqlCommand("UPDATE [dbo].[np_materials] SET [material_quantity] = [material_quantity] + @pomaterialquantity WHERE [material_code] = @pomaterialcode;", conn);
-                        //    updCommand2.Parameters.AddWithValue("@pomaterialcode", (string)item["MaterialCodePO"]);
-                        //    updCommand2.Parameters.AddWithValue("@pomaterialquantity", (int)item["MaterialQuantityPO"]);
-                        //    int rowsUpdated2 = updCommand2.ExecuteNonQuery();
-                        //}
-                        JObject output = new JObject();
-                        output["status"] = "created";
-                        return output;
+                        SqlCommand updCommand2 = new SqlCommand("UPDATE [nalco_materials].[dbo].[np_materials] SET [material_quantity] = [material_quantity] - @1 WHERE [material_code] = @2 AND [material_quantity] - @1 > -1;", conn);
+                        updCommand2.Parameters.AddWithValue("@2", materialcode);
+                        updCommand2.Parameters.AddWithValue("@1", Int64.Parse(issuequantity));
+                        int rowsUpdated2 = updCommand2.ExecuteNonQuery();
+                        if (!(rowsUpdated2 > 0))
+                        {
+                            JObject output = new JObject();
+                            output["status"] = "enough material not available";
+                            return output;
+                        }
+                        else
+                        {
+                            SqlCommand updCommand = new SqlCommand("INSERT INTO [nalco_materials].[dbo].[np_issue] ([issue_voucher_no] ,[issue_mat_code] ,[issue_date] ,[issue_quantity] ,[issue_dept] ,[issue_location] ,[issue_issued_to] ,[issue_collected_by],[issue_approved_by]) VALUES (@1 ,@2 ,@3 ,@4 ,@5 ,@6 ,@7 ,@8,@9)", conn);
+                            updCommand.Parameters.AddWithValue("@1", sapvoucher);
+                            updCommand.Parameters.AddWithValue("@2", Int64.Parse(materialcode));
+                            updCommand.Parameters.AddWithValue("@3", issuedate);
+                            updCommand.Parameters.AddWithValue("@4", issuequantity);
+                            updCommand.Parameters.AddWithValue("@5", issuedepartment);
+                            updCommand.Parameters.AddWithValue("@6", issuelocation);
+                            updCommand.Parameters.AddWithValue("@7", issueto);
+                            updCommand.Parameters.AddWithValue("@8", issuecollected);
+                            updCommand.Parameters.AddWithValue("@9", issueapprovedby);
+                            int rowsUpdated = updCommand.ExecuteNonQuery();
+                            JObject output = new JObject();
+                            output["status"] = "created";
+                            return output;
+                        }
                     }
                     else
                     {

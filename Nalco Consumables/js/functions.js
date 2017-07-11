@@ -23,7 +23,7 @@ function KeyPress(event) {
 
 function IssuesCreate(event) {
     if (event.which == 13 || event.keyCode == 13) {
-        CheckFormIssues();
+        CreateCentralStorageIssue();
     }
 }
 
@@ -616,6 +616,47 @@ function CheckPOReceiptMain() {
         }
         else if (request.readyState === 4 && JSON.parse(request.responseText).status === 'error') {
             document.getElementById("poerror").appendChild(CreateError('danger', JSON.parse(request.responseText).message));
+        }
+    };
+}
+function CreateCentralStorageIssue() {
+    var data1 = { data: {} };
+    data1.data['createquery'] = true;
+    data1.data['substore'] = false;
+    data1.data['sapvoucher'] = document.getElementById('CSIssueVoucherNumber').value;
+    data1.data['materialcode'] = document.getElementById('CSIssueMaterialCode').value;
+    data1.data['issuedate'] = document.getElementById('CSIssueDate').value;
+    data1.data['issuequantity'] = document.getElementById('CSIssueQuantity').value;
+    data1.data['issuecollectedby'] = document.getElementById('CSIssueCollectedBy').value;
+    data1.data['issueto'] = document.getElementById('CSIssueTO').value;
+    data1.data['issueapprovedby'] = Number(username).pad(5);
+    data1.data['issuedepartment'] = document.getElementById('CSIssueDepartment').value;
+    data1.data['issuelocation'] = document.getElementById('CSIssueLocation').value;
+    var authorizationBasic = window.btoa(username + ':' + password);
+    var request = new XMLHttpRequest();
+    request.open('POST', 'api/Issues', true);
+    request.setRequestHeader('Content-Type', 'application/json');
+    request.setRequestHeader('Authorization', 'Basic ' + authorizationBasic);
+    request.setRequestHeader('Accept', 'application/json');
+    var datatobesent = JSON.stringify(data1);
+    request.send(datatobesent);
+    //console.log(datatobesent);
+    request.onreadystatechange = function () {
+        if (request.readyState === 4 && JSON.parse(request.responseText).status === 'created') {
+            document.getElementById("csmaterialerror").appendChild(CreateError('success', 'Successfully filed an Issue Request.'));
+            POList();
+        }
+        else if (request.readyState === 4 && JSON.parse(request.responseText).status === 'exists') {
+            document.getElementById("csmaterialerror").appendChild(CreateError('danger', 'Issue already exists.'));
+        }
+        else if (request.readyState === 4 && JSON.parse(request.responseText).status === 'cannot be updated') {
+            document.getElementById("csmaterialerror").appendChild(CreateError('danger', 'You cannot update Issue Request.'));
+        }
+        else if (request.readyState === 4 && JSON.parse(request.responseText).status === 'enough material not available') {
+            document.getElementById("csmaterialerror").appendChild(CreateError('danger', 'Not enough material available to file an issue.'));
+        }
+        else if (request.readyState === 4 && JSON.parse(request.responseText).status === 'error') {
+            document.getElementById("csmaterialerror").appendChild(CreateError('danger', JSON.parse(request.responseText).message));
         }
     };
 }

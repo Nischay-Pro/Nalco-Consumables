@@ -282,7 +282,6 @@
                                     </div>
                                     <div class="form-group" style="padding-left:190px!important;">
                                         <div class="col-lg-5">
-                                            f
                                             <div class="checkbox">
                                                 <label>
                                                     <input type="checkbox" name="criticalflag" id="criticalflagupdate" onchange=""> Material Critical Flag
@@ -355,25 +354,27 @@
                             <fieldset>
 
                                 <legend>Create an Issue (Central Storage)</legend>
-                                <div id="materialerror">
+                                <div id="csmaterialerror">
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputIssueVoucherNo" class="col-lg-2 control-label">SAP Voucher Number</label>
+                                    <label for="CSIssueVoucherNumber" class="col-lg-2 control-label">SAP Voucher Number</label>
                                     <div class="col-lg-10">
-                                        <input type="text" class="form-control" id="inputIssueVoucherNo" placeholder="Issue Voucher Number" onkeypress="return isNumber(event);">
+                                        <input type="text" class="form-control" id="CSIssueVoucherNumber" placeholder="Issue Voucher Number" onkeypress="return isNumber(event);">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputIssueMatCode" class="col-lg-2 control-label">Material Code</label>
+                                    <label for="CSIssueMaterialCode" class="col-lg-2 control-label">Material Code</label>
                                     <div class="col-lg-10">
-                                        <input type="text" class="form-control" id="inputIssueMatCode" placeholder="Issue Material Code" onkeypress="return isNumber(event);">
+                                        <select id="CSIssueMaterialCode" class="material-code-issue-substore form-control">
+                                            <option disabled selected>Type the Material Code or its Description</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputIssueDate" class="col-lg-2 control-label">Issue Date</label>
+                                    <label for="CSIssueDate" class="col-lg-2 control-label">Issue Date</label>
                                     <div class="col-lg-10">
-                                        <div class="input-group date" data-provide="datepicker" id="podatepicker" data-date-format="mm-dd-yyyy" data-date-clearbtn>
-                                            <input type="text" class="form-control">
+                                        <div class="input-group date" data-provide="datepicker" id="CSIssueDateHolder" data-date-format="mm-dd-yyyy" data-date-clearbtn>
+                                            <input type="text" class="form-control" id="CSIssueDate">
                                             <div class="input-group-addon">
                                                 <span class="glyphicon glyphicon-th"></span>
                                             </div>
@@ -381,33 +382,40 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputIssueQuantity" class="col-lg-2 control-label">Issue Quantity</label>
+                                    <label for="CSIssueQuantity" class="col-lg-2 control-label">Issue Quantity</label>
                                     <div class="col-lg-10">
-                                        <input type="text" class="form-control" id="inputIssueQuantity" placeholder="Issue Quantity" onkeypress="return isNumber(event);">
+                                        <input type="text" class="form-control" id="CSIssueQuantity" placeholder="Issue Quantity" onkeypress="return isNumber(event);">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputIssueDept" class="col-lg-2 control-label">Issue Department</label>
+                                    <label for="CSIssueDepartment" class="col-lg-2 control-label">Issue Department</label>
                                     <div class="col-lg-10">
-                                        <input type="text" class="form-control" id="inputIssueDepartment" placeholder="Issue Department">
+                                        <input type="text" class="form-control" id="CSIssueDepartment" placeholder="Issue Department">
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="CSIssueLocation" class="col-lg-2 control-label">Issue Location</label>
+                                    <div class="col-lg-10">
+                                        <input type="text" class="form-control" id="CSIssueLocation" placeholder="Issue Location">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputIssueIssuedTo" class="col-lg-2 control-label">Issue Issued To</label>
+                                    <label for="CSIssueTO" class="col-lg-2 control-label">Issue Issued To</label>
                                     <div class="col-lg-10">
-                                        <input type="text" class="form-control" id="inputIssueIssuedTo" placeholder="Issue Issued To">
+                                        <input type="text" class="form-control" id="CSIssueTO" placeholder="Issue Issued To">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputIssueCollectedBy" class="col-lg-2 control-label">Issue Collected By</label>
+                                    <label for="CSIssueCollectedBy" class="col-lg-2 control-label">Issue Collected By</label>
                                     <div class="col-lg-10">
-                                        <input type="text" class="form-control" id="inputIssueCollectedBy" placeholder="Issue Collected By" onkeypress="IssuesCreate(event);">
+                                        <input type="text" class="form-control" id="CSIssueCollectedBy" placeholder="Issue Collected By" onkeypress="IssuesCreate(event);">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="col-lg-10 col-lg-offset-2">
                                         <button type="reset" class="btn btn-default">Clear</button>
-                                        <button type="button" class="btn btn-primary" onclick="CheckFormIssues()">Create</button>
+                                        <button type="button" class="btn btn-primary" onclick="CreateCentralStorageIssue()">Create</button>
                                     </div>
                                 </div>
                             </fieldset>
@@ -423,13 +431,13 @@
                             <fieldset>
 
                                 <legend>Create an Issue (Sub Storage)</legend>
-                                <div id="materialerror">
+                                <div id="ssmaterialerror">
                                 </div>
                                 <div class="form-group">
                                     <label for="inputIssueMatCode" class="col-lg-2 control-label"> Issue Material Code</label>
-                                    <div class="col-lg-10">
-                                        <input type="text" class="form-control" id="inputIssueMatCode" placeholder="Issue Material Code" onkeypress="return isNumber(event);">
-                                    </div>
+                                    <select id="CSIssueMaterialCoded" class="material-code-issue-substore form-control">
+                                        <option disabled selected>Type the Material Code or its Description</option>
+                                    </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="inputIssueQuantity" class="col-lg-2 control-label"> Issue Quantity</label>
@@ -792,9 +800,6 @@
     <script type="text/javascript" src="js/anchor.min.js"></script>
     <script type="text/javascript" src="locales/bootstrap-datepicker.en-GB.min.js" charset="UTF-8"></script>
     <script type="text/javascript">
-        $("#Loader").fakeLoader();
-    </script>
-    <script type="text/javascript">
         $("#Loader").fakeLoader({
             timeToHide: 10000,
             zIndex: "2000",
@@ -843,13 +848,14 @@
                 });
             }, 1000);
         });
-        Selectify('.js-data-example-ajax-1');
-        Selectify('.material-update-select');
+        Selectify('.js-data-example-ajax-1',null);
+        Selectify('.material-update-select',null);
+        Selectify('#CSIssueMaterialCode',JSON.stringify('{"Storage":true}'));
         $('.material-update-select').on("select2:select", function (e) {
             LoadMaterialsUpdate();
         });
 
-        function Selectify(classname) {
+        function Selectify(classname,dataheader) {
             $(classname).select2({
                 ajax: {
                     url: function (params) {
@@ -858,7 +864,7 @@
                     beforeSend: function (xhr) {
                         xhr.setRequestHeader("Authorization", "Basic " + window.btoa(username + ":" + password));
                     },
-                    data: null,
+                    data: dataheader,
                     dataType: 'json',
                     delay: 250,
                     processResults: function (data, params) {
