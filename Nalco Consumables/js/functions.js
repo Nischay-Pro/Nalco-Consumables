@@ -691,3 +691,165 @@ Number.prototype.pad = function (size) {
     while (s.length < (size || 2)) { s = "0" + s; }
     return s;
 }
+
+Selectify('.js-data-example-ajax-1', null);
+Selectify('.material-update-select', null);
+Selectify('#CSIssueMaterialCode', JSON.stringify({ storage: true }));
+SelectifyDepartment('#CSIssueDepartment', JSON.stringify({ data: { dept: true } }));
+SelectifyDepartment('#CSIssueLocation', JSON.stringify({ data: { dept: false, deptcode: document.getElementById("CSIssueDepartment").value } }));
+
+$('.material-update-select').on("select2:select", function (e) {
+    LoadMaterialsUpdate();
+});
+$('#CSIssueDepartment').on("select2:select", function (e) {
+    document.getElementById('CSIsssueCleaner').innerHTML = '<select id="CSIssueLocation" class="department-code-issue-substore form-control"> <option disabled selected>Select your Working Location</option> </select> <button type="button" class="btn btn-primary btn-xs" onclick="ClearIssueForm()">Clear Location</button>';
+    SelectifyDepartment('#CSIssueLocation', JSON.stringify({ data: { dept: false, deptcode: document.getElementById("CSIssueDepartment").value } }));
+    $('#CSIssueLocationHolder').removeClass('hidden');
+});
+
+function Selectify(classname, dataheader) {
+    $(classname).select2({
+        ajax: {
+            url: function (params) {
+                return "http://localhost:56797/api/MaterialsSearch/" + params.term;
+            },
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Basic " + window.btoa(username + ":" + password));
+            },
+            data: dataheader,
+            dataType: 'json',
+            delay: 250,
+            allowClear:true,
+            processResults: function (data, params) {
+                console.log(data);
+                data.data.forEach(function (entry, index) {
+                    entry.id = '' + entry.material_code;
+                });
+                return {
+                    results: data.data,
+                    pagination: true
+                };
+            },
+            formatNoResults: function () {
+                return "No results found";
+            },
+            formatAjaxError: function () {
+                return "Connection Error";
+            },
+            cache: true
+        },
+        escapeMarkup: function (markup) { return markup; },
+        minimumInputLength: 1,
+        templateResult: formatRepo,
+        templateSelection: formatRepoSelection
+    });
+};
+function formatRepo(repo) {
+
+    if (repo.loading) return repo.text;
+
+    var markup = "<div class='select2-result-repository clearfix' style='color:#464545!important'>" +
+        "<div class='select2-result-repository__meta'>" +
+        "<div class='select2-result-repository__title'>" + repo.material_code + "</div>";
+
+    if (repo.material_description) {
+        markup += "<div class='select2-result-repository__description'>" + repo.material_description + "</div>";
+    }
+
+    markup += "<div class='select2-result-repository__statistics'>" +
+        "<div class='select2-result-repository__forks'><i class='fa fa-archive'></i> Quantity: " + repo.material_quantity + "</div>" +
+        "<div class='select2-result-repository__stargazers'><i class='fa fa-level-up'></i> Reorder Level: " + repo.material_reorder_level + "</div>" +
+        "<div class='select2-result-repository__watchers'><i class='fa fa-location-arrow'></i> Storage: " + repo.material_storage + "</div>" +
+        "</div></div>";
+    return markup;
+}
+
+function formatRepoSelection(repo) {
+    return repo.full_name || repo.text || repo.material_code + ' - ' + repo.material_description;
+}
+
+function SelectifyDepartment(classname, dataheader) {
+    $(classname).select2({
+        ajax: {
+            url: function (params) {
+                return "http://localhost:56797/api/EmploySearch/" + params.term;
+            },
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Basic " + window.btoa(username + ":" + password));
+                xhr.setRequestHeader("content-type", "application/json");
+            },
+            type: "POST",
+            data: dataheader,
+            dataType: 'json',
+            delay: 250,
+            processResults: function (data, params) {
+                data.data.forEach(function (entry, index) {
+                    entry.id = '' + entry.employ_dept_cd;
+                });
+                return {
+                    results: data.data,
+                    pagination: true
+                };
+            },
+            formatNoResults: function () {
+                return "No results found";
+            },
+            formatAjaxError: function () {
+                return "Connection Error";
+            },
+            cache: true
+        },
+        escapeMarkup: function (markup) { return markup; },
+        minimumInputLength: 1,
+        templateResult: formatRepoDepartment,
+        templateSelection: formatRepoSelectionDepartment
+    });
+};
+function formatRepoDepartment(repo) {
+
+    if (repo.loading) return repo.text;
+
+    var markup = "<div class='select2-result-repository clearfix' style='color:#464545!important'>" +
+        "<div class='select2-result-repository__meta'>" +
+        "<div class='select2-result-repository__title'>";
+    if (repo.employ_loc_cd) {
+        markup += repo.employ_loc_cd + "</div>";
+    }
+    else {
+        markup += repo.employ_dept_cd + "</div>";
+    }
+    if (repo.employ_loc_name) {
+        markup += "<div class='select2-result-repository__description'>" + repo.employ_loc_name + "</div>";
+    }
+    else {
+        markup += "<div class='select2-result-repository__description'>" + repo.employ_dept_name + "</div>";
+    }
+    return markup;
+}
+
+function formatRepoSelectionDepartment(repo) {
+    console.log(repo);
+    if (repo.employ_loc_name) {
+        return repo.employ_loc_cd + ' - ' + repo.employ_loc_name;
+    }
+    return repo.full_name || repo.text || repo.employ_dept_cd + ' - ' + repo.employ_dept_name;
+}
+function getNewData() {
+    var authorizationBasic = window.btoa(username + ':' + password);
+    var request = new XMLHttpRequest();
+    request.open('POST', 'api/EmploySearch/' + document.getElementById("CSIssueLocation").value, true);
+    request.setRequestHeader('Content-Type', 'application/json');
+    request.setRequestHeader('Authorization', 'Basic ' + authorizationBasic);
+    request.setRequestHeader('Accept', 'application/json');
+    var datatobesent = JSON.stringify({ data: { dept: false, deptcode: document.getElementById("CSIssueDepartment").value } });
+    request.send(datatobesent);
+    request.onreadystatechange = function () {
+        if (request.readyState) {
+            return JSON.parse(request.responseText).data;
+        }
+    }
+}
+function ClearIssueForm() {
+    document.getElementById('CSIsssueCleaner').innerHTML = '<select id="CSIssueLocation" class="department-code-issue-substore form-control"> <option disabled selected>Select your Working Location</option> </select> <button type="button" class="btn btn-primary btn-xs" onclick="ClearIssueForm()">Clear Location</button>';
+    SelectifyDepartment('#CSIssueLocation', JSON.stringify({ data: { dept: false, deptcode: document.getElementById("CSIssueDepartment").value } }));
+}

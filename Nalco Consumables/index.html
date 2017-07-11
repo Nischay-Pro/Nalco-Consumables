@@ -390,16 +390,22 @@
                                 <div class="form-group">
                                     <label for="CSIssueDepartment" class="col-lg-2 control-label">Issue Department</label>
                                     <div class="col-lg-10">
-                                        <input type="text" class="form-control" id="CSIssueDepartment" placeholder="Issue Department">
+                                        <select id="CSIssueDepartment" class="department-code-issue-substore form-control">
+                                            <option disabled selected>Select your Working Department</option>
+                                        </select>
                                     </div>
 
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group hidden" id="CSIssueLocationHolder">
                                     <label for="CSIssueLocation" class="col-lg-2 control-label">Issue Location</label>
-                                    <div class="col-lg-10">
-                                        <input type="text" class="form-control" id="CSIssueLocation" placeholder="Issue Location">
+                                    <div class="col-lg-10" id="CSIsssueCleaner">
+                                        <select id="CSIssueLocation" class="department-code-issue-substore form-control">
+                                            <option disabled selected>Select your Working Location</option>
+                                        </select>
+                                            <button type="button" class="btn btn-primary btn-xs" onclick="ClearIssueForm()">Clear Location</button>
                                     </div>
                                 </div>
+                                
                                 <div class="form-group">
                                     <label for="CSIssueTO" class="col-lg-2 control-label">Issue Issued To</label>
                                     <div class="col-lg-10">
@@ -788,6 +794,9 @@
     <script type="text/javascript" src="js/placeholders.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/bootstrap-table.min.js"></script>
+    <script type="text/javascript" src="js/select2.full.js"></script>
+    <script type="text/javascript" src="js/prettify.min.js"></script>
+    <script type="text/javascript" src="js/anchor.min.js"></script>
     <script type="text/javascript" src="js/jquery.base64.js"></script>
     <script type="text/javascript" src="js/tableExport.js"></script>
     <script type="text/javascript" src="js/bootstrap-table-export.js"></script>
@@ -795,13 +804,10 @@
     <script type="text/javascript" src="js/smoke.min.js"></script>
     <script type="text/javascript" src="js/clone-form-td.js"></script>
     <script type="text/javascript" src="js/bootstrap-datepicker.js"></script>
-    <script type="text/javascript" src="js/select2.full.js"></script>
-    <script type="text/javascript" src="js/prettify.min.js"></script>
-    <script type="text/javascript" src="js/anchor.min.js"></script>
     <script type="text/javascript" src="locales/bootstrap-datepicker.en-GB.min.js" charset="UTF-8"></script>
     <script type="text/javascript">
         $("#Loader").fakeLoader({
-            timeToHide: 10000,
+            timeToHide: 4000,
             zIndex: "2000",
             spinner: "spinner6",
             bgColor: "#00bc8c"
@@ -848,66 +854,6 @@
                 });
             }, 1000);
         });
-        Selectify('.js-data-example-ajax-1',null);
-        Selectify('.material-update-select',null);
-        Selectify('#CSIssueMaterialCode',JSON.stringify('{"Storage":true}'));
-        $('.material-update-select').on("select2:select", function (e) {
-            LoadMaterialsUpdate();
-        });
-
-        function Selectify(classname,dataheader) {
-            $(classname).select2({
-                ajax: {
-                    url: function (params) {
-                        return "http://localhost:56797/api/MaterialsSearch/" + params.term;
-                    },
-                    beforeSend: function (xhr) {
-                        xhr.setRequestHeader("Authorization", "Basic " + window.btoa(username + ":" + password));
-                    },
-                    data: dataheader,
-                    dataType: 'json',
-                    delay: 250,
-                    processResults: function (data, params) {
-                        data.data.forEach(function (entry, index) {
-                            entry.id = '' + entry.material_code;
-                        });
-                        return {
-                            results: data.data,
-                            pagination: true
-                        };
-                    },
-                    cache: true
-                },
-                escapeMarkup: function (markup) { return markup; },
-                minimumInputLength: 1,
-                templateResult: formatRepo,
-                templateSelection: formatRepoSelection
-            });
-        };
-
-        function formatRepo(repo) {
-
-            if (repo.loading) return repo.text;
-
-            var markup = "<div class='select2-result-repository clearfix' style='color:#464545!important'>" +
-                "<div class='select2-result-repository__meta'>" +
-                "<div class='select2-result-repository__title'>" + repo.material_code + "</div>";
-
-            if (repo.material_description) {
-                markup += "<div class='select2-result-repository__description'>" + repo.material_description + "</div>";
-            }
-
-            markup += "<div class='select2-result-repository__statistics'>" +
-                "<div class='select2-result-repository__forks'><i class='fa fa-archive'></i> Quantity: " + repo.material_quantity + "</div>" +
-                "<div class='select2-result-repository__stargazers'><i class='fa fa-level-up'></i> Reorder Level: " + repo.material_reorder_level + "</div>" +
-                "<div class='select2-result-repository__watchers'><i class='fa fa-location-arrow'></i> Storage: " + repo.material_storage + "</div>" +
-                "</div></div>";
-            return markup;
-        }
-
-        function formatRepoSelection(repo) {
-            return repo.full_name || repo.text || repo.material_code + ' - ' + repo.material_description;
-        }
     </script>
 </body>
 </html>
