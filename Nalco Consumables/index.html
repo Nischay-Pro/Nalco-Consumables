@@ -371,60 +371,67 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="CSIssueDate" class="col-lg-2 control-label">Issue Date</label>
-                                    <div class="col-lg-10">
-                                        <div class="input-group date" data-provide="datepicker" id="CSIssueDateHolder" data-date-format="mm-dd-yyyy" data-date-clearbtn>
-                                            <input type="text" class="form-control" id="CSIssueDate">
-                                            <div class="input-group-addon">
-                                                <span class="glyphicon glyphicon-th"></span>
-                                            </div>
+                                    <div class="col-lg-8 col-lg-offset-2">
+                                        <div id="CSIssueMaterialTableHolder">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="CSIssueQuantity" class="col-lg-2 control-label">Issue Quantity</label>
-                                    <div class="col-lg-10">
-                                        <input type="text" class="form-control" id="CSIssueQuantity" placeholder="Issue Quantity" onkeypress="return isNumber(event);">
+                                    <div class="form-group">
+                                        <label for="CSIssueDate" class="col-lg-2 control-label">Issue Date</label>
+                                        <div class="col-lg-10">
+                                            <div class="input-group date" data-provide="datepicker" id="CSIssueDateHolder" data-date-format="mm-dd-yyyy" data-date-clearbtn>
+                                                <input type="text" class="form-control" id="CSIssueDate">
+                                                <div class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-th"></span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="CSIssueDepartment" class="col-lg-2 control-label">Issue Department</label>
-                                    <div class="col-lg-10">
-                                        <select id="CSIssueDepartment" class="department-code-issue-substore form-control">
-                                            <option disabled selected>Select your Working Department</option>
-                                        </select>
+                                    <div class="form-group">
+                                        <label for="CSIssueQuantity" class="col-lg-2 control-label">Issue Quantity</label>
+                                        <div class="col-lg-10">
+                                            <input type="text" class="form-control" id="CSIssueQuantity" placeholder="Issue Quantity" onkeypress="return isNumber(event);">
+                                        </div>
                                     </div>
-
-                                </div>
-                                <div class="form-group hidden" id="CSIssueLocationHolder">
-                                    <label for="CSIssueLocation" class="col-lg-2 control-label">Issue Location</label>
-                                    <div class="col-lg-10" id="CSIsssueCleaner">
-                                        <select id="CSIssueLocation" class="department-code-issue-substore form-control">
-                                            <option disabled selected>Select your Working Location</option>
-                                        </select>
+                                    <div class="form-group">
+                                        <label for="CSIssueDepartment" class="col-lg-2 control-label">Issue Department</label>
+                                        <div class="col-lg-10">
+                                            <select id="CSIssueDepartment" class="department-code-issue-substore form-control">
+                                                <option disabled selected>Select your Working Department</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group hidden" id="CSIssueLocationHolder">
+                                        <label for="CSIssueLocation" class="col-lg-2 control-label">Issue Location</label>
+                                        <div class="col-lg-10" id="CSIsssueCleaner">
+                                            <select id="CSIssueLocation" class="department-code-issue-substore form-control">
+                                                <option disabled selected>Select your Working Location</option>
+                                            </select>
                                             <button type="button" class="btn btn-primary btn-xs" onclick="ClearIssueForm()">Clear Location</button>
+                                        </div>
                                     </div>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="CSIssueTO" class="col-lg-2 control-label">Issue Issued To</label>
-                                    <div class="col-lg-10">
-                                        <input type="text" class="form-control" id="CSIssueTO" placeholder="Issue Issued To">
+                                    <div class="form-group hidden" id="CSIssueTOHolder">
+                                        <label for="CSIssueTO" class="col-lg-2 control-label">Issue Issued To</label>
+                                        <div class="col-lg-10">
+                                            <select id="CSIssueLocation" class="issue-to-department-sub form-control">
+                                                <option disabled selected>Select Issue To Employee</option>
+                                            </select>
+                                            <input type="text" class="form-control" id="CSIssueTO" placeholder="Issue Issued To">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="CSIssueCollectedBy" class="col-lg-2 control-label">Issue Collected By</label>
-                                    <div class="col-lg-10">
-                                        <input type="text" class="form-control" id="CSIssueCollectedBy" placeholder="Issue Collected By" onkeypress="IssuesCreate(event);">
+                                    <div class="form-group">
+                                        <label for="CSIssueCollectedBy" class="col-lg-2 control-label">Issue Collected By</label>
+                                        <div class="col-lg-10">
+                                            <input type="text" class="form-control" id="CSIssueCollectedBy" placeholder="Issue Collected By" onkeypress="IssuesCreate(event);">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-lg-10 col-lg-offset-2">
-                                        <button type="reset" class="btn btn-default">Clear</button>
-                                        <button type="button" class="btn btn-primary" onclick="CreateCentralStorageIssue()">Create</button>
+                                    <div class="form-group">
+                                        <div class="col-lg-10 col-lg-offset-2">
+                                            <button type="reset" class="btn btn-default">Clear</button>
+                                            <button type="button" class="btn btn-primary" onclick="CreateCentralStorageIssue()">Create</button>
+                                        </div>
                                     </div>
-                                </div>
-                            </fieldset>
+</fieldset>
                         </form>
                     </div>
                     <div id="issues-substore-create" style="display:none;">

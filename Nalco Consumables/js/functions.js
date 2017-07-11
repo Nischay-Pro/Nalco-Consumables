@@ -694,12 +694,15 @@ Number.prototype.pad = function (size) {
 
 Selectify('.js-data-example-ajax-1', null);
 Selectify('.material-update-select', null);
-Selectify('#CSIssueMaterialCode', JSON.stringify({ storage: true }));
+Selectify('#CSIssueMaterialCode', JSON.stringify({ data: { storage: true, centralstorage: true } }));
 SelectifyDepartment('#CSIssueDepartment', JSON.stringify({ data: { dept: true } }));
 SelectifyDepartment('#CSIssueLocation', JSON.stringify({ data: { dept: false, deptcode: document.getElementById("CSIssueDepartment").value } }));
 
 $('.material-update-select').on("select2:select", function (e) {
     LoadMaterialsUpdate();
+});
+$('#CSIssueMaterialCode').on("select2:select", function (e) {
+    LoadMaterialCode();
 });
 $('#CSIssueDepartment').on("select2:select", function (e) {
     document.getElementById('CSIsssueCleaner').innerHTML = '<select id="CSIssueLocation" class="department-code-issue-substore form-control"> <option disabled selected>Select your Working Location</option> </select> <button type="button" class="btn btn-primary btn-xs" onclick="ClearIssueForm()">Clear Location</button>';
@@ -835,4 +838,33 @@ function formatRepoSelectionDepartment(repo) {
 function ClearIssueForm() {
     document.getElementById('CSIsssueCleaner').innerHTML = '<select id="CSIssueLocation" class="department-code-issue-substore form-control"> <option disabled selected>Select your Working Location</option> </select> <button type="button" class="btn btn-primary btn-xs" onclick="ClearIssueForm()">Clear Location</button>';
     SelectifyDepartment('#CSIssueLocation', JSON.stringify({ data: { dept: false, deptcode: document.getElementById("CSIssueDepartment").value } }));
+}
+
+function LoadMaterialCode() {
+    var tablestructure = '<table class="table table-striped table-hover "><thead><tr> <th>Material Properties</th></tr></thead><tbody> ';
+    var authorizationBasic = window.btoa(username + ':' + password);
+    var request = new XMLHttpRequest();
+    request.open('GET', 'api/Materials/' + document.getElementById('CSIssueMaterialCode').value, true);
+    request.setRequestHeader('Content-Type', 'application/json');
+    request.setRequestHeader('Authorization', 'Basic ' + authorizationBasic);
+    request.setRequestHeader('Accept', 'application/json');
+    request.send();
+    request.onreadystatechange = function () {
+        if (request.readyState === 4) {
+            var result = request.responseText;
+            tablestructure += CleanseData(result, 'material_code', 'Material Code');
+            tablestructure += CleanseData(result, 'material_description', 'Material Description');
+            tablestructure += CleanseData(result, 'material_quantity', 'Material Quantity');
+            tablestructure += CleanseData(result, 'material_critical_flag', 'Material Critical?');
+            tablestructure += CleanseData(result, 'material_reorder_level', 'Material Reorder Level');
+            tablestructure += '</tbody></table>';
+            document.getElementById('CSIssueMaterialTableHolder').innerHTML = '';
+            document.getElementById('CSIssueMaterialTableHolder').innerHTML = tablestructure
+        }
+    }
+}
+function CleanseData(json,jsonname,fieldname){
+    var jsonserialize = JSON.parse(json)
+    var code = '<tr><td>' + fieldname + '</td> <td>' + jsonserialize[jsonname] + '</td></tr>'
+    return code;
 }
