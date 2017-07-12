@@ -206,6 +206,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\MakeModelController.cs" />
     <Compile Include="Controllers\EmployIssueSearchController.cs" />
     <Compile Include="Controllers\EmployController.cs" />
     <Compile Include="Controllers\EmploySearchController.cs" />
