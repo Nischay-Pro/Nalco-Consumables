@@ -18,22 +18,19 @@ namespace Nalco_Consumables.Controllers
             //try
             //{
             JObject dataval = data["data"].ToObject<JObject>();
-            string model = (string)dataval["description"];
-            string dept = (string)dataval["department"];
-            string location = (string)dataval["location"];
+            var model = dataval["description"];
+            var dept = dataval["department"];
+            var location = dataval["location"];
             using (SqlConnection conn = new SqlConnection())
             {
-                conn.ConnectionString = connection;
+                conn.ConnectionString = connection2;
                 conn.Open();
-
-                //SqlCommand command = new SqlCommand("SELECT * FROM ast.dbo.ast_master;", conn);
-                SqlCommand command = new SqlCommand("SELECT custodian FROM nalco_materials.dbo.np_test WHERE CONVERT(VARCHAR, make)= '@1' AND CONVERT(VARCHAR, dept)='@2' AND CONVERT(VARCHAR, location)='@3';", conn);
-                command.Parameters.AddWithValue("@1", Regex.Unescape(model));
-                command.Parameters.AddWithValue("@2", Regex.Unescape(dept));
-                command.Parameters.AddWithValue("@3", Regex.Unescape(location));
+                SqlCommand command = new SqlCommand("SELECT custodian FROM ast.dbo.ast_master WHERE (concat(make,' ', model)=@1) AND dept=@2 AND location=@3;", conn);
+                command.Parameters.AddWithValue("@1", model.ToString());
+                command.Parameters.AddWithValue("@2", dept.ToString());
+                command.Parameters.AddWithValue("@3", location.ToString());
                 string abdfdsf = model.ToString();
                 string abcd = "SELECT custodian FROM ast.dbo.ast_master WHERE concat(make,' ',model) = '" + model + "' AND dept='" + dept + "' AND location='" + location + "';";
-                int adf = model.Length;
 
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
