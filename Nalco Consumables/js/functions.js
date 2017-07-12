@@ -1111,3 +1111,117 @@ function formatEmploy(repo) {
 function formatEmploySelection(repo) {
     return repo.text || repo.employ_pers_no + ' - ' + repo.employ_name;
 }
+
+$("#MaterialMake").select2({
+    ajax: {
+        url: function (params) {
+            return "api/MakeModel";
+        },
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Basic " + window.btoa(username + ":" + password));
+            xhr.setRequestHeader("content-type", "application/json");
+        },
+        type: "POST",
+        data: function (params) {
+            var obj = {
+                data: { search: true, makesearch: false, makename: params.term, makelist: true }
+            }
+            return JSON.stringify(obj);
+        },
+        dataType: 'json',
+        delay: 250,
+        processResults: function (data, params) {
+            var i = 0;
+            data.data.forEach(function (entry, index) {
+                entry.id = '' + i;
+                i += 1;
+            });
+            return {
+                results: data.data,
+                pagination: true
+            };
+        },
+        formatNoResults: function () {
+            return "No results found";
+        },
+        formatAjaxError: function () {
+            return "Connection Error";
+        },
+        cache: true
+    },
+    escapeMarkup: function (markup) { return markup; },
+    minimumInputLength: 1,
+    templateResult: formatMake,
+    templateSelection: formatMakeSelect
+});
+function formatMake(repo) {
+    if (repo.loading) return repo.text;
+
+    var markup = "<div class='select2-result-repository clearfix' style='color:#464545!important'>" +
+        "<div class='select2-result-repository__meta'>" +
+        "<div class='select2-result-repository__title'>" + repo.make + "</div>";
+    return markup;
+}
+
+function formatMakeSelect(repo) {
+    return repo.text || repo.make;
+}
+MaterialMakeSelect();
+function MaterialMakeSelect() {
+    document.getElementById('MaterialMake').innerHTML = '';
+    $("#MaterialMake").select2({
+        ajax: {
+            url: function (params) {
+                return "api/MakeModel";
+            },
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Basic " + window.btoa(username + ":" + password));
+                xhr.setRequestHeader("content-type", "application/json");
+            },
+            type: "POST",
+            data: function (params) {
+                var obj = {
+                    data: { search: true, makesearch: false, makename: params.term, makelist: true }
+                }
+                return JSON.stringify(obj);
+            },
+            placeholder:'Type or select your material make',
+            dataType: 'json',
+            delay: 250,
+            processResults: function (data, params) {
+                var i = 0;
+                data.data.forEach(function (entry, index) {
+                    entry.id = '' + i;
+                    i += 1;
+                });
+                return {
+                    results: data.data,
+                    pagination: true
+                };
+            },
+            formatNoResults: function () {
+                return "No results found";
+            },
+            formatAjaxError: function () {
+                return "Connection Error";
+            },
+            cache: true
+        },
+        escapeMarkup: function (markup) { return markup; },
+        minimumInputLength: 1,
+        templateResult: formatMake,
+        templateSelection: formatMakeSelect
+    });
+}
+function formatMake(repo) {
+    if (repo.loading) return repo.text;
+
+    var markup = "<div class='select2-result-repository clearfix' style='color:#464545!important'>" +
+        "<div class='select2-result-repository__meta'>" +
+        "<div class='select2-result-repository__title'>" + repo.make + "</div>";
+    return markup;
+}
+
+function formatMakeSelect(repo) {
+    return repo.text || repo.make;
+}
