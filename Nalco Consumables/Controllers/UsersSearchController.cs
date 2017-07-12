@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Text.RegularExpressions;
 using System.Web.Http;
 
 namespace Nalco_Consumables.Controllers
@@ -12,15 +13,28 @@ namespace Nalco_Consumables.Controllers
         public string connection = System.Configuration.ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString;
         public string connection2 = System.Configuration.ConfigurationManager.ConnectionStrings["otherConnectionString"].ConnectionString;
 
-        public object Get(string id)
+        public object Post([FromBody] JObject data)
         {
             //try
             //{
+            JObject dataval = data["data"].ToObject<JObject>();
+            string model = (string)dataval["description"];
+            string dept = (string)dataval["department"];
+            string location = (string)dataval["location"];
             using (SqlConnection conn = new SqlConnection())
             {
                 conn.ConnectionString = connection;
                 conn.Open();
-                SqlCommand command = new SqlCommand("SELECT * FROM [nalco_materials].[dbo].[np_materials] WHERE material_code LIKE '%" + id + "%' OR material_description LIKE '%" + id + "%';", conn);
+
+                //SqlCommand command = new SqlCommand("SELECT * FROM ast.dbo.ast_master;", conn);
+                SqlCommand command = new SqlCommand("SELECT custodian FROM nalco_materials.dbo.np_test WHERE CONVERT(VARCHAR, make)= '@1' AND CONVERT(VARCHAR, dept)='@2' AND CONVERT(VARCHAR, location)='@3';", conn);
+                command.Parameters.AddWithValue("@1", Regex.Unescape(model));
+                command.Parameters.AddWithValue("@2", Regex.Unescape(dept));
+                command.Parameters.AddWithValue("@3", Regex.Unescape(location));
+                string abdfdsf = model.ToString();
+                string abcd = "SELECT custodian FROM ast.dbo.ast_master WHERE concat(make,' ',model) = '" + model + "' AND dept='" + dept + "' AND location='" + location + "';";
+                int adf = model.Length;
+
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
                     if (reader.HasRows == true)

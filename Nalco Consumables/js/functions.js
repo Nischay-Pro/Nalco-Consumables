@@ -863,8 +863,27 @@ function LoadMaterialCode() {
         }
     }
 }
-function CleanseData(json,jsonname,fieldname){
+function CleanseData(json, jsonname, fieldname) {
     var jsonserialize = JSON.parse(json)
     var code = '<tr><td>' + fieldname + '</td> <td>' + jsonserialize[jsonname] + '</td></tr>'
     return code;
+}
+
+function Experiment() {
+    var authorizationBasic = window.btoa(username + ':' + password);
+    var request = new XMLHttpRequest();
+    var data1 = { data: {} }
+    data1.data["description"] = null;
+    data1.data["department"] = null;
+    data1.data["location"] = null;
+    request.open('POST', 'api/UsersSearch', true);
+    request.setRequestHeader('Content-Type', 'application/json');
+    request.setRequestHeader('Authorization', 'Basic ' + authorizationBasic);
+    request.setRequestHeader('Accept', 'application/json');
+    request.send(JSON.stringify(data1));
+    request.onreadystatechange = function () {
+        if (request.readyState === 4) {
+            console.log(request.responseText);
+        }
+    }
 }
