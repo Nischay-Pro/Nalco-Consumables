@@ -84,7 +84,7 @@ function ClearCreateIssueCS() {
 }
 
 function ClearCreateIssueSS() {
-    SwitchTo('issuessubstore-create', 'issues-main');
+    SwitchTo('issues-substore-create', 'issues-main');
     document.getElementById("CreateIssuesSSForm").reset();
 }
 
@@ -627,11 +627,11 @@ function CreateCentralStorageIssue() {
     data1.data['materialcode'] = document.getElementById('CSIssueMaterialCode').value;
     data1.data['issuedate'] = document.getElementById('CSIssueDate').value;
     data1.data['issuequantity'] = document.getElementById('CSIssueQuantity').value;
-    data1.data['issuecollectedby'] = document.getElementById('CSIssueCollectedBy').value;
-    data1.data['issueto'] = document.getElementById('CSIssueTO').value;
+    data1.data['issuecollectedby'] = document.getElementById("select2-CSIssueCollectedBy-container").innerText.split("-")[0].replace(" ", "")
+    data1.data['issueto'] = document.getElementById("CSIssueTO").value;
     data1.data['issueapprovedby'] = Number(username).pad(5);
     data1.data['issuedepartment'] = document.getElementById('CSIssueDepartment').value;
-    data1.data['issuelocation'] = document.getElementById('CSIssueLocation').value;
+    data1.data['issuelocation'] = document.getElementById('select2-CSIssueLocation-container').innerText.split("-")[0].replace(" ", "");
     var authorizationBasic = window.btoa(username + ':' + password);
     var request = new XMLHttpRequest();
     request.open('POST', 'api/Issues', true);
@@ -703,18 +703,28 @@ $('.material-update-select').on("select2:select", function (e) {
 });
 $('#CSIssueMaterialCode').on("select2:select", function (e) {
     LoadMaterialCode();
+    IncrementAndCheck();
 });
+function CSLocationSelectEvent() {
+    $('#CSIssueLocation').on("select2:select", function (e) {
+        document.getElementById("CSIssueToTableHolder").innerHTML = "";
+        IncrementAndCheck();
+    });
+}
 $('#CSIssueDepartment').on("select2:select", function (e) {
     document.getElementById('CSIsssueCleaner').innerHTML = '<select id="CSIssueLocation" class="department-code-issue-substore form-control"> <option disabled selected>Select your Working Location</option> </select> <button type="button" class="btn btn-primary btn-xs" onclick="ClearIssueForm()">Clear Location</button>';
     SelectifyDepartment('#CSIssueLocation', JSON.stringify({ data: { dept: false, deptcode: document.getElementById("CSIssueDepartment").value } }));
+    CSLocationSelectEvent();
     $('#CSIssueLocationHolder').removeClass('hidden');
+    document.getElementById("CSIssueToTableHolder").innerHTML = "";
+    IncrementAndCheck();
 });
 
 function Selectify(classname, dataheader) {
     $(classname).select2({
         ajax: {
             url: function (params) {
-                return "http://localhost:56797/api/MaterialsSearch/" + params.term;
+                return "api/MaterialsSearch/" + params.term;
             },
             beforeSend: function (xhr) {
                 xhr.setRequestHeader("Authorization", "Basic " + window.btoa(username + ":" + password));
@@ -774,7 +784,7 @@ function SelectifyDepartment(classname, dataheader) {
     $(classname).select2({
         ajax: {
             url: function (params) {
-                return "http://localhost:56797/api/EmploySearch/" + params.term;
+                return "api/EmploySearch/" + params.term;
             },
             beforeSend: function (xhr) {
                 xhr.setRequestHeader("Authorization", "Basic " + window.btoa(username + ":" + password));
@@ -838,6 +848,10 @@ function formatRepoSelectionDepartment(repo) {
 function ClearIssueForm() {
     document.getElementById('CSIsssueCleaner').innerHTML = '<select id="CSIssueLocation" class="department-code-issue-substore form-control"> <option disabled selected>Select your Working Location</option> </select> <button type="button" class="btn btn-primary btn-xs" onclick="ClearIssueForm()">Clear Location</button>';
     SelectifyDepartment('#CSIssueLocation', JSON.stringify({ data: { dept: false, deptcode: document.getElementById("CSIssueDepartment").value } }));
+    document.getElementById("CSIssueToTableHolder").innerHTML = "";
+    document.getElementById("CSIssueTO").innerHTML = '<option disabled selected>Loading Data Please Wait.</option>';
+    $('#CSIssueTOHolder').addClass('hidden');
+    CSLocationSelectEvent();
 }
 
 function LoadMaterialCode() {
@@ -858,7 +872,7 @@ function LoadMaterialCode() {
             tablestructure += CleanseData(result, 'material_critical_flag', 'Material Critical?');
             tablestructure += CleanseData(result, 'material_reorder_level', 'Material Reorder Level');
             tablestructure += '</tbody></table>';
-            document.getElementById('CSIssueMaterialTableHolder').innerHTML = '';
+            document.getElementById('CSIssueMaterialTableHolder').innerHTML = '<option disabled selected>No User was issued</option>';
             document.getElementById('CSIssueMaterialTableHolder').innerHTML = tablestructure
         }
     }
@@ -868,22 +882,232 @@ function CleanseData(json, jsonname, fieldname) {
     var code = '<tr><td>' + fieldname + '</td> <td>' + jsonserialize[jsonname] + '</td></tr>'
     return code;
 }
-
-function Experiment() {
+function IncrementAndCheck() {
+    if ((document.getElementById("CSIssueMaterialCode").value !== "Type the Material Code or its Description" && document.getElementById("CSIssueDepartment").value !== "Select your Working Department" && document.getElementById("CSIssueLocation").value !== "Select your Working Location")) {
+        $('#CSIssueTOHolder').removeClass('hidden');
+        InitializeCSIssueTo()
+    }
+    else {
+        document.getElementById("CSIssueTO").innerHTML = '<option disabled selected>Loading Data Please Wait.</option>';
+        $('#CSIssueTOHolder').addClass('hidden');
+    }
+}
+function InitializeCSIssueTo() {
     var authorizationBasic = window.btoa(username + ':' + password);
     var request = new XMLHttpRequest();
-    var data1 = { data: {} }
-    data1.data["description"] = null;
-    data1.data["department"] = null;
-    data1.data["location"] = null;
-    request.open('POST', 'api/UsersSearch', true);
+    request.open('GET', 'api/Materials/' + document.getElementById("CSIssueMaterialCode").value, true);
     request.setRequestHeader('Content-Type', 'application/json');
     request.setRequestHeader('Authorization', 'Basic ' + authorizationBasic);
     request.setRequestHeader('Accept', 'application/json');
-    request.send(JSON.stringify(data1));
+    request.send();
     request.onreadystatechange = function () {
         if (request.readyState === 4) {
-            console.log(request.responseText);
+            var authorizationBasic = window.btoa(username + ':' + password);
+            var request2 = new XMLHttpRequest();
+            request2.open('POST', 'api/UsersSearch', true);
+            request2.setRequestHeader('Content-Type', 'application/json');
+            request2.setRequestHeader('Authorization', 'Basic ' + authorizationBasic);
+            request2.setRequestHeader('Accept', 'application/json');
+            var data1 = { data: { description: JSON.parse(request.responseText).material_printer_description, department: document.getElementById("CSIssueDepartment").value, location: document.getElementById("select2-CSIssueLocation-container").innerText.split("-")[0].replace(" ", "") } }
+            request2.send(JSON.stringify(data1));
+            request2.onreadystatechange = function () {
+                if (request2.readyState === 4 && JSON.parse(request.responseText).status !== "not exists") {
+                    //console.log(request2.responseText);
+                    var dataset = JSON.parse(request2.responseText).data;
+                    dataset.forEach(function (entry, index) {
+                        entry.id = '' + entry.custodian;
+                        entry.text = '' + entry.custodian;
+                    });
+                    document.getElementById("CSIssueTO").innerHTML = "";
+                    ApplyIssueTo(dataset);
+                    $('#CSIssueTO').val('Select Issued To User').trigger('change');
+                }
+                else {
+                    document.getElementById("CSIssueTO").innerHTML = "";
+                    document.getElementById("CSIssueToTableHolder").innerHTML = "";
+                }
+            }
         }
     }
+}
+$('#CSIssueTO').on("select2:select", function (e) {
+    LoadIssueTo();
+});
+function LoadIssueTo() {
+    var tablestructure = '<table class="table table-striped table-hover "><thead><tr> <th>Employee Details</th></tr></thead><tbody> ';
+    var authorizationBasic = window.btoa(username + ':' + password);
+    var request = new XMLHttpRequest();
+    request.open('GET', 'api/Employ/' + document.getElementById('CSIssueTO').value, true);
+    request.setRequestHeader('Content-Type', 'application/json');
+    request.setRequestHeader('Authorization', 'Basic ' + authorizationBasic);
+    request.setRequestHeader('Accept', 'application/json');
+    request.send();
+    request.onreadystatechange = function () {
+        if (request.readyState === 4 && JSON.parse(request.responseText).status !== "not exists") {
+            var result = request.responseText;
+            result = JSON.stringify(JSON.parse(result).data[0]);
+            tablestructure += CleanseData(result, 'employ_pers_no', 'Employee Personal Number');
+            tablestructure += CleanseData(result, 'employ_name', 'Employee Name');
+            tablestructure += CleanseData(result, 'employ_desg', 'Employee Designation');
+            tablestructure += '</tbody></table>';
+            document.getElementById('CSIssueToTableHolder').innerHTML = '';
+            document.getElementById('CSIssueToTableHolder').innerHTML = tablestructure;
+            LoadQueryIssuedTo();
+        }
+    }
+}
+
+function LoadQueryIssuedTo() {
+    var authorizationBasic = window.btoa(username + ':' + password);
+    var tablestructure = '<table class="table table-striped table-hover "><thead><tr> <th>Issue Details</th></tr></thead><tbody> ';
+    var request2 = new XMLHttpRequest();
+    request2.open('GET', 'api/EmployIssueSearch/' + document.getElementById('CSIssueTO').value, true);
+    request2.setRequestHeader('Content-Type', 'application/json');
+    request2.setRequestHeader('Authorization', 'Basic ' + authorizationBasic);
+    request2.setRequestHeader('Accept', 'application/json');
+    request2.send();
+    request2.onreadystatechange = function () {
+        if (request2.readyState === 4) {
+            var datatobeparsed = JSON.parse(request2.responseText).data;
+            console.log(datatobeparsed);
+            var i = 0;
+            datatobeparsed.forEach(function (entry, index) {
+                tablestructure += "<tr><td>Query " + (i + 1) + "</td></tr>";
+                tablestructure += CleanseData(JSON.stringify(datatobeparsed[i]), 'issue_mat_code', 'Issued Material');
+                tablestructure += CleanseData(JSON.stringify(datatobeparsed[i]), 'issue_date', 'Issued Date').replace("T00:00:00", "");
+                i += 1
+            });
+            tablestructure += '</tbody></table>';
+            document.getElementById('CSIssueToTableHolder').innerHTML = document.getElementById('CSIssueToTableHolder').innerHTML + tablestructure;
+        }
+    }
+}
+
+function ApplyIssueTo(datavar) {
+    $("#CSIssueTO").select2({
+        placeholder: "Select Issued To User",
+        data: datavar
+    });
+}
+
+function SelectifyIssue(classname, dataheader) {
+    $(classname).select2({
+        ajax: {
+            url: function (params) {
+                return "api/EmploySearch/" + params.term;
+            },
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Basic " + window.btoa(username + ":" + password));
+                xhr.setRequestHeader("content-type", "application/json");
+            },
+            type: "POST",
+            data: dataheader,
+            dataType: 'json',
+            delay: 250,
+            processResults: function (data, params) {
+                data.data.forEach(function (entry, index) {
+                    entry.id = '' + entry.employ_dept_cd;
+                });
+                return {
+                    results: data.data,
+                    pagination: true
+                };
+            },
+            formatNoResults: function () {
+                return "No results found";
+            },
+            formatAjaxError: function () {
+                return "Connection Error";
+            },
+            cache: true
+        },
+        escapeMarkup: function (markup) { return markup; },
+        minimumInputLength: 1,
+        templateResult: formatRepoDepartment,
+        templateSelection: formatRepoSelectionDepartment
+    });
+};
+function formatRepoIssue(repo) {
+    if (repo.loading) return repo.text;
+
+    var markup = "<div class='select2-result-repository clearfix' style='color:#464545!important'>" +
+        "<div class='select2-result-repository__meta'>" +
+        "<div class='select2-result-repository__title'>";
+    if (repo.employ_loc_cd) {
+        markup += repo.employ_loc_cd + "</div>";
+    }
+    else {
+        markup += repo.employ_dept_cd + "</div>";
+    }
+    if (repo.employ_loc_name) {
+        markup += "<div class='select2-result-repository__description'>" + repo.employ_loc_name + "</div>";
+    }
+    else {
+        markup += "<div class='select2-result-repository__description'>" + repo.employ_dept_name + "</div>";
+    }
+    return markup;
+}
+
+function formatRepoSelectionIssue(repo) {
+    if (repo.employ_loc_name) {
+        return repo.employ_loc_cd + ' - ' + repo.employ_loc_name;
+    }
+    return repo.full_name || repo.text || repo.employ_dept_cd + ' - ' + repo.employ_dept_name;
+}
+$("#CSIssueCollectedBy").select2({
+    ajax: {
+        url: function (params) {
+            return "api/Users/" + params.term;
+        },
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Basic " + window.btoa(username + ":" + password));
+            xhr.setRequestHeader("content-type", "application/json");
+        },
+        type: "GET",
+        data: null,
+        dataType: 'json',
+        delay: 250,
+        processResults: function (data, params) {
+            data.data.forEach(function (entry, index) {
+                entry.id = '' + entry.employ_pers_no;
+            });
+            return {
+                results: data.data,
+                pagination: true
+            };
+        },
+        formatNoResults: function () {
+            return "No results found";
+        },
+        formatAjaxError: function () {
+            return "Connection Error";
+        },
+        cache: true
+    },
+    escapeMarkup: function (markup) { return markup; },
+    minimumInputLength: 1,
+    templateResult: formatEmploy,
+    templateSelection: formatEmploySelection
+});
+function formatEmploy(repo) {
+    if (repo.loading) return repo.text;
+
+    var markup = "<div class='select2-result-repository clearfix' style='color:#464545!important'>" +
+        "<div class='select2-result-repository__meta'>" +
+        "<div class='select2-result-repository__title'>" + repo.employ_pers_no + "</div>";
+
+    if (repo.employ_name) {
+        markup += "<div class='select2-result-repository__description'>" + repo.employ_name + "</div>";
+    }
+
+    markup += "<div class='select2-result-repository__statistics'>" +
+        "<div class='select2-result-repository__forks'><i class='fa fa-archive'></i> Designation: " + repo.employ_desg + "</div>" +
+        "<div class='select2-result-repository__stargazers'><i class='fa fa-level-up'></i> Department: " + repo.employ_dept_name + "</div>" +
+        "<div class='select2-result-repository__watchers'><i class='fa fa-location-arrow'></i> Location: " + repo.employ_loc_name + "</div>" +
+        "</div></div>";
+    return markup;
+}
+
+function formatEmploySelection(repo) {
+    return repo.text || repo.employ_pers_no + ' - ' + repo.employ_name;
 }

@@ -413,17 +413,23 @@
                                     <div class="form-group hidden" id="CSIssueTOHolder">
                                         <label for="CSIssueTO" class="col-lg-2 control-label">Issue Issued To</label>
                                         <div class="col-lg-10">
-                                            <select id="CSIssueLocation" class="issue-to-department-sub form-control">
-                                                <option disabled selected>Select Issue To Employee</option>
+                                            <select id="CSIssueTO" class="issue-to-department-sub form-control">
+                                                <option disabled selected>Loading Data Please Wait.</option>
                                             </select>
-                                            <input type="text" class="form-control" id="CSIssueTO" placeholder="Issue Issued To">
                                         </div>
                                     </div>
+                                <div class="form-group">
+                                    <div class="col-lg-8 col-lg-offset-2">
+                                        <div id="CSIssueToTableHolder">
+                                        </div>
+                                    </div>
+                                </div>
                                     <div class="form-group">
                                         <label for="CSIssueCollectedBy" class="col-lg-2 control-label">Issue Collected By</label>
                                         <div class="col-lg-10">
-                                            <input type="text" class="form-control" id="CSIssueCollectedBy" placeholder="Issue Collected By" onkeypress="IssuesCreate(event);">
-                                        </div>
+                                            <select id="CSIssueCollectedBy" class="issue-to-department-sub form-control">
+                                                <option disabled selected>Select User who is collecting.</option>
+                                            </select></div>
                                     </div>
                                     <div class="form-group">
                                         <div class="col-lg-10 col-lg-offset-2">
@@ -431,7 +437,7 @@
                                             <button type="button" class="btn btn-primary" onclick="CreateCentralStorageIssue()">Create</button>
                                         </div>
                                     </div>
-</fieldset>
+                               </fieldset>
                         </form>
                     </div>
                     <div id="issues-substore-create" style="display:none;">
@@ -448,7 +454,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="inputIssueMatCode" class="col-lg-2 control-label"> Issue Material Code</label>
-                                    <select id="CSIssueMaterialCoded" class="material-code-issue-substore form-control">
+                                    <select id="CSIssueMaterialCode" class="material-code-issue-substore form-control">
                                         <option disabled selected>Type the Material Code or its Description</option>
                                     </select>
                                 </div>
