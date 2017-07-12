@@ -190,9 +190,31 @@
                                     </div>
                                 </div>
                                 <div class="form-group hidden" id="printer-description">
-                                    <label for="inputPrinterDescription" class="col-lg-2 control-label">Printer Description</label>
-                                    <div class="col-lg-10">
-                                        <input type="text" class="form-control" id="inputPrinterDescription" placeholder="Printer Description">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group ">
+                                                <div class="row">
+                                                    <label for="MaterialMake" class="col-lg-2 control-label">Material Make</label>
+                                                    <div class="col-lg-6">
+                                                        <select id="MaterialMake" class="material-make form-control">
+                                                            <option disabled selected>Type or select your material make</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group ">
+                                                    <div class="row">
+                                                        <label for="MaterialModel" class="col-lg-2 control-label">Material Model</label>
+                                                        <div class="col-lg-6">
+                                                            <select id="MaterialModel" class="material-model form-control">
+                                                                <option disabled selected>Type or select your material model</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -423,14 +445,37 @@
                                     <label for="CSIssueCollectedBy" class="col-lg-2 control-label">Issue Collected By</label>
                                     <div class="col-lg-10">
                                         <input type="text" class="form-control" id="CSIssueCollectedBy" placeholder="Issue Collected By" onkeypress="IssuesCreate(event);">
+
+                                        <div class="form-group hidden" id="CSIssueTOHolder">
+                                            <label for="CSIssueTO" class="col-lg-2 control-label">Issue Issued To</label>
+                                            <div class="col-lg-10">
+                                                <select id="CSIssueTO" class="issue-to-department-sub form-control">
+                                                    <option disabled selected>Loading Data Please Wait.</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-8 col-lg-offset-2">
+                                                <div id="CSIssueToTableHolder">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="CSIssueCollectedBy" class="col-lg-2 control-label">Issue Collected By</label>
+                                            <div class="col-lg-10">
+                                                <select id="CSIssueCollectedBy" class="issue-to-department-sub form-control">
+                                                    <option disabled selected>Select User who is collecting.</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-lg-10 col-lg-offset-2">
-                                        <button type="reset" class="btn btn-default">Clear</button>
-                                        <button type="button" class="btn btn-primary" onclick="CreateCentralStorageIssue()">Create</button>
+                                    <div class="form-group">
+                                        <div class="col-lg-10 col-lg-offset-2">
+                                            <button type="reset" class="btn btn-default">Clear</button>
+                                            <button type="button" class="btn btn-primary" onclick="CreateCentralStorageIssue()">Create</button>
+                                        </div>
                                     </div>
-                                </div>
+                            </fieldset>
                             </fieldset>
                         </form>
                     </div>
@@ -448,13 +493,17 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="inputIssueMatCode" class="col-lg-2 control-label"> Issue Material Code</label>
+
                                     <div class="col-lg-10">
                                         <select id="inputIssueMatCode" class="material-code-issue-substore form-control">
                                             <option disabled selected>Type the Material Code or its Description</option>
                                         </select>
                                     </div>
+
+                                    <select id="CSIssueMaterialCode" class="material-code-issue-substore form-control">
+                                        <option disabled selected>Type the Material Code or its Description</option>
+                                    </select>
                                 </div>
-                                
 
                                 <div class="form-group">
                                     <label for="inputIssueQuantity" class="col-lg-2 control-label"> Issue Quantity</label>

@@ -486,11 +486,11 @@ function CheckFormMaterialsDelete() {
             };
         }
     }, {
-            ok: "Yes",
-            cancel: "No",
-            classname: "custom-class",
-            reverseButtons: true
-        });
+        ok: "Yes",
+        cancel: "No",
+        classname: "custom-class",
+        reverseButtons: true
+    });
 }
 function CreateError(type, message) {
     var element = document.createElement("div");
@@ -705,9 +705,6 @@ $('#CSIssueMaterialCode').on("select2:select", function (e) {
     LoadMaterialCode();
 });
 
-$('#inputIssueMatCode').on("select2:select", function (e) {
-    LoadMaterialCoded();
-});
 $('#CSIssueDepartment').on("select2:select", function (e) {
     document.getElementById('CSIsssueCleaner').innerHTML = '<select id="CSIssueLocation" class="department-code-issue-substore form-control"> <option disabled selected>Select your Working Location</option> </select> <button type="button" class="btn btn-primary btn-xs" onclick="ClearIssueForm()">Clear Location</button>';
     SelectifyDepartment('#CSIssueLocation', JSON.stringify({ data: { dept: false, deptcode: document.getElementById("CSIssueDepartment").value } }));
@@ -867,30 +864,6 @@ function LoadMaterialCode() {
         }
     }
 }
-
-function LoadMaterialCoded() {
-    var tablestructure = '<table class="table table-striped table-hover "><thead><tr> <th>Material Properties</th></tr></thead><tbody> ';
-    var authorizationBasic = window.btoa(username + ':' + password);
-    var request = new XMLHttpRequest();
-    request.open('GET', 'api/Materials/' + document.getElementById('inputIssueMatCode').value, true);
-    request.setRequestHeader('Content-Type', 'application/json');
-    request.setRequestHeader('Authorization', 'Basic ' + authorizationBasic);
-    request.setRequestHeader('Accept', 'application/json');
-    request.send();
-    request.onreadystatechange = function () {
-        if (request.readyState === 4) {
-            var result = request.responseText;
-            tablestructure += CleanseData(result, 'material_code', 'Material Code');
-            tablestructure += CleanseData(result, 'material_description', 'Material Description');
-            tablestructure += CleanseData(result, 'material_quantity', 'Material Quantity');
-           
-            tablestructure += '</tbody></table>';
-            document.getElementById('SSIssueMaterialTableHolder').innerHTML = '';
-            document.getElementById('SSIssueMaterialTableHolder').innerHTML = tablestructure
-        }
-    }
-}
-
 
 function CleanseData(json, jsonname, fieldname) {
     var jsonserialize = JSON.parse(json)
