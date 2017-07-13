@@ -124,6 +124,7 @@ namespace Nalco_Consumables.Controllers
                 return output;
             }
         }
+
         public object Post([FromBody] JObject data)
         {
             try
@@ -197,6 +198,7 @@ namespace Nalco_Consumables.Controllers
                 return output;
             }
         }
+
         [NonAction]
         public IEnumerable<Dictionary<string, object>> Serialize(SqlDataReader reader)
         {

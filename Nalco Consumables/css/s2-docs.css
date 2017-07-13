@@ -76,7 +76,6 @@ section { margin-bottom: 40px; }
 .s2-docs-footer-links li:last-child:after { content: ""; padding-left: 0; }
 @media (min-width: 768px) { .s2-docs-footer p { margin-bottom: 0; } }
 
-
 .s2-docs-home .jumbotron { margin-bottom: 0; color: #000; }
 .s2-docs-home .jumbotron h1 { color: #000; margin-top: 20px; }
 .s2-docs-home .lead { text-align: center; max-width: 800px; margin: 0 auto 40px; }

@@ -337,7 +337,7 @@ function CheckFormMaterials() {
     data1.data['materialcode'] = document.getElementById('inputMaterialCode').value;
     data1.data['materialdescription'] = document.getElementById('inputMaterialDescription').value;
     data1.data['materialprinter'] = document.getElementById('printer').checked;
-    data1.data['materialprinterdescription'] = document.getElementById('inputPrinterDescription').value;
+    data1.data['materialprinterdescription'] = document.getElementById('MaterialMake').value;
     data1.data['materialprintercount'] = 12;
     data1.data['materialquantity'] = document.getElementById('inputMaterialQuantity').value;
     data1.data['materialcriticalflag'] = document.getElementById('criticalflag').checked;
@@ -1149,11 +1149,12 @@ $("#MaterialMake").select2({
         },
         cache: true
     },
+    placeholder: "Type your Material Make",
     escapeMarkup: function (markup) { return markup; },
     minimumInputLength: 1,
     templateResult: formatMake,
     templateSelection: formatMakeSelect
-});
+}).select2();
 function formatMake(repo) {
     if (repo.loading) return repo.text;
 
@@ -1185,7 +1186,7 @@ function MaterialMakeSelect() {
                 }
                 return JSON.stringify(obj);
             },
-            placeholder:'Type or select your material make',
+            placeholder: 'Type or select your material make',
             dataType: 'json',
             delay: 250,
             processResults: function (data, params) {

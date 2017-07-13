@@ -1,6 +1,5 @@
 ﻿using ClosedXML.Excel;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -12,8 +11,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
 using System.Web.Http;
-using iTextSharp.text;
-using iTextSharp.text.pdf;
 
 namespace Nalco_Consumables.Controllers
 {
@@ -82,20 +79,11 @@ namespace Nalco_Consumables.Controllers
             }
         }
 
-        public object Get(string id)
+        public object Get()
         {
             //try
             //{
-            var stream = new MemoryStream();
-            wb.SaveAs(stream);
-            var result = new HttpResponseMessage(HttpStatusCode.OK)
-            {
-                Content = new ByteArrayContent(stream.ToArray())
-            };
-            result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
-            {
-                FileName = name
-            };
+            return null;
             //}
             //catch (Exception ex)
             //{
