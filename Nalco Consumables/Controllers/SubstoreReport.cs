@@ -79,21 +79,6 @@ namespace Nalco_Consumables.Controllers
             }
         }
 
-        public object Get()
-        {
-            //try
-            //{
-            return null;
-            //}
-            //catch (Exception ex)
-            //{
-            //    JObject output = new JObject();
-            //    output["status"] = "error";
-            //    output["message"] = ex.Message;
-            //    return output;
-            //}
-        }
-
         [NonAction]
         public object Querify(string sqlquery, string filename, string sheetname, bool materials)
         {

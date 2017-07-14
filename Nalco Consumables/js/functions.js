@@ -776,7 +776,45 @@ $('#CSIssueDepartment').on("select2:select", function (e) {
     document.getElementById("CSIssueToTableHolder").innerHTML = "";
     IncrementAndCheck();
 });
-
+Approvify();
+function Approvify() {
+    $("#issues-id").select2({
+        ajax: {
+            url: function (params) {
+                return "api/IssuesApprove/" + params.term;
+            },
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Basic " + window.btoa(username + ":" + password));
+            },
+            data: null,
+            type: "GET",
+            dataType: 'json',
+            delay: 250,
+            allowClear: true,
+            processResults: function (data, params) {
+                data.data.forEach(function (entry, index) {
+                    entry.id = '' + entry.issue_voucher_no;
+                });
+                return {
+                    results: data.data,
+                    pagination: true
+                };
+            },
+            formatNoResults: function () {
+                return "No results found";
+            },
+            formatAjaxError: function () {
+                return "Connection Error";
+            },
+            cache: true
+        },
+        escapeMarkup: function (markup) { return markup; },
+        minimumInputLength: 1,
+        templateResult: formatRepoApprove,
+        templateSelection: formatRepoSelectionApprove,
+        placeholder: "Select Issue to Approve",
+    });
+}
 function Selectify(classname, dataheader) {
     $(classname).select2({
         ajax: {
@@ -786,12 +824,12 @@ function Selectify(classname, dataheader) {
             beforeSend: function (xhr) {
                 xhr.setRequestHeader("Authorization", "Basic " + window.btoa(username + ":" + password));
             },
+            type: "GET",
             data: dataheader,
             dataType: 'json',
             delay: 250,
             allowClear: true,
             processResults: function (data, params) {
-                console.log(data);
                 data.data.forEach(function (entry, index) {
                     entry.id = '' + entry.material_code;
                 });
@@ -836,6 +874,24 @@ function formatRepo(repo) {
 
 function formatRepoSelection(repo) {
     return repo.full_name || repo.text || repo.material_code + ' - ' + repo.material_description;
+}
+function formatRepoApprove(repo) {
+    if (repo.loading) return repo.text;
+
+    var markup = "<div class='select2-result-repository clearfix' style='color:#464545!important'>" +
+        "<div class='select2-result-repository__meta'>" +
+        "<div class='select2-result-repository__title'>" + repo.issue_voucher_no + "</div>";
+
+    markup += "<div class='select2-result-repository__statistics'>" +
+        "<div class='select2-result-repository__forks'><i class='fa fa-archive'></i> Material Code: " + repo.issue_mat_code + "</div>" +
+        "<div class='select2-result-repository__stargazers'><i class='fa fa-level-up'></i> Quantity: " + repo.issue_quantity + "</div>" +
+        "<div class='select2-result-repository__watchers'><i class='fa fa-location-arrow'></i> Issued To: " + repo.issue_issued_to + "</div>" +
+        "</div></div>";
+    return markup;
+}
+
+function formatRepoSelectionApprove(repo) {
+    return repo.full_name || repo.text || repo.issue_voucher_no;
 }
 
 function SelectifyDepartment(classname, dataheader) {
@@ -1014,6 +1070,9 @@ function InitializeCSIssueTo() {
 $('#CSIssueTO').on("select2:select", function (e) {
     LoadIssueTo();
 });
+$('#CSIssueTO').on("select2:select", function (e) {
+    LoadApprovalSatus();
+});
 function LoadIssueTo() {
     var tablestructure = '<table class="table table-striped table-hover "><thead><tr> <th>Employee Details</th></tr></thead><tbody> ';
     var authorizationBasic = window.btoa(username + ':' + password);
@@ -1050,7 +1109,6 @@ function LoadQueryIssuedTo() {
     request2.onreadystatechange = function () {
         if (request2.readyState === 4) {
             var datatobeparsed = JSON.parse(request2.responseText).data;
-            console.log(datatobeparsed);
             var i = 0;
             datatobeparsed.forEach(function (entry, index) {
                 tablestructure += "<tr><td>Query " + (i + 1) + "</td></tr>";
@@ -1231,7 +1289,6 @@ function formatEmploySelection(repo) {
 
 function formatMake(repo) {
     if (repo.loading) return repo.text;
-    console.log(repo);
     if (repo.make) {
         var markup = "<div class='select2-result-repository clearfix' style='color:#464545!important'>" +
             "<div class='select2-result-repository__meta'>" +
@@ -1245,7 +1302,7 @@ function formatModelSelect(repo) {
 }
 function formatModel(repo) {
     if (repo.loading) return repo.text;
-    console.log(repo);
+
     if (repo.model) {
         var markup = "<div class='select2-result-repository clearfix' style='color:#464545!important'>" +
             "<div class='select2-result-repository__meta'>" +

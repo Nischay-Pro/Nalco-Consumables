@@ -212,6 +212,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\IssuesApproveController.cs" />
     <Compile Include="Controllers\MakeModelController.cs" />
     <Compile Include="Controllers\EmployIssueSearchController.cs" />
     <Compile Include="Controllers\EmployController.cs" />
@@ -311,9 +312,6 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Connected Services\Application Insights\ConnectedService.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\fontawesome-webfont.eot" />

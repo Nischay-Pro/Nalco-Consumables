@@ -11,6 +11,7 @@ namespace Nalco_Consumables.Controllers
     {
         public string connection = System.Configuration.ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString;
 
+        [HttpGet]
         public object Get(string id)
         {
             //try

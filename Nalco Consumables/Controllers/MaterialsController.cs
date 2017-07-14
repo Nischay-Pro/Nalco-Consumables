@@ -92,7 +92,8 @@ namespace Nalco_Consumables.Controllers
         }
 
         // GET api/<controller>/5
-        public JObject Get(Int64 id)
+        [HttpGet]
+        public JObject Get([FromUri]Int64 id)
         {
             try
             {
