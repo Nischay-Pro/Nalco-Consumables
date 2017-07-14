@@ -1,16 +1,15 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using NReco.PdfGenerator;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Web.Http;
-using NReco.PdfGenerator;
 using System.IO;
-using System.Web;
-using System.Text.RegularExpressions;
-using System.Net.Http;
 using System.Net;
+using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text.RegularExpressions;
+using System.Web.Http;
 
 namespace Nalco_Consumables.Controllers
 {
@@ -63,7 +62,6 @@ namespace Nalco_Consumables.Controllers
             filedata = filedata.Replace(@"\", "");
             filedata = filedata.Replace("%MaterialCode%", (string)data["materialcode"]);
             filedata = filedata.Replace("%Quantity%", (string)data["issuequantity"]);
-            filedata = filedata.Replace("%RequistionBy%", (string)data["issueto"]);
             filedata = filedata.Replace("%ReqDate%", DateTime.Now.ToString());
             using (SqlConnection conn = new SqlConnection())
             {
@@ -93,7 +91,15 @@ namespace Nalco_Consumables.Controllers
                 SqlCommand cmdCount = new SqlCommand("SELECT employ_loc_cd from np_employ WHERE employ_pers_no='" + (string)data["issueto"] + "'; ", conn);
                 filedata = filedata.Replace("Loc%", " " + (string)cmdCount.ExecuteScalar());
             }
-
+            string employname;
+            using (SqlConnection conn = new SqlConnection())
+            {
+                conn.ConnectionString = connection;
+                conn.Open();
+                SqlCommand cmdCount = new SqlCommand("SELECT employ_name from np_employ WHERE employ_pers_no='" + (string)data["issueto"] + "'; ", conn);
+                employname = (string)cmdCount.ExecuteScalar();
+            }
+            filedata = filedata.Replace("%RequistionBy%", (string)data["issueto"] + " - " + employname);
             var result = new HttpResponseMessage(HttpStatusCode.OK)
             {
                 Content = new ByteArrayContent(test.GeneratePdf(filedata))

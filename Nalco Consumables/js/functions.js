@@ -691,21 +691,24 @@ function CheckFormIssuesSub() {
     request.send(datatobesent);
     //console.log(datatobesent);
     request.onreadystatechange = function () {
-        if (request.readyState === 4 && JSON.parse(request.responseText).status === 'created') {
-            document.getElementById("csmaterialerror").appendChild(CreateError('success', 'Successfully filed an Issue Request.'));
-            POList();
-        }
-        else if (request.readyState === 4 && JSON.parse(request.responseText).status === 'exists') {
-            document.getElementById("csmaterialerror").appendChild(CreateError('danger', 'Issue already exists.'));
+        if (request.readyState === 4 && JSON.parse(request.responseText).status === 'exists') {
+            document.getElementById("ssmaterialerror").appendChild(CreateError('danger', 'Issue already exists.'));
         }
         else if (request.readyState === 4 && JSON.parse(request.responseText).status === 'cannot be updated') {
-            document.getElementById("csmaterialerror").appendChild(CreateError('danger', 'You cannot update Issue Request.'));
+            document.getElementById("ssmaterialerror").appendChild(CreateError('danger', 'You cannot update Issue Request.'));
         }
         else if (request.readyState === 4 && JSON.parse(request.responseText).status === 'enough material not available') {
-            document.getElementById("csmaterialerror").appendChild(CreateError('danger', 'Not enough material available to file an issue.'));
+            document.getElementById("ssmaterialerror").appendChild(CreateError('danger', 'Not enough material available to file an issue.'));
         }
         else if (request.readyState === 4 && JSON.parse(request.responseText).status === 'error') {
-            document.getElementById("csmaterialerror").appendChild(CreateError('danger', JSON.parse(request.responseText).message));
+            document.getElementById("ssmaterialerror").appendChild(CreateError('danger', JSON.parse(request.responseText).message));
+        }
+        else if (request.readyState === 4 && request.responseType === 'error') {
+            document.getElementById("ssmaterialerror").appendChild(CreateError('danger', JSON.parse(request.responseText).message));
+        }
+        else {
+            document.getElementById("ssmaterialerror").appendChild(CreateError('success', 'Successfully filed an Issue Request. Please take a printout of the document.'));
+            POList();
         }
     };
 }
@@ -1272,7 +1275,7 @@ function MaterialModelSelect(name) {
             type: "POST",
             data: function (params) {
                 var materialname = 'MaterialMakeUpdate';
-               if (name.indexOf('Update') == -1) {
+                if (name.indexOf('Update') == -1) {
                     materialname = 'MaterialMake';
                 }
                 var obj = {
