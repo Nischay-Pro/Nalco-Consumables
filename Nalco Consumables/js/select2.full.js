@@ -5136,7 +5136,7 @@
                 Select2.prototype._placeContainer = function ($container) {
                     $container.insertAfter(this.$element);
 
-                    var width = "width:auto!important;"
+                    var width = "width:60%!important;"
                     if (width != null) {
                         $container.css('width', width);
                     }
@@ -5618,7 +5618,7 @@
 
                 Select2.prototype.render = function () {
                     var $container = $(
-                        '<span class="select2 select2-container" style="width:auto!important;">' +
+                        '<span class="select2 select2-container" style="width:60%!important;">' +
                         '<span class="selection"></span>' +
                         '<span class="dropdown-wrapper" aria-hidden="true"></span>' +
                         '</span>'

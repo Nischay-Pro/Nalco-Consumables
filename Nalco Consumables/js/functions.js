@@ -307,8 +307,11 @@ function MaterialsList() {
                     field: 'material_printer',
                     title: 'Material Printer'
                 }, {
-                    field: 'material_printer_description',
-                    title: 'Material Printer Description'
+                    field: 'material_make',
+                    title: 'Material Make'
+                }, {
+                    field: 'material_model',
+                    title: 'Material Model'
                 }, {
                     field: 'material_printer_count',
                     title: 'Material Printer Count'
@@ -337,7 +340,8 @@ function CheckFormMaterials() {
     data1.data['materialcode'] = document.getElementById('inputMaterialCode').value;
     data1.data['materialdescription'] = document.getElementById('inputMaterialDescription').value;
     data1.data['materialprinter'] = document.getElementById('printer').checked;
-    data1.data['materialprinterdescription'] = document.getElementById('MaterialMake').value;
+    data1.data['materialmake'] = document.getElementById('select2-MaterialMake-container').innerHTML;
+    data1.data['materialmodel'] = document.getElementById('select2-MaterialModel-container').innerHTML;
     data1.data['materialprintercount'] = 12;
     data1.data['materialquantity'] = document.getElementById('inputMaterialQuantity').value;
     data1.data['materialcriticalflag'] = document.getElementById('criticalflag').checked;
@@ -425,14 +429,16 @@ function CheckFormMaterialsUpdate() {
     data1.data['materialcode'] = document.getElementById('inputMaterialCodeUpdate').value;
     data1.data['materialdescription'] = document.getElementById('inputMaterialDescriptionUpdate').value;
     data1.data['materialprinter'] = document.getElementById('printerupdate').checked;
-    if (document.getElementById('inputPrinterDescriptionUpdate').value !== null) {
-        data1.data['materialprinterdescription'] = document.getElementById('inputPrinterDescriptionUpdate').value;
-        document.getElementById('printer').checked = true;
+    if (document.getElementById('printerupdate').checked) {
+        data1.data['materialmake'] = document.getElementById('select2-MaterialMakeUpdate-container').innerHTML;
+        data1.data['materialmodel'] = document.getElementById('select2-MaterialModelUpdate-container').innerHTML;
+        document.getElementById('printerupdate').checked = true;
         document.getElementById('printer-description-update').display = "block";
     }
     else {
-        data1.data['materialprinterdescription'] = "";
-        document.getElementById('printer').checked = false;
+        data1.data['materialmake'] = null;
+        data1.data['materialmodel'] = null;
+        document.getElementById('printerupdate').checked = false;
         document.getElementById('printer-description-update').display = "none";
     }
     data1.data['materialprintercount'] = 12;
@@ -453,6 +459,8 @@ function CheckFormMaterialsUpdate() {
         if (request.readyState === 4 && JSON.parse(request.responseText).status === 'updated') {
             document.getElementById("materialerrorupdate").appendChild(CreateError('success', 'Successfully updated Material.'));
             MaterialsList();
+            MaterialMakeSelect("MaterialMakeUpdate");
+            MaterialModelSelect("MaterialModelUpdate");
         }
         else if (request.readyState === 4 && JSON.parse(request.responseText).status === 'exists') {
             document.getElementById("materialerrorupdate").appendChild(CreateError('danger', 'Material does not exist.'));
@@ -508,7 +516,7 @@ function CreateError(type, message) {
 function LoadMaterialsUpdate() {
     var authorizationBasic = window.btoa(username + ':' + password);
     var request = new XMLHttpRequest();
-    request.open('GET', 'api/Materials/' + document.getElementById('inputMaterialCodeUpdate').value, true);
+    request.open('GET', 'api/Materials/' + document.getElementById('select2-inputMaterialCodeUpdate-container').innerHTML.split("-")[0].replace(" ", ""), true);
     request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
     request.setRequestHeader('Authorization', 'Basic ' + authorizationBasic);
     request.setRequestHeader('Accept', 'application/json');
@@ -524,14 +532,16 @@ function LoadMaterialsUpdate() {
             var data = JSON.parse(request.responseText);
             document.getElementById('inputMaterialDescriptionUpdate').value = data.material_description;
             document.getElementById('printerupdate').checked = data.material_printer;
-            document.getElementById('inputPrinterDescriptionUpdate').value = data.printer_description;
+            //document.getElementById('inputPrinterDescriptionUpdate').value = data.printer_description;
             document.getElementById('inputMaterialQuantityUpdate').value = data.material_quantity;
             document.getElementById('criticalflagupdate').checked = data.material_critical_flag;
             document.getElementById('inputMaterialReorderLevelUpdate').value = data.material_reorder_level;
             document.getElementById('UpdateForm').style.display = "block";
-            if (data.material_printer) {
-                document.getElementById('printer').checked = true;
+            if (data.material_make !== '' && data.material_make !== null) {
+                document.getElementById('printerupdate').checked = true;
                 $('#printer-description-update').removeClass('hidden');
+                $("#MaterialMakeUpdate").append($('<option>', { value: 1, text: data.material_make }));
+                $("#MaterialModelUpdate").append($('<option>', { value: 1, text: data.material_model }));
             }
             else {
                 document.getElementById('printer').checked = false;
@@ -661,6 +671,45 @@ function CreateCentralStorageIssue() {
     };
 }
 
+function CheckFormIssuesSub() {
+    var data1 = { data: {} };
+    data1.data['createquery'] = true;
+    data1.data['substore'] = true;
+    data1.data['materialcode'] = document.getElementById('SSIssueMaterialCode').value;
+    data1.data['issuequantity'] = document.getElementById('inputIssueQuantity').value;
+    //data1.data['issuecollectedby'] = document.getElementById("select2-CSIssueCollectedBy-container").innerText.split("-")[0].replace(" ", "")
+    data1.data['issueto'] = document.getElementById("inputIssueIssuedTo").value;
+    data1.data['issueapprovedby'] = Number(username).pad(5);
+    data1.data['issueremark'] = document.getElementById('inputIssuePurpose').value;
+    var authorizationBasic = window.btoa(username + ':' + password);
+    var request = new XMLHttpRequest();
+    request.open('POST', 'api/Issues', true);
+    request.setRequestHeader('Content-Type', 'application/json');
+    request.setRequestHeader('Authorization', 'Basic ' + authorizationBasic);
+    request.setRequestHeader('Accept', 'application/json');
+    var datatobesent = JSON.stringify(data1);
+    request.send(datatobesent);
+    //console.log(datatobesent);
+    request.onreadystatechange = function () {
+        if (request.readyState === 4 && JSON.parse(request.responseText).status === 'created') {
+            document.getElementById("csmaterialerror").appendChild(CreateError('success', 'Successfully filed an Issue Request.'));
+            POList();
+        }
+        else if (request.readyState === 4 && JSON.parse(request.responseText).status === 'exists') {
+            document.getElementById("csmaterialerror").appendChild(CreateError('danger', 'Issue already exists.'));
+        }
+        else if (request.readyState === 4 && JSON.parse(request.responseText).status === 'cannot be updated') {
+            document.getElementById("csmaterialerror").appendChild(CreateError('danger', 'You cannot update Issue Request.'));
+        }
+        else if (request.readyState === 4 && JSON.parse(request.responseText).status === 'enough material not available') {
+            document.getElementById("csmaterialerror").appendChild(CreateError('danger', 'Not enough material available to file an issue.'));
+        }
+        else if (request.readyState === 4 && JSON.parse(request.responseText).status === 'error') {
+            document.getElementById("csmaterialerror").appendChild(CreateError('danger', JSON.parse(request.responseText).message));
+        }
+    };
+}
+
 function QuerifyPOReceipts() {
     var arrayobj = [];
     var objects = document.getElementsByClassName('clonedInput');
@@ -695,6 +744,7 @@ Number.prototype.pad = function (size) {
 Selectify('.js-data-example-ajax-1', null);
 Selectify('.material-update-select', null);
 Selectify('#CSIssueMaterialCode', JSON.stringify({ data: { storage: true, centralstorage: true } }));
+Selectify('#SSIssueMaterialCode', JSON.stringify({ data: { storage: true, centralstorage: false } }));
 SelectifyDepartment('#CSIssueDepartment', JSON.stringify({ data: { dept: true } }));
 SelectifyDepartment('#CSIssueLocation', JSON.stringify({ data: { dept: false, deptcode: document.getElementById("CSIssueDepartment").value } }));
 
@@ -703,6 +753,10 @@ $('.material-update-select').on("select2:select", function (e) {
 });
 $('#CSIssueMaterialCode').on("select2:select", function (e) {
     LoadMaterialCode();
+    IncrementAndCheck();
+});
+$('#SSIssueMaterialCode').on("select2:select", function (e) {
+    LoadMaterialCodeSS();
     IncrementAndCheck();
 });
 function CSLocationSelectEvent() {
@@ -754,7 +808,8 @@ function Selectify(classname, dataheader) {
         escapeMarkup: function (markup) { return markup; },
         minimumInputLength: 1,
         templateResult: formatRepo,
-        templateSelection: formatRepoSelection
+        templateSelection: formatRepoSelection,
+        placeholder: "Select Material to issue",
     });
 };
 function formatRepo(repo) {
@@ -877,6 +932,29 @@ function LoadMaterialCode() {
         }
     }
 }
+function LoadMaterialCodeSS() {
+    var tablestructure = '<table class="table table-striped table-hover "><thead><tr> <th>Material Properties</th></tr></thead><tbody> ';
+    var authorizationBasic = window.btoa(username + ':' + password);
+    var request = new XMLHttpRequest();
+    request.open('GET', 'api/Materials/' + document.getElementById('SSIssueMaterialCode').value, true);
+    request.setRequestHeader('Content-Type', 'application/json');
+    request.setRequestHeader('Authorization', 'Basic ' + authorizationBasic);
+    request.setRequestHeader('Accept', 'application/json');
+    request.send();
+    request.onreadystatechange = function () {
+        if (request.readyState === 4) {
+            var result = request.responseText;
+            tablestructure += CleanseData(result, 'material_code', 'Material Code');
+            tablestructure += CleanseData(result, 'material_description', 'Material Description');
+            tablestructure += CleanseData(result, 'material_quantity', 'Material Quantity');
+            tablestructure += CleanseData(result, 'material_critical_flag', 'Material Critical?');
+            tablestructure += CleanseData(result, 'material_reorder_level', 'Material Reorder Level');
+            tablestructure += '</tbody></table>';
+            document.getElementById('SSIssueMaterialTableHolder').innerHTML = '<option disabled selected>No User was issued</option>';
+            document.getElementById('SSIssueMaterialTableHolder').innerHTML = tablestructure
+        }
+    }
+}
 function CleanseData(json, jsonname, fieldname) {
     var jsonserialize = JSON.parse(json)
     var code = '<tr><td>' + fieldname + '</td> <td>' + jsonserialize[jsonname] + '</td></tr>'
@@ -908,7 +986,7 @@ function InitializeCSIssueTo() {
             request2.setRequestHeader('Content-Type', 'application/json');
             request2.setRequestHeader('Authorization', 'Basic ' + authorizationBasic);
             request2.setRequestHeader('Accept', 'application/json');
-            var data1 = { data: { description: JSON.parse(request.responseText).material_printer_description, department: document.getElementById("CSIssueDepartment").value, location: document.getElementById("select2-CSIssueLocation-container").innerText.split("-")[0].replace(" ", "") } }
+            var data1 = { data: { description: JSON.parse(request.responseText).material_make + ' ' + JSON.parse(request.responseText).material_model, department: document.getElementById("CSIssueDepartment").value, location: document.getElementById("select2-CSIssueLocation-container").innerText.split("-")[0].replace(" ", "") } }
             request2.send(JSON.stringify(data1));
             request2.onreadystatechange = function () {
                 if (request2.readyState === 4 && JSON.parse(request.responseText).status !== "not exists") {
@@ -975,6 +1053,7 @@ function LoadQueryIssuedTo() {
                 tablestructure += "<tr><td>Query " + (i + 1) + "</td></tr>";
                 tablestructure += CleanseData(JSON.stringify(datatobeparsed[i]), 'issue_mat_code', 'Issued Material');
                 tablestructure += CleanseData(JSON.stringify(datatobeparsed[i]), 'issue_date', 'Issued Date').replace("T00:00:00", "");
+                tablestructure += CleanseData(JSON.stringify(datatobeparsed[i]), 'issue_quantity', 'Issued Quantity');
                 i += 1
             });
             tablestructure += '</tbody></table>';
@@ -1089,6 +1168,41 @@ $("#CSIssueCollectedBy").select2({
     templateResult: formatEmploy,
     templateSelection: formatEmploySelection
 });
+$("#inputIssueIssuedTo").select2({
+    ajax: {
+        url: function (params) {
+            return "api/Users/" + params.term;
+        },
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Basic " + window.btoa(username + ":" + password));
+            xhr.setRequestHeader("content-type", "application/json");
+        },
+        type: "GET",
+        data: null,
+        dataType: 'json',
+        delay: 250,
+        processResults: function (data, params) {
+            data.data.forEach(function (entry, index) {
+                entry.id = '' + entry.employ_pers_no;
+            });
+            return {
+                results: data.data,
+                pagination: true
+            };
+        },
+        formatNoResults: function () {
+            return "No results found";
+        },
+        formatAjaxError: function () {
+            return "Connection Error";
+        },
+        cache: true
+    },
+    escapeMarkup: function (markup) { return markup; },
+    minimumInputLength: 1,
+    templateResult: formatEmploy,
+    templateSelection: formatEmploySelection
+});
 function formatEmploy(repo) {
     if (repo.loading) return repo.text;
 
@@ -1112,65 +1226,95 @@ function formatEmploySelection(repo) {
     return repo.text || repo.employ_pers_no + ' - ' + repo.employ_name;
 }
 
-$("#MaterialMake").select2({
-    ajax: {
-        url: function (params) {
-            return "api/MakeModel";
-        },
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader("Authorization", "Basic " + window.btoa(username + ":" + password));
-            xhr.setRequestHeader("content-type", "application/json");
-        },
-        type: "POST",
-        data: function (params) {
-            var obj = {
-                data: { search: true, makesearch: false, makename: params.term, makelist: true }
-            }
-            return JSON.stringify(obj);
-        },
-        dataType: 'json',
-        delay: 250,
-        processResults: function (data, params) {
-            var i = 0;
-            data.data.forEach(function (entry, index) {
-                entry.id = '' + i;
-                i += 1;
-            });
-            return {
-                results: data.data,
-                pagination: true
-            };
-        },
-        formatNoResults: function () {
-            return "No results found";
-        },
-        formatAjaxError: function () {
-            return "Connection Error";
-        },
-        cache: true
-    },
-    placeholder: "Type your Material Make",
-    escapeMarkup: function (markup) { return markup; },
-    minimumInputLength: 1,
-    templateResult: formatMake,
-    templateSelection: formatMakeSelect
-}).select2();
 function formatMake(repo) {
     if (repo.loading) return repo.text;
+    console.log(repo);
+    if (repo.make) {
+        var markup = "<div class='select2-result-repository clearfix' style='color:#464545!important'>" +
+            "<div class='select2-result-repository__meta'>" +
+            "<div class='select2-result-repository__title'>" + repo.make + "</div>";
+    }
+    return markup;
+}
 
-    var markup = "<div class='select2-result-repository clearfix' style='color:#464545!important'>" +
-        "<div class='select2-result-repository__meta'>" +
-        "<div class='select2-result-repository__title'>" + repo.make + "</div>";
+function formatModelSelect(repo) {
+    return repo.text || repo.model;
+}
+function formatModel(repo) {
+    if (repo.loading) return repo.text;
+    console.log(repo);
+    if (repo.model) {
+        var markup = "<div class='select2-result-repository clearfix' style='color:#464545!important'>" +
+            "<div class='select2-result-repository__meta'>" +
+            "<div class='select2-result-repository__title'>" + repo.model + "</div>";
+    }
     return markup;
 }
 
 function formatMakeSelect(repo) {
-    return repo.text || repo.make;
+    return repo.text || repo.make || repo.model;
 }
-MaterialMakeSelect();
-function MaterialMakeSelect() {
-    document.getElementById('MaterialMake').innerHTML = '';
-    $("#MaterialMake").select2({
+MaterialMakeSelect('MaterialMake');
+MaterialModelSelect('MaterialModel');
+MaterialMakeSelect('MaterialMakeUpdate');
+MaterialModelSelect('MaterialModelUpdate');
+function MaterialModelSelect(name) {
+    document.getElementById(name).innerHTML = '';
+    $("#" + name).select2({
+        ajax: {
+            url: function (params) {
+                return "api/MakeModel";
+            },
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Basic " + window.btoa(username + ":" + password));
+                xhr.setRequestHeader("content-type", "application/json");
+            },
+            type: "POST",
+            data: function (params) {
+                var materialname = 'MaterialMakeUpdate';
+               if (name.indexOf('Update') == -1) {
+                    materialname = 'MaterialMake';
+                }
+                var obj = {
+                    data: {
+                        search: false, makesearch: false, makename: document.getElementById('select2-' + materialname + '-container').innerHTML, makelist: false
+                    }
+                }
+                return JSON.stringify(obj);
+            },
+            dataType: 'json',
+            delay: 250,
+            processResults: function (data, params) {
+                var i = 0;
+                data.data.forEach(function (entry, index) {
+                    entry.id = '' + i;
+                    i += 1;
+                });
+                return {
+                    results: data.data,
+                    pagination: true
+                };
+            },
+            formatNoResults: function () {
+                return "No results found";
+            },
+            formatAjaxError: function () {
+                return "Connection Error";
+            },
+            cache: true
+        },
+        placeholder: "Type your Material Model",
+        allowClear: false,
+        escapeMarkup: function (markup) { return markup; },
+        minimumInputLength: 1,
+        templateResult: formatModel,
+        templateSelection: formatModelSelect
+    });
+}
+
+function MaterialMakeSelect(name) {
+    document.getElementById(name).innerHTML = '';
+    $("#" + name).select2({
         ajax: {
             url: function (params) {
                 return "api/MakeModel";
@@ -1208,6 +1352,8 @@ function MaterialMakeSelect() {
             },
             cache: true
         },
+        placeholder: "Type your Material Make",
+        allowClear: false,
         escapeMarkup: function (markup) { return markup; },
         minimumInputLength: 1,
         templateResult: formatMake,

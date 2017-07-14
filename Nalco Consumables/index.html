@@ -190,42 +190,36 @@
                                     </div>
                                 </div>
                                 <div class="form-group hidden" id="printer-description">
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <div class="form-group ">
-                                                
-                                                
-                                                <label for="MaterialMake" class="col-lg-2 control-label">Material Make</label>
-                                            
-                                                    <div class="col-lg-7">
-                                                        <select id="MaterialMake" class="material-make form-control">
-                                                            <option disabled selected>Type or select your material make</option>
-                                                        </select>
+                                    <div id="material" class="clonedInput panel panel-default ">
+                                        <div class="panel-heading">
+                                            <strong>Printer Material Make and Model</strong>
+                                        </div>
+                                        <div class="well bs-component panel-body">
+                                            <div class="row">
+                                                <div class="col-lg-10 col-lg-offset-1">
+                                                    <div class="form-group ">
+                                                        <label for="MaterialMake" class="col-lg-2 control-label">Material Make</label>
+                                                        <div class="col-lg-7">
+                                                            <select id="MaterialMake" class="material-make form-control">
+                                                                <option disabled selected>Type or select your material make</option>
+                                                            </select>
+                                                        </div>
+                                                        <button type="button" class="btn btn-primary btn-xs col-lg-2" onclick="MaterialMakeSelect('MaterialMake')">Clear Make Selection</button>
                                                     </div>
-                                                   
-                                                        <button type="button" class="btn btn-primary btn-xs col-lg-2" onclick="MaterialMakeSelect()">Clear Make Selection</button>
-                                                    
-                                                
-                                            </div>
-                                            </div>
-                                            
-
-                                                <div class="form-group ">
-                                                    
-                                                        
-                                                            <label for="MaterialModel" class="col-lg-2 control-label">Material Model</label>
-                                                        
+                                                </div>
+                                                <div class="col-lg-10 col-lg-offset-1">
+                                                    <div class="form-group">
+                                                        <label for="MaterialModel" class="col-lg-2 control-label">Material Model</label>
                                                         <div class="col-lg-7">
                                                             <select id="MaterialModel" class="material-model form-control">
                                                                 <option disabled selected>Type or select your material model</option>
                                                             </select>
                                                         </div>
-                                                        
-                                                            <button type="button" class="btn btn-primary btn-xs col-lg-2" onclick="MaterialModelSelect()">Clear Model Selection</button>
-                                                        
-                                                    
+                                                        <button type="button" class="btn btn-primary btn-xs col-lg-2" onclick="MaterialModelSelect('MaterialModel')">Clear Model Selection</button>
+                                                    </div>
                                                 </div>
-                                           
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -243,7 +237,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="form-group">
                                     <label for="select" class="col-lg-2 control-label">Material Storage</label>
                                     <div class="col-lg-10">
@@ -302,9 +295,36 @@
                                         </div>
                                     </div>
                                     <div class="form-group" id="printer-description-update">
-                                        <label for="inputPrinterDescription" class="col-lg-2 control-label">Printer Description</label>
-                                        <div class="col-lg-10">
-                                            <input type="text" class="form-control" id="inputPrinterDescriptionUpdate" placeholder="Printer Description">
+                                        <div id="material" class="clonedInput panel panel-default ">
+                                            <div class="panel-heading">
+                                                <strong>Printer Material Make and Model</strong>
+                                            </div>
+                                            <div class="well bs-component panel-body">
+                                                <div class="row">
+                                                    <div class="col-lg-10 col-lg-offset-1">
+                                                        <div class="form-group ">
+                                                            <label for="MaterialMakeUpdate" class="col-lg-2 control-label">Material Make</label>
+                                                            <div class="col-lg-7">
+                                                                <select id="MaterialMakeUpdate" class="material-make form-control">
+                                                                    <option disabled selected>Type or select your material make</option>
+                                                                </select>
+                                                            </div>
+                                                            <button type="button" class="btn btn-primary btn-xs col-lg-2" onclick="MaterialMakeSelect('MaterialMakeUpdate')">Clear Make Selection</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-10 col-lg-offset-1">
+                                                        <div class="form-group">
+                                                            <label for="MaterialModelUpdate" class="col-lg-2 control-label">Material Model</label>
+                                                            <div class="col-lg-7">
+                                                                <select id="MaterialModelUpdate" class="material-model form-control">
+                                                                    <option disabled selected>Type or select your material model</option>
+                                                                </select>
+                                                            </div>
+                                                            <button type="button" class="btn btn-primary btn-xs col-lg-2" onclick="MaterialModelSelect('MaterialModelUpdate')">Clear Model Selection</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -447,7 +467,6 @@
                                     <label for="CSIssueTO" class="col-lg-2 control-label">Issue Issued To</label>
                                     <div class="col-lg-10">
                                         <select id="CSIssueTO" class="issue-to-department-sub form-control">
-                                            <option disabled selected>Loading Data Please Wait.</option>
                                         </select>
                                     </div>
                                 </div>
@@ -488,9 +507,15 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="inputIssueMatCode" class="col-lg-2 control-label"> Issue Material Code</label>
-                                    <select id="CSIssueMaterialCode" class="material-code-issue-substore form-control">
+                                    <select id="SSIssueMaterialCode" class="material-code-issue-substore form-control">
                                         <option disabled selected>Type the Material Code or its Description</option>
                                     </select>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-lg-8 col-lg-offset-2">
+                                        <div id="SSIssueMaterialTableHolder">
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="inputIssueQuantity" class="col-lg-2 control-label"> Issue Quantity</label>
@@ -501,7 +526,9 @@
                                 <div class="form-group">
                                     <label for="inputIssueIssuedTo" class="col-lg-2 control-label"> Issue Issued To</label>
                                     <div class="col-lg-10">
-                                        <input type="text" class="form-control" id="inputIssueIssuedTo" placeholder="Issue Issued To">
+                                        <select id="inputIssueIssuedTo" class="user-issue-substore form-control">
+                                            <option disabled selected>Type the user you want to issue to.</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -864,17 +891,21 @@
         $(function () {
             $('.trigger').click(function () {
                 $('#printer-description').toggleClass('hidden');
-                document.getElementById('inputPrinterDescription').value = "";
+                //document.getElementById('inputPrinterDescription').value = "";
             });
         });
         $(function () {
             $('.trigger').click(function () {
                 if (!document.getElementById('printerupdate').checked) {
                     $('#printer-description-update').addClass('hidden');
-                    document.getElementById('inputPrinterDescriptionUpdate').value = "";
+                    MaterialMakeSelect('MaterialMakeUpdate');
+                    MaterialModelSelect('MaterialModelUpdate');
+                    //document.getElementById('inputPrinterDescriptionUpdate').value = "";
                 }
                 else {
                     $('#printer-description-update').removeClass('hidden');
+
+
                 }
             });
         });

@@ -4,6 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Web.Http;
+using NReco.PdfGenerator;
+using System.IO;
+using System.Web;
+using System.Text.RegularExpressions;
+using System.Net.Http;
+using System.Net;
+using System.Net.Http.Headers;
 
 namespace Nalco_Consumables.Controllers
 {
@@ -45,6 +52,57 @@ namespace Nalco_Consumables.Controllers
                 output["message"] = ex.Message;
                 return output;
             }
+        }
+
+        [NonAction]
+        public object GenerateReport(JObject data)
+        {
+            HtmlToPdfConverter test = new HtmlToPdfConverter();
+            string filedata = File.ReadAllText(System.Web.HttpRuntime.BinDirectory + "substorage.html");
+            filedata = Regex.Unescape(filedata);
+            filedata = filedata.Replace(@"\", "");
+            filedata = filedata.Replace("%MaterialCode%", (string)data["materialcode"]);
+            filedata = filedata.Replace("%Quantity%", (string)data["issuequantity"]);
+            filedata = filedata.Replace("%RequistionBy%", (string)data["issueto"]);
+            filedata = filedata.Replace("%ReqDate%", DateTime.Now.ToString());
+            using (SqlConnection conn = new SqlConnection())
+            {
+                conn.ConnectionString = connection;
+                conn.Open();
+                SqlCommand cmdCount = new SqlCommand("SELECT sub_storage_index from np_config;", conn);
+                filedata = filedata.Replace("%Number%", cmdCount.ExecuteScalar().ToString());
+            }
+            using (SqlConnection conn = new SqlConnection())
+            {
+                conn.ConnectionString = connection;
+                conn.Open();
+                SqlCommand cmdCount = new SqlCommand("SELECT material_description from np_materials WHERE material_code='" + (string)data["materialcode"] + "'; ", conn);
+                filedata = filedata.Replace("%MaterialDate%", (string)cmdCount.ExecuteScalar());
+            }
+            using (SqlConnection conn = new SqlConnection())
+            {
+                conn.ConnectionString = connection;
+                conn.Open();
+                SqlCommand cmdCount = new SqlCommand("SELECT employ_dept_cd from np_employ WHERE employ_pers_no='" + (string)data["issueto"] + "'; ", conn);
+                filedata = filedata.Replace("%Dept", (string)cmdCount.ExecuteScalar() + " ");
+            }
+            using (SqlConnection conn = new SqlConnection())
+            {
+                conn.ConnectionString = connection;
+                conn.Open();
+                SqlCommand cmdCount = new SqlCommand("SELECT employ_loc_cd from np_employ WHERE employ_pers_no='" + (string)data["issueto"] + "'; ", conn);
+                filedata = filedata.Replace("Loc%", " " + (string)cmdCount.ExecuteScalar());
+            }
+
+            var result = new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new ByteArrayContent(test.GeneratePdf(filedata))
+            };
+            result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+            {
+                FileName = "RequistionMan.pdf"
+            };
+            return result;
         }
 
         // GET api/<controller>
@@ -130,7 +188,7 @@ namespace Nalco_Consumables.Controllers
         }
 
         // POST api/<controller>
-        public JObject Post([FromBody] JObject data)
+        public object Post([FromBody] JObject data)
         {
             //try
             //{
@@ -139,7 +197,7 @@ namespace Nalco_Consumables.Controllers
             bool createquery = (bool)dataval["createquery"];
             bool substore = (bool)dataval["substore"];
             bool approveissue = false;
-            string sapvoucher = null, materialcode = null, issuequantity = null, issuedepartment = null, issueto = null, issuecollected = null, issuelocation = null, issueapprovedby = null;
+            string issueremark = null, sapvoucher = null, materialcode = null, issuequantity = null, issuedepartment = null, issueto = null, issuecollected = null, issuelocation = null, issueapprovedby = null;
             if (!substore)
             {
                 approveissue = true;
@@ -152,10 +210,29 @@ namespace Nalco_Consumables.Controllers
                 issuecollected = (string)dataval["issuecollectedby"];
                 issuelocation = (string)dataval["issuelocation"];
                 issueapprovedby = (string)dataval["issueapprovedby"];
+                issueremark = "N/A";
             }
             else
             {
+                Int64 readerval;
+                using (SqlConnection conn = new SqlConnection())
+                {
+                    conn.ConnectionString = connection;
+                    conn.Open();
+                    SqlCommand cmdCount = new SqlCommand("SELECT sub_storage_index from np_config;", conn);
+                    readerval = (Int64)cmdCount.ExecuteScalar();
+                }
+                sapvoucher = "SS" + readerval;
                 issuedate = DateTime.Now;
+                approveissue = false;
+                materialcode = (string)dataval["materialcode"];
+                issuequantity = (string)dataval["issuequantity"];
+                issuedepartment = "NA";
+                issueto = (string)dataval["issueto"];
+                issuecollected = "NA";
+                issuelocation = "NA";
+                issueapprovedby = "NA";
+                issueremark = (string)dataval["issueremark"];
             }
             string issuematerialcode = (string)dataval["issuematerialcode"];
             using (SqlConnection conn = new SqlConnection())
@@ -196,17 +273,24 @@ namespace Nalco_Consumables.Controllers
                         }
                         else
                         {
-                            SqlCommand updCommand = new SqlCommand("INSERT INTO [nalco_materials].[dbo].[np_issue] ([issue_voucher_no] ,[issue_mat_code] ,[issue_date] ,[issue_quantity] ,[issue_dept] ,[issue_location] ,[issue_issued_to] ,[issue_collected_by],[issue_approved_by]) VALUES (@1 ,@2 ,@3 ,@4 ,@5 ,@6 ,@7 ,@8,@9)", conn);
+                            SqlCommand updCommand = new SqlCommand("INSERT INTO [nalco_materials].[dbo].[np_issue] ([issue_voucher_no] ,[issue_mat_code] ,[issue_date] ,[issue_quantity] ,[issue_dept] ,[issue_location] ,[issue_issued_to] ,[issue_collected_by],[issue_approved_by],[issue_remark]) VALUES (@1 ,@2 ,@3 ,@4 ,@5 ,@6 ,@7 ,@8,@9,@10)", conn);
                             updCommand.Parameters.AddWithValue("@1", sapvoucher);
                             updCommand.Parameters.AddWithValue("@2", Int64.Parse(materialcode));
-                            updCommand.Parameters.AddWithValue("@3", issuedate);
+                            updCommand.Parameters.AddWithValue("@3", issuedate.ToString("MM/dd/yyyy"));
                             updCommand.Parameters.AddWithValue("@4", issuequantity);
                             updCommand.Parameters.AddWithValue("@5", issuedepartment);
                             updCommand.Parameters.AddWithValue("@6", issuelocation);
                             updCommand.Parameters.AddWithValue("@7", issueto);
                             updCommand.Parameters.AddWithValue("@8", issuecollected);
                             updCommand.Parameters.AddWithValue("@9", issueapprovedby);
+                            updCommand.Parameters.AddWithValue("@10", issueremark);
                             int rowsUpdated = updCommand.ExecuteNonQuery();
+                            SqlCommand updCommand3 = new SqlCommand("UPDATE [nalco_materials].[dbo].[np_config] SET [sub_storage_index] = [sub_storage_index] + 1;", conn);
+                            updCommand3.ExecuteNonQuery();
+                            if (substore)
+                            {
+                                return GenerateReport(dataval);
+                            }
                             JObject output = new JObject();
                             output["status"] = "created";
                             return output;
